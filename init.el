@@ -22,3 +22,6 @@
 
 (use-package dimitern-backups
   :load-path "lisp/")
+
+(use-package dimitern-startup
+  :load-path "lisp/")

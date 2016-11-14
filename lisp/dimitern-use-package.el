@@ -19,5 +19,6 @@
   (package-install 'use-package))
 
 (require 'use-package)
+(require 'bind-key)
 
 (provide 'dimitern-use-package)

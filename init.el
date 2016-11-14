@@ -19,3 +19,6 @@
 
 (use-package dimitern-customize
   :load-path "lisp/")
+
+(use-package dimitern-backups
+  :load-path "lisp/")

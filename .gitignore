@@ -4,6 +4,7 @@ url/cookies
 url/cache
 .cache
 .DS_Store
+elpa/
 
 # Transient files
 ac-comphist.dat

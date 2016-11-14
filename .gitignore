@@ -9,6 +9,7 @@ elpa/
 # Transient files
 ac-comphist.dat
 \#*
+.\#*
 *~
 
 # Compiled

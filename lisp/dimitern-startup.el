@@ -25,6 +25,11 @@
 (setq c-default-style "linux")
 (setq vc-follow-symlinks t)
 
+;; Use X clipboard.
+(setq x-select-enable-clipboard t)
+(setq x-select-enable-primary t)
+(setq save-interprogram-paste-before-kill t)
+
 ;; Default indent 4 spaces per tab, use tabs.
 (setq standard-indent 4)
 (setq-default indent-tabs-mode t)
@@ -40,6 +45,22 @@
 (setq sentence-end-double-space nil)
 (setq require-final-newline t)
 
-(message "Startup setup done")
+;; When saving files, set execute permission if #! is in first line.
+(add-hook 'after-save-hook
+	  'executable-make-buffer-file-executable-if-script-p)
+
+;; Use "y" or "n" vs "yes" or "no".
+(fset 'yes-or-no-p 'y-or-n-p)
+
+;; All additional packages setup goes below.
+
+(use-package dimitern-customize)
+
+(use-package dimitern-backups)
+
+(use-package dimitern-theme)
+
+;; Keep this last.
+(message "dimitern: Startup setup done")
 
 (provide 'dimitern-startup)

@@ -1,5 +1,18 @@
+# Transient paths
+auto-save-list/
+url/cookies
+url/cache
+.cache
+.DS_Store
+
+# Transient files
+ac-comphist.dat
+\#*
+*~
+
 # Compiled
 *.elc
+*.pyc
 
 # Packaging
 .cask

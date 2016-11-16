@@ -3,7 +3,6 @@
 
 ;; Use text mode by default for new buffers.
 (setq default-major-mode 'text-mode)
-(setq initial-major-mode 'text-mode)
 
 ;; Default indent 4 spaces per tab, use tabs.
 (setq standard-indent 4)

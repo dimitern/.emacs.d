@@ -26,18 +26,18 @@
 
 ;; Install and enable solarized dark theme, installling font if needed.
 (setq color-themes '())
+(setq font-use-system-font t) ;; needed for fonts installation to work.
+
 (use-package solarized-theme
-  :init
-  (unless (member dimitern/default-font-family (font-family-list))
-    (setq font-use-system-font t) ;; needed for installation to work.
-    (dimitern/install-default-font))
+  :if (display-graphic-p)
   :config
   (progn
+    (unless (member dimitern/default-font-family (font-family-list))
+      (dimitern/install-default-font))
     (add-to-list 'initial-frame-alist (cons 'font (dimitern/default-font)))
-    (add-to-list 'default-frame-alist (cons 'font (dimitern/default-font))) 
-    (set-frame-font (dimitern/default-font) nil t)
-    (set-face-attribute 'default nil :font (dimitern/default-font))
+    (add-to-list 'default-frame-alist (cons 'font (dimitern/default-font)))
     (customize-set-variable 'frame-background-mode 'dark)
-  (load-theme 'solarized-dark t)))
+    (setq solarized-termcolors 256)
+    (load-theme 'solarized-dark t)))
 
 (provide 'dimitern-theme)

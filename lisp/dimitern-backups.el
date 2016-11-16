@@ -1,18 +1,13 @@
-;; ----------------------------------------------------------------------------
-;; dimitern-backups: Setup autosaves and backup files creation
-;; ----------------------------------------------------------------------------
+;; dimitern-backups: Setup autosaves and backup files creation.
+;;
 
-;; Store all backup and autosave files in the /tmp dir
-(setq backup-directory-alist
-      `((".*" . ,temporary-file-directory)))
+;; Put all backups in one place.
+(setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
 
-(setq auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t)))
-
-(setq savehist-mode t)
-(setq history-lenth 1000)
-
-;; Share the clipboard
-(setq x-select-enable-clipboard t)
+;; Save and version all backups.
+(setq delete-old-versions -1)
+(setq version-control t)
+(setq vc-make-backup-files t)
+(setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
 
 (provide 'dimitern-backups)

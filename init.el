@@ -36,7 +36,6 @@
 
 ;; Personal packages config.
 (use-package dimitern-startup
-  :ensure t
   :load-path "lisp/")
 
 (use-package dimitern-backups)

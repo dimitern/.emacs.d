@@ -19,6 +19,7 @@
 			    ("elpy" . "http://jorgenschaefer.github.io/packages/")))
  ;; use-package - log what gets loaded.
  use-package-verbose t
+ use-package-always-pin "melpa"  ;; prefer MELPA latest.
  ;; Increase the numer of lines in the *Messages* buffer to help debugging init
  ;; issues.
  message-log-max 10000
@@ -49,6 +50,7 @@
 
   ;; validate: provides (validate-setq)
   (use-package validate
+    :pin gnu
     :ensure t)
 
   ;; hydra: bindings that stick.
@@ -68,5 +70,6 @@
   ;; minibuffer: uses ivy, ivy-hydra, counsel, savehist.
   (use-package dimitern-minibuffer)
 
+  ;; search-replace: isearch, anzu, grep, visual-regexp, swiper.
+  (use-package dimitern-search-replace)
   )
-

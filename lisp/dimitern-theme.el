@@ -25,22 +25,22 @@
 	  (shell-command (format "fc-cache -r %s" home-font-dir))))))
 
 ;; Install and enable solarized dark theme, installling font if needed.
-(setq color-themes '())
-(setq font-use-system-font t) ;; needed for fonts installation to work.
-
 (use-package solarized-theme
   :if (display-graphic-p)
   :ensure t
   :init
-  (progn
-    (unless (member dimitern/default-font-family (font-family-list))
-      (dimitern/install-default-font))
-    (add-to-list 'initial-frame-alist (cons 'font (dimitern/default-font)))
-    (add-to-list 'default-frame-alist (cons 'font (dimitern/default-font)))
-    (customize-set-variable 'frame-background-mode 'dark)
-    (setq solarized-termcolors 256)
-    (load-theme 'solarized-dark 'no-confirm 'no-enable))
-    :config
-    (enable-theme 'solarized-dark))
+  (setq
+   color-themes '()
+   font-use-system-font t ;; needed for fonts installation to work.
+   solarized-termcolors 256
+   )
+  (unless (member dimitern/default-font-family (font-family-list))
+    (dimitern/install-default-font))
+  (add-to-list 'initial-frame-alist (cons 'font (dimitern/default-font)))
+  (add-to-list 'default-frame-alist (cons 'font (dimitern/default-font)))
+  (customize-set-variable 'frame-background-mode 'dark)
+  (load-theme 'solarized-dark 'no-confirm 'no-enable)
+  :config
+  (enable-theme 'solarized-dark))
 
 (provide 'dimitern-theme)

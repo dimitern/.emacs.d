@@ -4,14 +4,15 @@
 (when (version< emacs-version "25")
   (warn "This configuration needs Emacs trunk, but this is %s!" emacs-version))
 
-;; Inhibit default startup cruft.
-(setq inhibit-splash-screen t)
-(setq inhibit-startup-message t)
-(setq inhibit-startup-echo-area-message (getenv "USER"))
-(setq initial-scratch-message nil)
-
-;; And disable the site default settings
-(setq inhibit-default-init t)
+(setq
+ ;; Inhibit default startup cruft.
+ inhibit-splash-screen t
+ inhibit-startup-message t
+ inhibit-startup-echo-area-message (getenv "USER")
+ initial-scratch-message nil
+ ;; Disable site default settings.
+ inhibit-default-init t
+ )
 
 ;; Use "y" or "n" vs "yes" or "no".
 (fset 'yes-or-no-p 'y-or-n-p)

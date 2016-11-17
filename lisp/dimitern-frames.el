@@ -14,13 +14,14 @@
 ;; Allow toggling the menu bar with F1.
 (global-set-key [f1] 'menu-bar-mode)
 
-;; Use X clipboard.
-(setq x-select-enable-clipboard t)
-(setq x-select-enable-primary t)
-(setq save-interprogram-paste-before-kill t)
-
-;; Ignore ring-bell, middle-click paste.
-(setq ring-bell-function '(lambda ()))
-(setq mouse-yank-at-point t)
+(setq
+ ;; Use X clipboard.
+ x-select-enable-clipboard t
+ x-select-enable-primary t
+ save-interprogram-paste-before-kill t
+ ;; Ignore ring-bell, middle-click paste.
+ ring-bell-function '(lambda ())
+ mouse-yank-at-point t
+ )
 
 (provide 'dimitern-frames)

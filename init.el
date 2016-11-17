@@ -41,10 +41,11 @@
 
 ;; Personal packages config.
 (use-package dimitern-startup
-  :load-path "lisp/")
-
-(use-package dimitern-backups)
-(use-package dimitern-history)
-(use-package dimitern-frames)
-(use-package dimitern-modes)
-(use-package dimitern-theme)
+  :load-path "lisp/"
+  :init
+  (use-package dimitern-backups)
+  (use-package dimitern-history)
+  (use-package dimitern-frames)
+  (use-package dimitern-modes)
+  (use-package dimitern-theme)
+  )

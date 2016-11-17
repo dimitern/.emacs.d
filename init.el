@@ -38,14 +38,24 @@
 ;; Debugging & load-time diagnostics.
 (add-hook 'after-init-hook (lambda () (message "Time to load init file: %s"
 					       (emacs-init-time))))
-
 ;; Personal packages config.
 (use-package dimitern-startup
   :load-path "lisp/"
-  :init
+  :config
   (use-package dimitern-backups)
   (use-package dimitern-history)
   (use-package dimitern-frames)
   (use-package dimitern-modes)
   (use-package dimitern-theme)
+
+  ;; validate - provides (validate-setq)
+  (use-package validate
+    :ensure t)
+
+  ;; exec-path-from-shell - set shell environment variables.
+  (use-package dimitern-exec-path-from-shell)
+
+  ;; which-key: show help popups for prefix keys.
+  (use-package dimitern-which-key)
+  
   )

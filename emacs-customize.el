@@ -4,7 +4,9 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(frame-background-mode (quote dark))
- '(package-selected-packages (quote (solarized-theme use-package)))
+ '(package-selected-packages
+   (quote
+    (which-key exec-path-from-shell validate solarized-theme use-package)))
  '(solarized-termcolors 256 t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

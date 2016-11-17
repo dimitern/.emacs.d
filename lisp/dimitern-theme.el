@@ -30,7 +30,8 @@
 
 (use-package solarized-theme
   :if (display-graphic-p)
-  :config
+  :ensure t
+  :init
   (progn
     (unless (member dimitern/default-font-family (font-family-list))
       (dimitern/install-default-font))
@@ -38,6 +39,8 @@
     (add-to-list 'default-frame-alist (cons 'font (dimitern/default-font)))
     (customize-set-variable 'frame-background-mode 'dark)
     (setq solarized-termcolors 256)
-    (load-theme 'solarized-dark t)))
+    (load-theme 'solarized-dark 'no-confirm 'no-enable))
+    :config
+    (enable-theme 'solarized-dark))
 
 (provide 'dimitern-theme)

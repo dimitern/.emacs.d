@@ -68,8 +68,33 @@
     "C-c 8" "typo"
     "C-c 8 -" "typo/dashes"
     "C-c 8 <" "typo/left-brackets"
-    "C-c 8 >" "typo/right-brackets")
-
+    "C-c 8 >" "typo/right-brackets"
+    ;; Prefixes for my personal bindings
+    "C-c a" "applications"
+    "C-c b" "buffers"
+    "C-c c" "compile-and-comments"
+    "C-c e" "errors"
+    "C-c f" "files"
+    "C-c f v" "variables"
+    "C-c g" "git"
+    "C-c g g" "github/gist"
+    "C-c h" "help"
+    "C-c i" "insert"
+    "C-c i l" "licenses"
+    "C-c j" "jump"
+    "C-c l" "language/spelling"
+    "C-c m" "major mode"
+    "C-c o" "cursors"
+    "C-c o i" "cursors/insert"
+    "C-c p" "projects"
+    "C-c p s" "projects/search"
+    "C-c p x" "projects/execute"
+    "C-c p 4" "projects/other-window"
+    "C-c s" "search"
+    "C-c t" "toggle"
+    "C-c w" "windows/frames"
+    "C-c x" "text")
+  
   ;; Prefixes for major modes
   (which-key-declare-prefixes-for-mode 'markdown-mode
     "C-c TAB" "markdown/images"

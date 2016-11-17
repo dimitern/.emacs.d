@@ -43,25 +43,30 @@
   :load-path "lisp/"
   :config
   (use-package dimitern-backups)
-  (use-package dimitern-history)
   (use-package dimitern-frames)
   (use-package dimitern-modes)
   (use-package dimitern-theme)
 
-  ;; validate - provides (validate-setq)
+  ;; validate: provides (validate-setq)
   (use-package validate
     :ensure t)
 
-  ;; exec-path-from-shell - set shell environment variables.
+  ;; hydra: bindings that stick.
+  (use-package hydra
+    :ensure t)
+  
+  ;; exec-path-from-shell: set shell environment variables.
   (use-package dimitern-exec-path-from-shell)
 
-  ;; which-key: show help popups for prefix keys.
-  (use-package dimitern-which-key)
-  
-  ;; which-func: show the current elisp function in mode line.
-  (use-package dimitern-which-func)
+  ;; mode-line: spacemacs-style, using spaceline+powerline.
+  (use-package dimitern-mode-line
+    ;; Show current line/column number in mode-line.
+    :init
+    (line-number-mode)
+    (column-number-mode))
 
-  ;; spaceline: spacemacs mode line (uses powerline).
-  (use-package dimitern-spaceline)
+  ;; minibuffer: uses ivy, ivy-hydra, counsel, savehist.
+  (use-package dimitern-minibuffer)
 
   )
+

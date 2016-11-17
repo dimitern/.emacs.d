@@ -46,15 +46,24 @@
   :bind (("C-c s r" . vr/query-replace)
          ("C-c s R" . vr/replace)))
 
-;; grep: control grep from Emacs.
-(use-package grep
-  :defer t
+;; ag: the silver searcher (grep on steroids)
+(use-package ag
+  :ensure t
   :config
-  (when-let (gnu-find (and (eq system-type 'darwin)
-                           (executable-find "gfind")))
-	    (validate-setq find-program gnu-find))
-  (when-let (gnu-xargs (and (eq system-type 'darwin)
-                            (executable-find "gxargs")))
-	    (validate-setq xargs-program gnu-xargs)))
+  (progn
+    (setq ag-highlight-search t
+	  ag-reuse-buffers t)
+    (add-hook 'ag-mode-hook 'wgrep-ag-setup)))
+
+;; wgrep-ag: writtable ag buffer
+(use-package wgrep-ag
+  :config
+  (progn
+    (setq wgrep-auto-save-buffer t))
+  :ensure t)
+
+;; wgrep: writtable grep buffer
+(use-package wgrep
+  :ensure t)
 
 (provide 'dimitern-search-replace)

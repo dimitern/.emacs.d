@@ -6,7 +6,7 @@
  '(frame-background-mode (quote dark))
  '(package-selected-packages
    (quote
-    (which-key exec-path-from-shell validate solarized-theme use-package)))
+    (spaceline which-key exec-path-from-shell validate solarized-theme use-package)))
  '(solarized-termcolors 256 t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

@@ -58,4 +58,10 @@
   ;; which-key: show help popups for prefix keys.
   (use-package dimitern-which-key)
   
+  ;; which-func: show the current elisp function in mode line.
+  (use-package dimitern-which-func)
+
+  ;; spaceline: spacemacs mode line (uses powerline).
+  (use-package dimitern-spaceline)
+
   )

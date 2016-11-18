@@ -15,13 +15,8 @@
 (global-set-key [f1] 'menu-bar-mode)
 
 (setq
- ;; Use X clipboard.
- x-select-enable-clipboard t
- x-select-enable-primary t
- save-interprogram-paste-before-kill t
- ;; Ignore ring-bell, middle-click paste.
- ring-bell-function '(lambda ())
- mouse-yank-at-point t
+ ;; No audible bell (ding), use visual bell instead.
+ visible-bell t
  )
 
 (provide 'dimitern-frames)

@@ -44,6 +44,7 @@
   :load-path "lisp/"
   :config
   (use-package dimitern-backups)
+  (use-package dimitern-clipboard)
   (use-package dimitern-frames)
   (use-package dimitern-modes)
   (use-package dimitern-theme)

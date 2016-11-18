@@ -62,11 +62,7 @@
   (use-package dimitern-exec-path-from-shell)
 
   ;; mode-line: spacemacs-style, using spaceline+powerline.
-  (use-package dimitern-mode-line
-    ;; Show current line/column number in mode-line.
-    :init
-    (line-number-mode)
-    (column-number-mode))
+  (use-package dimitern-mode-line)
 
   ;; minibuffer: uses ivy, ivy-hydra, counsel, savehist.
   (use-package dimitern-minibuffer)

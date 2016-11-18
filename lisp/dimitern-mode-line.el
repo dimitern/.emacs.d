@@ -138,4 +138,8 @@
 mouse-2: toggle rest visibility\n\
 mouse-3: go to end"))))
 
+;; Show current line/column number in mode-line.
+(line-number-mode)
+(column-number-mode)
+
 (provide 'dimitern-mode-line)

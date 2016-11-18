@@ -5,6 +5,7 @@
 (use-package spaceline-config
   :ensure spaceline
   :config
+  (setq spaceline-byte-compile t)
   (spaceline-compile
    'dimitern
    ;; Left side of the mode line (all the important stuff)
@@ -21,21 +22,27 @@
      ((minor-modes :separator spaceline-minor-modes-separator) :when active))
    ;; Right segment (the unimportant stuff)
    '((version-control :when active)))
-
+  
   (setq-default mode-line-format '("%e" (:eval (spaceline-ml-dimitern)))))
 
 ;; powerline: the power-horse of spaceline.
 (use-package powerline
   :ensure t
   :after spaceline-config
-  :config (validate-setq
-           powerline-height (truncate (* 1.0 (frame-char-height)))
-           powerline-default-separator 'utf-8))
+  :config
+  (validate-setq
+   powerline-height (truncate (* 1.0 (frame-char-height)))
+   powerline-default-separator 'utf-8))
 
 ;; which-key: show help popups for prefix keys.
 (use-package which-key
   :ensure t
-  :init (which-key-mode)
+  :defer 1
+  :init
+  (which-key-mode)
+  ;; Show current line/column number in mode-line.
+  (line-number-mode)
+  (column-number-mode)
   :config
   ;; Use a popup at the frame bottom.
   (which-key-setup-side-window-bottom)
@@ -137,9 +144,5 @@
                   help-echo "mouse-1: go to beginning\n\
 mouse-2: toggle rest visibility\n\
 mouse-3: go to end"))))
-
-;; Show current line/column number in mode-line.
-(line-number-mode)
-(column-number-mode)
 
 (provide 'dimitern-mode-line)

@@ -48,4 +48,14 @@
      search-ring
      regexp-search-ring)))
 
+;; Disable GC while the minibuffer is active, reset on close.
+(defun dimitern/minibuffer-setup-hook ()
+  (setq gc-cons-threshold most-positive-fixnum))
+
+(defun dimitern/minibuffer-exit-hook ()
+  (setq gc-cons-threshold 800000))
+
+(add-hook 'minibuffer-setup-hook #'dimitern/minibuffer-setup-hook)
+(add-hook 'minibuffer-exit-hook #'dimitern/minibuffer-exit-hook)
+
 (provide 'dimitern-minibuffer)

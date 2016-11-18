@@ -1,6 +1,11 @@
 ;; init.el: Emacs configuration of Dimiter Naydenov.
 ;;
 
+;; Debugging & load-time diagnostics.
+(add-hook 'after-init-hook (lambda ()
+			     (message "Time to load init file: %s"
+				      (emacs-init-time))))
+
 ;; Initialize package, which also sets load-path, needed before setting the
 ;; package-archives below.
 (require 'package)
@@ -20,7 +25,7 @@
  ;; use-package - log what gets loaded.
  use-package-verbose t
  use-package-always-pin "melpa"  ;; prefer MELPA latest.
- ;; Increase the numer of lines in the *Messages* buffer to help debugging init
+ ;; Increase the number of lines in the *Messages* buffer to help debugging init
  ;; issues.
  message-log-max 10000
  )
@@ -36,37 +41,43 @@
 (require 'diminish)                ;; if you use :diminish
 (require 'bind-key)                ;; if you use any :bind variant
 
-;; Debugging & load-time diagnostics.
-(add-hook 'after-init-hook (lambda () (message "Time to load init file: %s"
-					       (emacs-init-time))))
-;; Personal packages config.
-(use-package dimitern-startup
-  :load-path "lisp/"
-  :config
-  (use-package dimitern-backups)
-  (use-package dimitern-clipboard)
-  (use-package dimitern-frames)
-  (use-package dimitern-modes)
-  (use-package dimitern-theme)
+;; Maximize garbage collection threshold to speed-up startup.
+(let ((gc-cons-threshold most-positive-fixnum))
+  ;; Personal packages config.
+  (use-package dimitern-startup
+    :load-path "lisp/"
+    :init
+    (use-package dimitern-backups)
+    (use-package dimitern-clipboard)
+    (use-package dimitern-frames)
+    (use-package dimitern-modes)
+    (use-package dimitern-theme)
 
-  ;; validate: provides (validate-setq)
-  (use-package validate
-    :pin gnu
-    :ensure t)
+    ;; validate: provides (validate-setq)
+    (use-package validate
+      :pin gnu
+      :ensure t)
 
-  ;; hydra: bindings that stick.
-  (use-package hydra
-    :ensure t)
-  
-  ;; exec-path-from-shell: set shell environment variables.
-  (use-package dimitern-exec-path-from-shell)
+    ;; hydra: bindings that stick.
+    (use-package hydra
+      :ensure t)
+    
+    ;; exec-path-from-shell: set shell environment variables.
+    (use-package dimitern-exec-path-from-shell)
 
-  ;; mode-line: spacemacs-style, using spaceline+powerline.
-  (use-package dimitern-mode-line)
+    ;; mode-line: spacemacs-style, using spaceline+powerline.
+    (use-package dimitern-mode-line)
 
-  ;; minibuffer: uses ivy, ivy-hydra, counsel, savehist.
-  (use-package dimitern-minibuffer)
+    ;; minibuffer: uses ivy, ivy-hydra, counsel, savehist.
+    (use-package dimitern-minibuffer)
 
-  ;; search-replace: isearch, anzu, wgrep, ag, visual-regexp, swiper.
-  (use-package dimitern-search-replace)
-  )
+    ;; search-replace: isearch, anzu, wgrep, ag, visual-regexp, swiper.
+    (use-package dimitern-search-replace)
+
+    )
+)
+
+
+;; Compile this file once loaded to speed up future startups.
+(unless (file-exists-p "~/.emacs.d/init.elc")
+  (byte-compile-file "~/.emacs.d/init.el"))

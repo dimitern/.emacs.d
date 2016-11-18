@@ -28,7 +28,7 @@
   ;; but isearch is always loaded anyways.
   (diminish 'isearch-mode)
 
-  (validate-setq
+  (setq
    ;; Please, isearch, let me scroll during search
    isearch-allow-scroll t
    ;; Fold unicode characters to ASCII while searching

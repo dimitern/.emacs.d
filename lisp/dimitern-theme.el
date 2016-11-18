@@ -35,9 +35,11 @@
    solarized-termcolors 256
    )
   (unless (member dimitern/default-font-family (font-family-list))
-    (dimitern/install-default-font))
-  (add-to-list 'initial-frame-alist (cons 'font (dimitern/default-font)))
-  (add-to-list 'default-frame-alist (cons 'font (dimitern/default-font)))
+    ;; Font installation only works on Linux.
+    (when (not (eq system-type 'darwin))
+      (dimitern/install-default-font)
+      (add-to-list 'initial-frame-alist (cons 'font (dimitern/default-font)))
+      (add-to-list 'default-frame-alist (cons 'font (dimitern/default-font)))))
   (customize-set-variable 'frame-background-mode 'dark)
   (load-theme 'solarized-dark 'no-confirm 'no-enable)
   :config

@@ -70,6 +70,6 @@
   ;; minibuffer: uses ivy, ivy-hydra, counsel, savehist.
   (use-package dimitern-minibuffer)
 
-  ;; search-replace: isearch, anzu, grep, visual-regexp, swiper.
+  ;; search-replace: isearch, anzu, wgrep, ag, visual-regexp, swiper.
   (use-package dimitern-search-replace)
   )

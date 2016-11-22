@@ -133,3 +133,32 @@
 (use-package hl-line
   :init
   (global-hl-line-mode 1))
+
+;; stripe-buffer: add stripes to buffers (lists).
+(use-package stripe-buffer
+  :ensure t
+  :init
+  (add-hook 'dired-mode-hook #'stripe-buffer-mode))
+
+;; face-remap: face remapping (text scaling)
+(use-package face-remap
+  :bind (("C-c w z" . text-scale-adjust)))
+
+
+;; paradox: better package manager.
+(use-package paradox
+  :ensure t
+  :bind (("C-c a p" . paradox-list-packages)
+         ("C-c a P" . paradox-upgrade-packages))
+  :config
+  (validate-setq
+   paradox-execute-asynchronously nil   ; No async update, please
+   paradox-spinner-type 'moon           ; Fancy spinner
+   ;; Show all possible counts
+   paradox-display-download-count t
+   paradox-display-star-count t
+   ;; Don't star automatically
+   paradox-automatically-star nil
+   ;; Hide download button, and wiki packages
+   paradox-use-homepage-buttons nil     ; Can type v instead
+   paradox-hide-wiki-packages t))

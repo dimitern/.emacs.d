@@ -8,18 +8,21 @@
 
 ;; No tool bar by default.
 (use-package tool-bar
-  :config
+  :defer t
+  :init
   (tool-bar-mode -1))
 
 ;; No scroll bar by default.
 (use-package scroll-bar
-  :config
+  :defer t
+  :init
   (scroll-bar-mode -1))
 
 ;; No menu bar unless on darwin.
 (use-package menu-bar
+  :defer t
   :unless (eq system-type 'darwin)
-  :config
+  :init
   (menu-bar-mode -1)
   ;; Allow toggling the menu bar with F1.
   (global-set-key [f1] 'menu-bar-mode))

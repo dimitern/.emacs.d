@@ -32,6 +32,7 @@
  ;; use-package - log what gets loaded.
  use-package-verbose t
  use-package-always-pin "melpa"  ;; prefer MELPA latest.
+ use-package-minimum-reported-time 0.05
  ;; Increase the number of lines in the *Messages* buffer to help debugging init
  ;; issues.
  message-log-max 10000
@@ -92,7 +93,7 @@
 
   ;; Enable GC on exiting the minibuffer.
   (defun dimitern/minibuffer-exit-hook ()
-    (setq gc-cons-threshold dimiter/gc-cons-threshole))
+    (setq gc-cons-threshold dimitern/gc-cons-threshold))
   (add-hook 'minibuffer-exit-hook #'dimitern/minibuffer-exit-hook))
 
 ;; dimitern-search-replace: isearch, anzu, wgrep, ag, visual-regexp, swiper.

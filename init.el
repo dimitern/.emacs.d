@@ -1,10 +1,17 @@
 ;; init.el: Emacs configuration of Dimiter Naydenov.
 ;;
 
+;; Save the original GC threshold to restore it later.
+(defvar dimitern/gc-cons-threshold gc-cons-threshold
+  "Original gc-cons-threshold value.")
+;; Increse GC threshold to speed up init loading.
+(setq gc-cons-threshold most-positive-fixnum)
+
 ;; Debugging & load-time diagnostics.
 (add-hook 'after-init-hook (lambda ()
 			     (message "Time to load init file: %s"
-				      (emacs-init-time))))
+				      (emacs-init-time))
+			     (setq gc-cons-threshold dimitern/gc-cons-threshold)))
 
 ;; Initialize package, which also sets load-path, needed before setting the
 ;; package-archives below.
@@ -69,15 +76,22 @@
     (use-package dimitern-mode-line)
 
     ;; minibuffer: uses ivy, ivy-hydra, counsel, savehist.
-    (use-package dimitern-minibuffer)
+    (use-package dimitern-minibuffer
+      :preface
+      ;; Disable GC while the minibuffer is active, reset on close.
+      (defun dimitern/minibuffer-setup-hook ()
+	(setq gc-cons-threshold most-positive-fixnum))
+      (add-hook 'minibuffer-setup-hook #'dimitern/minibuffer-setup-hook)
+
+      ;; Enable GC on exiting the minibuffer.
+      (defun dimitern/minibuffer-exit-hook ()
+	(setq gc-cons-threshold dimiter/gc-cons-threshole))
+      (add-hook 'minibuffer-exit-hook #'dimitern/minibuffer-exit-hook)
+
+      )
 
     ;; search-replace: isearch, anzu, wgrep, ag, visual-regexp, swiper.
     (use-package dimitern-search-replace)
 
     )
 )
-
-
-;; Compile this file once loaded to speed up future startups.
-(unless (file-exists-p "~/.emacs.d/init.elc")
-  (byte-compile-file "~/.emacs.d/init.el"))

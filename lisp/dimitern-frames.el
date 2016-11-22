@@ -16,9 +16,11 @@
   :init
   (scroll-bar-mode -1))
 
-;; No menu bar unless on darwin.
+;; No menu bar unless on darwin GUI.
 (use-package menu-bar
-  :unless (eq system-type 'darwin)
+  :unless (and
+	   (eq system-type 'darwin)
+	   (display-graphic-p))
   :init
   (menu-bar-mode -1)
   ;; Allow toggling the menu bar with F1.

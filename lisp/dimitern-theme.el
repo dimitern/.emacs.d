@@ -26,7 +26,9 @@
 
 ;; Install and enable solarized dark theme, installling font if needed.
 (use-package solarized-theme
-  :if (display-graphic-p)
+  :if (or
+       (display-graphic-p)
+       (eq system-type 'darwin))
   :ensure t
   :init
   (setq

@@ -109,3 +109,8 @@
 ;; dimitern-search-replace: isearch, anzu, wgrep, ag, visual-regexp,
 ;; swiper.
 (use-package dimitern-search-replace)
+
+;; yaml-mode
+(use-package yaml-mode
+  :ensure t
+  :mode "\\.ya?ml\\'")

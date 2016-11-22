@@ -12,6 +12,7 @@ ac-comphist.dat
 .\#*
 *~
 savehist
+recentf
 
 # Compiled
 *.elc

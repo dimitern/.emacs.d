@@ -3,7 +3,11 @@
 
 (setq
  ;; Use text mode by default for new buffers.
+ ;; Must be without validate-setq to work at startup.
  default-major-mode 'text-mode
+ )
+
+(validate-setq
  ;; Default indent 4 spaces per tab, use tabs.
  standard-indent 4
  indent-tabs-mode t
@@ -14,7 +18,6 @@
  fill-column 80
  ;; Miscellaneous
  auto-mode-alist (cons '("\\.mm$" . c++-mode) auto-mode-alist)
- c-default-style "linux"
  vc-follow-symlinks t
  )
 

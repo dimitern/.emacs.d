@@ -10,10 +10,18 @@
 ;; disabling this ridiculously bizarre thing entirely.
 (fset 'display-startup-echo-area-message #'ignore)
 
+(validate-setq
+ ;; Inhibit usual startup cruft.
+ inhibit-default-init t
+ inhibit-startup-echo-area-message (getenv "USER")
+ inhibit-startup-screen t
+ initial-scratch-message nil
+ ;; Set my custom file. 
+ custom-file "~/.emacs.d/emacs-customize.el"
+
+ )
+
 ;; Load my customized file.
-(setq custom-file "~/.emacs.d/emacs-customize.el")
-(unless (file-exists-p "~/.emacs.d/emacs-customize.elc")
-  (byte-compile-file custom-file))
-(load-file custom-file)
+(load custom-file 'no-error)
 
 (provide 'dimitern-startup)

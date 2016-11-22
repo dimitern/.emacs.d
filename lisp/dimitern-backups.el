@@ -1,7 +1,7 @@
 ;; dimitern-backups: Setup autosaves and backup files creation.
 ;;
 
-(setq
+(validate-setq
  ;; Put all backups, autosaves in one place.
  backup-directory-alist '(("." . "~/.emacs.d/backups"))
  auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t))

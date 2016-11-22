@@ -1,7 +1,7 @@
 ;; dimitern-clipboard.el: clipboard related config.
 ;;
 
-(setq
+(validate-setq
  ;; Save existing clipboard contents to kill ring before killing.
  save-interprogram-paste-before-kill t
  ;; Transfer clipboard back to X before quitting Emacs.
@@ -13,7 +13,6 @@
  ring-bell-function '(lambda ())
  ;; Paste with mouse-2 at point, not where I clicked.
  mouse-yank-at-point t
- mouse-yank-at-click nil
  )
 
 (provide 'dimitern-clipboard)

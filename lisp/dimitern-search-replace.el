@@ -28,7 +28,7 @@
   ;; but isearch is always loaded anyways.
   (diminish 'isearch-mode)
 
-  (setq
+  (validate-setq
    ;; Please, isearch, let me scroll during search
    isearch-allow-scroll t
    ;; Fold unicode characters to ASCII while searching
@@ -50,16 +50,16 @@
 (use-package ag
   :ensure t
   :config
-  (progn
-    (setq ag-highlight-search t
-	  ag-reuse-buffers t)
-    (add-hook 'ag-mode-hook 'wgrep-ag-setup)))
+  (validate-setq
+   ag-highlight-search t
+   ag-reuse-buffers t)
+  (add-hook 'ag-mode-hook 'wgrep-ag-setup))
 
 ;; wgrep-ag: writtable ag buffer
 (use-package wgrep-ag
   :config
-  (progn
-    (setq wgrep-auto-save-buffer t))
+  (validate-setq
+   wgrep-auto-save-buffer t)
   :ensure t)
 
 ;; wgrep: writtable grep buffer

@@ -48,47 +48,52 @@
 (require 'diminish)                ;; if you use :diminish
 (require 'bind-key)                ;; if you use any :bind variant
 
-;; Personal packages config.
+;; validate: provides (validate-setq)
+(use-package validate
+  :pin gnu
+  :ensure t)
+
+;; hydra: bindings that stick.
+(use-package hydra
+  :ensure t)
+
+;; dimitern-startup: startup config.
 (use-package dimitern-startup
-  :load-path "lisp/"
-  :init
-  (use-package dimitern-backups)
-  (use-package dimitern-clipboard)
-  (use-package dimitern-frames)
-  (use-package dimitern-modes)
-  (use-package dimitern-theme)
+  :load-path "lisp/")
 
-  ;; validate: provides (validate-setq)
-  (use-package validate
-    :pin gnu
-    :ensure t)
+;; dimitern-backups: backups/autosaves config. 
+(use-package dimitern-backups)
 
-  ;; hydra: bindings that stick.
-  (use-package hydra
-    :ensure t)
-  
-  ;; exec-path-from-shell: set shell environment variables.
-  (use-package dimitern-exec-path-from-shell)
+;; dimitern-clipboard: clipboard-related config.
+(use-package dimitern-clipboard)
 
-  ;; mode-line: spacemacs-style, using spaceline+powerline.
-  (use-package dimitern-mode-line)
+;; dimitern-frames: global frame-related config.
+(use-package dimitern-frames)
 
-  ;; minibuffer: uses ivy, ivy-hydra, counsel, savehist.
-  (use-package dimitern-minibuffer
-    :preface
-    ;; Disable GC while the minibuffer is active, reset on close.
-    (defun dimitern/minibuffer-setup-hook ()
-      (setq gc-cons-threshold most-positive-fixnum))
-    (add-hook 'minibuffer-setup-hook #'dimitern/minibuffer-setup-hook)
+;; dimitern-modes: global modes config.
+(use-package dimitern-modes)
 
-    ;; Enable GC on exiting the minibuffer.
-    (defun dimitern/minibuffer-exit-hook ()
-      (setq gc-cons-threshold dimiter/gc-cons-threshole))
-    (add-hook 'minibuffer-exit-hook #'dimitern/minibuffer-exit-hook)
+;; dimitern-theme: theme setup (solarized dark).
+(use-package dimitern-theme)
 
-    )
+;; exec-path-from-shell: set shell environment variables.
+(use-package dimitern-exec-path-from-shell)
 
-  ;; search-replace: isearch, anzu, wgrep, ag, visual-regexp, swiper.
-  (use-package dimitern-search-replace)
+;; dimitern-mode-line: spacemacs-style, using spaceline+powerline.
+(use-package dimitern-mode-line)
 
-  )
+;; dimitern-minibuffer: minibuffer config with ivy, ivy-hydra, counsel, savehist.
+(use-package dimitern-minibuffer
+  :preface
+  ;; Disable GC while the minibuffer is active, reset on close.
+  (defun dimitern/minibuffer-setup-hook ()
+    (setq gc-cons-threshold most-positive-fixnum))
+  (add-hook 'minibuffer-setup-hook #'dimitern/minibuffer-setup-hook)
+
+  ;; Enable GC on exiting the minibuffer.
+  (defun dimitern/minibuffer-exit-hook ()
+    (setq gc-cons-threshold dimiter/gc-cons-threshole))
+  (add-hook 'minibuffer-exit-hook #'dimitern/minibuffer-exit-hook))
+
+;; dimitern-search-replace: isearch, anzu, wgrep, ag, visual-regexp, swiper.
+(use-package dimitern-search-replace)

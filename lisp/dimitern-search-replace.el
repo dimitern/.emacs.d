@@ -1,20 +1,6 @@
 ;; dimitern-search-replace.el: config related to searching/replacing.
 ;;
 
-;; anzu: position/matches count for isearch.
-(use-package anzu
-  :ensure t
-  :bind
-  (([remap query-replace] . anzu-query-replace)
-   ([remap query-replace-regexp] . anzu-query-replace-regexp)
-   :map isearch-mode-map
-   ([remap isearch-query-replace] . anzu-isearch-query-replace)
-   ([remap isearch-query-replace-regexp] . anzu-isearch-query-replace-regexp))
-  :config
-  (global-anzu-mode)
-  (setq anzu-cons-mode-line-p nil)
-  :diminish anzu-mode)
-
 ;; isearch: search buffers.
 (use-package "isearch"
   ;; Defer because `isearch' is not a feature and we don't want to
@@ -32,6 +18,23 @@
    isearch-allow-scroll t
    ;; Fold unicode characters to ASCII while searching
    search-default-mode #'char-fold-to-regexp))
+
+;; anzu: position/matches count for isearch.
+(use-package anzu
+  :ensure t
+  :init
+  (global-anzu-mode)
+  :bind
+  (([remap query-replace] . anzu-query-replace)
+   ([remap query-replace-regexp] . anzu-query-replace-regexp)
+   :map isearch-mode-map
+   ([remap isearch-query-replace] . anzu-isearch-query-replace)
+   ([remap isearch-query-replace-regexp] . anzu-isearch-query-replace-regexp))
+  :config
+  (validate-setq
+   anzu-cons-mode-line-p nil
+   )
+  :diminish anzu-mode)
 
 ;; swiper: isearch with overview.
 (use-package swiper

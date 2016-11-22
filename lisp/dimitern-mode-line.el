@@ -98,6 +98,8 @@
 ;; which-func: show the current elisp function in mode line.
 (use-package which-func
   :ensure t
+  :init
+  (which-function-mode)
   :config
   (validate-setq
    which-func-unknown "⊥"               ; The default is really boring…
@@ -108,7 +110,6 @@
                   mouse-face mode-line-highlight
                   help-echo "mouse-1: go to beginning\n\
 mouse-2: toggle rest visibility\n\
-mouse-3: go to end")))
-    (which-function-mode))
+mouse-3: go to end"))))
 
 (provide 'dimitern-mode-line)

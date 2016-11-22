@@ -62,8 +62,7 @@
 
 ;; spaceline: cool spacemacs-style mode-line
 (use-package spaceline-config
-  :ensure spaceline
-  )
+  :ensure spaceline)
 
 ;; powerline: the power-horse of spaceline.
 (use-package powerline
@@ -99,12 +98,14 @@
 ;; exec-path-from-shell: set shell environment variables.
 (use-package dimitern-exec-path-from-shell)
 
-;; dimitern-mode-line: spacemacs-style, using spaceline+powerline.
+;; dimitern-mode-line: additional mode line config.
 (use-package dimitern-mode-line
   :after powerline)
 
-;; dimitern-minibuffer: minibuffer config with ivy, ivy-hydra, counsel, savehist.
+;; dimitern-minibuffer: minibuffer config with ivy, ivy-hydra,
+;; counsel, savehist.
 (use-package dimitern-minibuffer)
 
-;; dimitern-search-replace: isearch, anzu, wgrep, ag, visual-regexp, swiper.
+;; dimitern-search-replace: isearch, anzu, wgrep, ag, visual-regexp,
+;; swiper.
 (use-package dimitern-search-replace)

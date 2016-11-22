@@ -4,13 +4,15 @@
 ;; ivy: minibuffer completion.
 (use-package ivy
   :ensure t
-  :init (ivy-mode 1)
   :bind (("C-c b r" . ivy-resume))
-  :config
+  :init
+  (ivy-mode 1)
   ;; Include recentf and bookmarks to switch buffer, and tune the
   ;; count format.
-  (validate-setq ivy-use-virtual-buffers t
-                 ivy-count-format "(%d/%d) ")
+  (validate-setq
+   ivy-use-virtual-buffers t
+   ivy-count-format "(%d/%d) "
+   )
   :diminish ivy-mode)
 
 ;; ivy-hydra: hydra bindings for ivy buffer.
@@ -35,6 +37,7 @@
 
 ;; savehist - minibuffer history.
 (use-package savehist
+  :ensure t
   :init (savehist-mode 1)
   :config
   (validate-setq
@@ -47,5 +50,15 @@
    '(kill-ring
      search-ring
      regexp-search-ring)))
+
+;; Disable GC while the minibuffer is active, reset on close.
+(defun dimitern/minibuffer-setup-hook ()
+  (setq gc-cons-threshold most-positive-fixnum))
+(add-hook 'minibuffer-setup-hook #'dimitern/minibuffer-setup-hook)
+
+;; Enable GC on exiting the minibuffer.
+(defun dimitern/minibuffer-exit-hook ()
+  (setq gc-cons-threshold dimitern/gc-cons-threshold))
+(add-hook 'minibuffer-exit-hook #'dimitern/minibuffer-exit-hook)
 
 (provide 'dimitern-minibuffer)

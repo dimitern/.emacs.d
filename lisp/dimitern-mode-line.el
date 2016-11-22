@@ -1,50 +1,16 @@
 ;; dimitern-mode-line.el: mode-line config
 ;;
 
-;; spaceline: cool spacemacs-style mode-line.
-(use-package spaceline-config
-  :ensure spaceline
-  :config
-  (setq spaceline-byte-compile t)
-  (spaceline-compile
-   'dimitern
-   ;; Left side of the mode line (all the important stuff)
-   '(((buffer-modified buffer-size input-method) :face highlight-face)
-     anzu
-     '(buffer-id remote-host buffer-encoding-abbrev)
-     ((point-position line-column buffer-position selection-info)
-      :separator " | ")
-     major-mode
-     process
-     (flycheck-error flycheck-warning flycheck-info)
-     (python-pyvenv :fallback python-pyenv)
-     ((which-function projectile-root) :separator " @ ")
-     ((minor-modes :separator spaceline-minor-modes-separator) :when active))
-   ;; Right segment (the unimportant stuff)
-   '((version-control :when active)))
-  
-  (setq-default mode-line-format '("%e" (:eval (spaceline-ml-dimitern)))))
-
-;; powerline: the power-horse of spaceline.
-(use-package powerline
-  :ensure t
-  :after spaceline-config
-  :config
-  (validate-setq
-   powerline-height (truncate (* 1.0 (frame-char-height)))
-   powerline-default-separator 'utf-8))
-
 ;; which-key: show help popups for prefix keys.
 (use-package which-key
   :ensure t
-  :defer 1
   :init
   (which-key-mode)
   ;; Show current line/column number in mode-line.
   (line-number-mode)
   (column-number-mode)
   :config
-  ;; Use a popup at the frame bottom.
+  ;; Use a popup at the frame bottom. 
   (which-key-setup-side-window-bottom)
   (validate-setq
    which-key-idle-delay 0.4
@@ -131,9 +97,8 @@
 
 ;; which-func: show the current elisp function in mode line.
 (use-package which-func
-  :defer 1
+  :ensure t
   :config
-  (which-function-mode)
   (validate-setq
    which-func-unknown "⊥"               ; The default is really boring…
    which-func-format
@@ -143,6 +108,7 @@
                   mouse-face mode-line-highlight
                   help-echo "mouse-1: go to beginning\n\
 mouse-2: toggle rest visibility\n\
-mouse-3: go to end"))))
+mouse-3: go to end")))
+    (which-function-mode))
 
 (provide 'dimitern-mode-line)

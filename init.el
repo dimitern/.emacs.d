@@ -36,6 +36,8 @@
  ;; Increase the number of lines in the *Messages* buffer to help debugging init
  ;; issues.
  message-log-max 10000
+ ;; Do not load site file.
+ site-run-file nil
  )
 
 ;; Install use-package if necessary
@@ -58,6 +60,22 @@
 (use-package hydra
   :ensure t)
 
+;; spaceline: cool spacemacs-style mode-line
+(use-package spaceline-config
+  :ensure spaceline
+  )
+
+;; powerline: the power-horse of spaceline.
+(use-package powerline
+  :ensure t
+  :after spaceline-config
+  :init
+  (spaceline-emacs-theme)
+  :config
+  (validate-setq
+   powerline-height (truncate (* 1.0 (frame-char-height)))
+   powerline-default-separator 'utf-8))
+
 ;; dimitern-startup: startup config.
 (use-package dimitern-startup
   :load-path "lisp/")
@@ -69,7 +87,8 @@
 (use-package dimitern-clipboard)
 
 ;; dimitern-frames: global frame-related config.
-(use-package dimitern-frames)
+(use-package dimitern-frames
+  :after tool-bar)
 
 ;; dimitern-modes: global modes config.
 (use-package dimitern-modes)
@@ -81,20 +100,11 @@
 (use-package dimitern-exec-path-from-shell)
 
 ;; dimitern-mode-line: spacemacs-style, using spaceline+powerline.
-(use-package dimitern-mode-line)
+(use-package dimitern-mode-line
+  :after powerline)
 
 ;; dimitern-minibuffer: minibuffer config with ivy, ivy-hydra, counsel, savehist.
-(use-package dimitern-minibuffer
-  :preface
-  ;; Disable GC while the minibuffer is active, reset on close.
-  (defun dimitern/minibuffer-setup-hook ()
-    (setq gc-cons-threshold most-positive-fixnum))
-  (add-hook 'minibuffer-setup-hook #'dimitern/minibuffer-setup-hook)
-
-  ;; Enable GC on exiting the minibuffer.
-  (defun dimitern/minibuffer-exit-hook ()
-    (setq gc-cons-threshold dimitern/gc-cons-threshold))
-  (add-hook 'minibuffer-exit-hook #'dimitern/minibuffer-exit-hook))
+(use-package dimitern-minibuffer)
 
 ;; dimitern-search-replace: isearch, anzu, wgrep, ag, visual-regexp, swiper.
 (use-package dimitern-search-replace)

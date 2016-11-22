@@ -4,7 +4,6 @@
 ;; anzu: position/matches count for isearch.
 (use-package anzu
   :ensure t
-  :defer 1
   :bind
   (([remap query-replace] . anzu-query-replace)
    ([remap query-replace-regexp] . anzu-query-replace-regexp)
@@ -37,7 +36,6 @@
 ;; swiper: isearch with overview.
 (use-package swiper
   :ensure t
-  :defer t
   :bind (([remap isearch-forward] . swiper)))
 
 ;; visual-regexp: regexp replace with in-buffer display.
@@ -57,10 +55,10 @@
 
 ;; wgrep-ag: writtable ag buffer
 (use-package wgrep-ag
+  :ensure t
   :config
   (validate-setq
-   wgrep-auto-save-buffer t)
-  :ensure t)
+   wgrep-auto-save-buffer t))
 
 ;; wgrep: writtable grep buffer
 (use-package wgrep

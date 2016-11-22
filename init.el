@@ -114,3 +114,22 @@
 (use-package yaml-mode
   :ensure t
   :mode "\\.ya?ml\\'")
+
+;; page-break-lines: turn page breaks (^L) into lines.
+(use-package page-break-lines
+  :ensure t
+  :init
+  (global-page-break-lines-mode)
+  :diminish page-break-lines-mode)
+
+;; beacon: highlight cursor position in buffer (when switching).
+(use-package beacon
+  :ensure t
+  :init
+  (beacon-mode 1)
+  :diminish beacon-mode)
+
+;; hl-line: highlight the current line in buffer.
+(use-package hl-line
+  :init
+  (global-hl-line-mode 1))

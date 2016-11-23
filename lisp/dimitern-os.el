@@ -1,4 +1,5 @@
 ;; dimitern-os.el: OS-specific helper functions.
+;;
 
 (defun dimitern-os/is-linux ()
   "Returns non-nil if running on Linux OS."

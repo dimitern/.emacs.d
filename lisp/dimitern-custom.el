@@ -1,4 +1,5 @@
 ;; dimitern-custom.el: Easy Customization config.
+;;
 
 (defconst dimitern-custom-file (locate-user-emacs-file "custom.el")
   "File used to store settings from Easy Customization UI.")

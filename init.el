@@ -51,6 +51,10 @@
 (require 'diminish)                ;; if you use :diminish
 (require 'bind-key)                ;; if you use any :bind variant
 
+;; dimitern-os: OS-specific helper functions.
+(use-package dimitern-os
+  :load-path "lisp/")
+
 ;; validate: provides (validate-setq)
 (use-package validate
   :pin gnu
@@ -143,7 +147,6 @@
 ;; face-remap: face remapping (text scaling)
 (use-package face-remap
   :bind (("C-c w z" . text-scale-adjust)))
-
 
 ;; paradox: better package manager.
 (use-package paradox

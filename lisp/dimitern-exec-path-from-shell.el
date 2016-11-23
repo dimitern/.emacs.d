@@ -3,7 +3,7 @@
 
 (use-package exec-path-from-shell
   :ensure t
-  :unless (eq system-type 'darwin)
+  :unless (dimitern-os/is-darwin)
   :config
   (validate-setq
    exec-path-from-shell-variables '("PYTHONPATH"       ; Python modules

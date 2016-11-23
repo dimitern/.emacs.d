@@ -19,7 +19,7 @@
 ;; No menu bar unless on darwin GUI.
 (use-package menu-bar
   :unless (and
-	   (eq system-type 'darwin)
+	   (dimitern-os/is-darwin)
 	   (display-graphic-p))
   :init
   (menu-bar-mode -1)

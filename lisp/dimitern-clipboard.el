@@ -13,9 +13,10 @@
  mouse-yank-at-point t
  )
 
-(unless (eq system-type 'darwin)
+(unless (dimitern-os/is-darwin)
   (validate-setq
-   ;; Transfer clipboard back to X before quitting Emacs.
+   ;; Transfer clipboard back to X before quitting Emacs (unless on
+   ;; darwin).
    x-select-enable-clipboard-manager t
    )
   )

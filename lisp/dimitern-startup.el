@@ -16,12 +16,10 @@
  inhibit-startup-echo-area-message (getenv "USER")
  inhibit-startup-screen t
  initial-scratch-message nil
- ;; Set my custom file. 
- custom-file "~/.emacs.d/emacs-customize.el"
-
  )
 
-;; Load my customized file.
-(load custom-file 'no-error)
+(use-package dimitern-custom
+  :load-path "lisp/"
+  )
 
 (provide 'dimitern-startup)

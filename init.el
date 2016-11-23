@@ -16,59 +16,46 @@
 (use-package dimitern-os
   :load-path "lisp/")
 
-;; hydra: bindings that stick.
-(use-package hydra
-  :ensure t)
-
-;; spaceline: cool spacemacs-style mode-line
-(use-package spaceline-config
-  :ensure spaceline)
-
-;; powerline: the power-horse of spaceline.
-(use-package powerline
-  :ensure t
-  :after spaceline-config
-  :init
-  (spaceline-emacs-theme)
-  :config
-  (validate-setq
-   powerline-height (truncate (* 1.0 (frame-char-height)))
-   powerline-default-separator 'utf-8))
+;; dimitern-spaceline: spaceline and powerline config.
+(use-package dimitern-spaceline
+  :load-path "lisp/")
 
 ;; dimitern-startup: startup config.
 (use-package dimitern-startup
   :load-path "lisp/")
 
 ;; dimitern-backups: backups/autosaves config. 
-(use-package dimitern-backups)
+(use-package dimitern-backups
+  :load-path "lisp/")
 
 ;; dimitern-clipboard: clipboard-related config.
-(use-package dimitern-clipboard)
+(use-package dimitern-clipboard
+  :load-path "lisp/")
 
 ;; dimitern-frames: global frame-related config.
 (use-package dimitern-frames
   :after tool-bar)
 
 ;; dimitern-modes: global modes config.
-(use-package dimitern-modes)
+(use-package dimitern-modes
+  :load-path "lisp/")
 
 ;; dimitern-theme: theme setup (solarized dark).
-(use-package dimitern-theme)
+(use-package dimitern-theme
+  :load-path "lisp/")
 
 ;; exec-path-from-shell: set shell environment variables.
-(use-package dimitern-exec-path-from-shell)
+(use-package dimitern-exec-path-from-shell
+  :load-path "lisp/")
 
-;; dimitern-mode-line: additional mode line config.
-(use-package dimitern-mode-line
-  :after powerline)
-
-;; dimitern-minibuffer: minibuffer config with ivy, ivy-hydra,
-;; counsel, savehist.
-(use-package dimitern-minibuffer)
+;; dimitern-help: which-key, which-func, ivy, counsel, etc.
+(use-package dimitern-help
+  :load-path "lisp/")
 
 ;; dimitern-search-replace: isearch, anzu, wgrep, ag, visual-regexp,
 ;; swiper.
-(use-package dimitern-search-replace)
+(use-package dimitern-search-replace
+  :load-path "lisp/")
 
 ;; yaml-mode
 (use-package yaml-mode

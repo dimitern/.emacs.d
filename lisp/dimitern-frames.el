@@ -1,29 +1,43 @@
-;; dimitern-frames.el: Global window system and frames config.
+;; dimitern-frames.el: Global window system, and frames config.
 ;;
 
 (validate-setq
  ;; No audible bell (ding), use visual bell instead.
  visible-bell t
+ ;; Resize frames by pixels.
+ frame-resize-pixelwise t
+ ;; More useful frame names.
+ frame-title-format '(:eval (if (buffer-file-name)
+				(abbreviate-file-name (buffer-file-name)) "%b"))
+ ;; Size new windows proportionally wrt other windows
+ window-combination-resize t
  )
 
-;; No tool bar by default.
-(use-package tool-bar
-  :init
-  (tool-bar-mode -1))
-
-;; No scroll bar by default.
-(use-package scroll-bar
-  :init
-  (scroll-bar-mode -1))
-
-;; No menu bar unless on darwin GUI.
-(use-package menu-bar
-  :unless (and
+;;;###autoload 
+(defun dimitern-frames/no-bars ()
+  "Disable both the tool bar and scroll bar.
+Menu bar is also disabled unless on darwin GUI."
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
+  (unless (and
 	   (dimitern-os/is-darwin)
 	   (display-graphic-p))
+    (menu-bar-mode -1)))
+
+;; face-remap: face remapping (text scaling)
+(use-package face-remap
+  :bind (("C-c w z" . text-scale-adjust)))
+
+;; frame: global frames config.
+(use-package frame
+  :bind (("C-c w F" . toggle-frame-fullscreen))
   :init
-  (menu-bar-mode -1)
+  ;; Kill `suspend-frame'
+  (global-set-key (kbd "C-z") nil)
+  (global-set-key (kbd "C-x C-z") nil)
   ;; Allow toggling the menu bar with F1.
-  (global-set-key [f1] 'menu-bar-mode))
+  (global-set-key [f1] 'menu-bar-mode)
+  :config
+  (add-to-list 'initial-frame-alist '(fullscreen . maximized)))
 
 (provide 'dimitern-frames)

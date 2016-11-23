@@ -18,6 +18,8 @@
 
 ;; dimitern-spaceline: spaceline and powerline config.
 (use-package dimitern-spaceline
+  :init
+  (add-hook 'after-init-hook #'dimitern-spaceline/emacs-theme)
   :load-path "lisp/")
 
 ;; dimitern-startup: startup config.
@@ -34,7 +36,13 @@
 
 ;; dimitern-frames: global frame-related config.
 (use-package dimitern-frames
-  :after tool-bar)
+  :init
+  (add-hook 'after-init-hook #'dimitern-frames/no-bars)
+  :load-path "lisp/")
+
+;; dimitern-buffers: global buffer-related config.
+(use-package dimitern-buffers
+  :load-path "lisp/")
 
 ;; dimitern-modes: global modes config.
 (use-package dimitern-modes
@@ -56,37 +64,3 @@
 ;; swiper.
 (use-package dimitern-search-replace
   :load-path "lisp/")
-
-;; yaml-mode
-(use-package yaml-mode
-  :ensure t
-  :mode "\\.ya?ml\\'")
-
-;; page-break-lines: turn page breaks (^L) into lines.
-(use-package page-break-lines
-  :ensure t
-  :init
-  (global-page-break-lines-mode)
-  :diminish page-break-lines-mode)
-
-;; beacon: highlight cursor position in buffer (when switching).
-(use-package beacon
-  :ensure t
-  :init
-  (beacon-mode 1)
-  :diminish beacon-mode)
-
-;; hl-line: highlight the current line in buffer.
-(use-package hl-line
-  :init
-  (global-hl-line-mode 1))
-
-;; stripe-buffer: add stripes to buffers (lists).
-(use-package stripe-buffer
-  :ensure t
-  :init
-  (add-hook 'dired-mode-hook #'stripe-buffer-mode))
-
-;; face-remap: face remapping (text scaling)
-(use-package face-remap
-  :bind (("C-c w z" . text-scale-adjust)))

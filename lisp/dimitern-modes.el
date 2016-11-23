@@ -25,4 +25,9 @@
 (add-hook 'after-save-hook
 	  'executable-make-buffer-file-executable-if-script-p)
 
+;; yaml-mode
+(use-package yaml-mode
+  :ensure t
+  :mode "\\.ya?ml\\'")
+
 (provide 'dimitern-modes)

@@ -5,15 +5,19 @@
 (use-package spaceline-config
   :ensure spaceline)
 
-;; powerline: the power-horse of spaceline.
-(use-package powerline
-  :ensure t
-  :after spaceline-config
-  :init
+;;;###autoload
+(defun dimitern-spaceline/emacs-theme ()
+  "Enable Emacs spaceline theme."
+  (require 'spaceline-config)
   (spaceline-emacs-theme)
-  :config
-  (validate-setq
-   powerline-height (truncate (* 1.0 (frame-char-height)))
-   powerline-default-separator 'utf-8))
+
+  ;; powerline: the power-horse of spaceline.
+  (use-package powerline
+    :ensure t
+    :init
+    (validate-setq
+     powerline-height (truncate (* 1.0 (frame-char-height)))
+     powerline-default-separator 'utf-8))
+  )
 
 (provide 'dimitern-spaceline)

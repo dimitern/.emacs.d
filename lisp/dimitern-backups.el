@@ -1,4 +1,5 @@
-;; dimitern-backups: Setup autosaves and backup files creation.
+;; dimitern-backups: Setup autosaves, history, and backup files
+;; creation.
 ;;
 
 (validate-setq
@@ -20,5 +21,21 @@
  backup-by-copying-when-linked t
  backup-by-copying-when-mismatch t
  )
+
+;; savehist - minibuffer history.
+(use-package savehist
+  :ensure t
+  :init (savehist-mode 1)
+  :config
+  (validate-setq
+   savehist-file "~/.emacs.d/savehist"
+   use-dialog-box nil
+   history-length t
+   history-delete-duplicates t
+   savehist-save-minibuffer-history t
+   savehist-additional-variables
+   '(kill-ring
+     search-ring
+     regexp-search-ring)))
 
 (provide 'dimitern-backups)

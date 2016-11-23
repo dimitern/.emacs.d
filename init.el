@@ -1,64 +1,20 @@
 ;; init.el: Emacs configuration of Dimiter Naydenov.
 ;;
 
-;; Save the original GC threshold to restore it later.
-(defvar dimitern/gc-cons-threshold gc-cons-threshold
-  "Original gc-cons-threshold value.")
-;; Increse GC threshold to speed up init loading.
-(setq gc-cons-threshold most-positive-fixnum)
+;; Added by package.el.
+;(package-initialize)
 
-;; Debugging & load-time diagnostics.
-(add-hook 'after-init-hook (lambda ()
-			     (message "Time to load init file: %s"
-				      (emacs-init-time))
-			     (setq gc-cons-threshold dimitern/gc-cons-threshold)))
+(load "~/.emacs.d/lisp/dimitern-packaging.el" 'no-error)
 
-;; Initialize package, which also sets load-path, needed before setting the
-;; package-archives below.
-(require 'package)
-(package-initialize)
-
-(setq
+(validate-setq
  ;; User Info
  user-full-name "Dimiter Naydenov"
  user-mail-address "dimiter@naydenov.net"
- ;; Packaging
- load-prefer-newer t              ; don't load outdated byte code.
- package-enable-at-startup nil    ; don't activate installed packages.
- package-archives (append package-archives
-			  '(("melpa" . "http://melpa.org/packages/")
-			    ("gnu" . "http://elpa.gnu.org/packages/")
-			    ("elpy" . "http://jorgenschaefer.github.io/packages/")))
- ;; use-package - log what gets loaded.
- use-package-verbose t
- use-package-always-pin "melpa"  ;; prefer MELPA latest.
- use-package-minimum-reported-time 0.05
- ;; Increase the number of lines in the *Messages* buffer to help debugging init
- ;; issues.
- message-log-max 10000
- ;; Do not load site file.
- site-run-file nil
  )
-
-;; Install use-package if necessary
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-
-;; Enable use-package
-(eval-when-compile
-  (require 'use-package))
-(require 'diminish)                ;; if you use :diminish
-(require 'bind-key)                ;; if you use any :bind variant
 
 ;; dimitern-os: OS-specific helper functions.
 (use-package dimitern-os
   :load-path "lisp/")
-
-;; validate: provides (validate-setq)
-(use-package validate
-  :pin gnu
-  :ensure t)
 
 ;; hydra: bindings that stick.
 (use-package hydra
@@ -147,21 +103,3 @@
 ;; face-remap: face remapping (text scaling)
 (use-package face-remap
   :bind (("C-c w z" . text-scale-adjust)))
-
-;; paradox: better package manager.
-(use-package paradox
-  :ensure t
-  :bind (("C-c a p" . paradox-list-packages)
-         ("C-c a P" . paradox-upgrade-packages))
-  :config
-  (validate-setq
-   paradox-execute-asynchronously nil   ; No async update, please
-   paradox-spinner-type 'moon           ; Fancy spinner
-   ;; Show all possible counts
-   paradox-display-download-count t
-   paradox-display-star-count t
-   ;; Don't star automatically
-   paradox-automatically-star nil
-   ;; Hide download button, and wiki packages
-   paradox-use-homepage-buttons nil     ; Can type v instead
-   paradox-hide-wiki-packages t))

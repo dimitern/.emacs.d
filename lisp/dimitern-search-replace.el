@@ -21,9 +21,7 @@
 
 ;; anzu: position/matches count for isearch.
 (use-package anzu
-  :ensure t
-  :init
-  (global-anzu-mode)
+  :defer t
   :bind
   (([remap query-replace] . anzu-query-replace)
    ([remap query-replace-regexp] . anzu-query-replace-regexp)
@@ -34,22 +32,23 @@
   (validate-setq
    anzu-cons-mode-line-p nil
    )
+  (global-anzu-mode)
   :diminish anzu-mode)
 
 ;; swiper: isearch with overview.
 (use-package swiper
-  :ensure t
+  :defer t
   :bind (([remap isearch-forward] . swiper)))
 
 ;; visual-regexp: regexp replace with in-buffer display.
 (use-package visual-regexp
-  :ensure t
+  :defer t
   :bind (("C-c s r" . vr/query-replace)
          ("C-c s R" . vr/replace)))
 
 ;; ag: the silver searcher (grep on steroids)
 (use-package ag
-  :ensure t
+  :defer t
   :config
   (validate-setq
    ag-highlight-search t

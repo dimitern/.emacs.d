@@ -21,6 +21,7 @@
 
 ;; anzu: position/matches count for isearch.
 (use-package anzu
+  :ensure t
   :defer t
   :bind
   (([remap query-replace] . anzu-query-replace)

@@ -36,6 +36,7 @@
      ;; Prettify hydra entry points
      ("/body\\'"       . "|=")
      ;; Drop/shorten package prefixes
+     ("dimitern-"      . "")
      ("magit-"         . "ma-")))
 
   (which-key-declare-prefixes
@@ -141,14 +142,17 @@ mouse-3: go to end"))))
 (use-package counsel
   :ensure t
   :bind (([remap execute-extended-command] . counsel-M-x)
-         ([remap find-file] . counsel-find-file)
-         ([remap describe-function] . counsel-describe-function)
-         ([remap describe-variable] . counsel-describe-variable)
-         ([remap info-lookup-symbol] . counsel-info-lookup-symbol)
-         ("C-c f L" . counsel-load-library)
-         ("C-c i 8" . counsel-unicode-char)
-         ("C-c s a" . counsel-ag)
-         ("C-c j t" . counsel-imenu)))
+         ([remap find-file]                . counsel-find-file)
+         ([remap describe-function]        . counsel-describe-function)
+         ([remap describe-variable]        . counsel-describe-variable)
+         ([remap info-lookup-symbol]       . counsel-info-lookup-symbol)
+	 ([remap completion-at-point]      . counsel-company)
+         ("C-c f L"                        . counsel-load-library)
+	 ("C-c f r"                        . counsel-recentf)
+         ("C-c i 8"                        . counsel-unicode-char)
+         ("C-c s a"                        . counsel-ag)
+	 ("C-c g L"                        . counsel-git-log)
+         ("C-c j t"                        . counsel-imenu)))
 
 (defun dimitern-help/minibuffer-setup-hook ()
   "Disable GC while the minibuffer is active, reset on close."

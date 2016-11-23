@@ -87,8 +87,7 @@ Add this to `kill-buffer-query-functions'."
 (use-package uniquify
   :config
   (validate-setq
-   uniquify-buffer-name-style 'forward
-   ))
+   uniquify-buffer-name-style 'forward))
 
 ;; ibuffer: better buffer list.
 (use-package ibuffer

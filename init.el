@@ -46,6 +46,10 @@
 (use-package dimitern-buffers
   :load-path "lisp/")
 
+;; dimitern-windows: global window-related config.
+(use-package dimitern-windows
+  :load-path "lisp/")
+
 ;; dimitern-modes: global modes config.
 (use-package dimitern-modes
   :load-path "lisp/")

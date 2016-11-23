@@ -82,5 +82,49 @@ Add this to `kill-buffer-query-functions'."
   "Kill the current buffer."
   (interactive)
   (kill-buffer (current-buffer)))
- 
+
+;; uniquify: make buffer names unique.
+(use-package uniquify
+  :config
+  (validate-setq
+   uniquify-buffer-name-style 'forward
+   ))
+
+;; ibuffer: better buffer list.
+(use-package ibuffer
+  :bind (([remap list-buffers] . ibuffer))
+  ;; Show VC Status in ibuffer
+  :config
+  (validate-setq
+   ibuffer-formats
+   '((mark modified read-only vc-status-mini " "
+           (name 18 18 :left :elide)
+           " "
+           (size 9 -1 :right)
+           " "
+           (mode 16 16 :left :elide)
+           " "
+           (vc-status 16 16 :left)
+           " "
+           filename-and-process)
+     (mark modified read-only " "
+           (name 18 18 :left :elide)
+           " "
+           (size 9 -1 :right)
+           " "
+           (mode 16 16 :left :elide)
+           " " filename-and-process)
+     (mark " " (name 16 -1) " " filename))))
+
+;; ibuffer-vc: group buffers by VC project and status.
+(use-package ibuffer-vc
+  :ensure t
+  :defer t
+  :init
+  (add-hook 'ibuffer-hook
+	    (lambda ()
+	      (ibuffer-vc-set-filter-groups-by-vc-root)
+	      (unless (eq ibuffer-sorting-mode 'alphabetic)
+		(ibuffer-do-sort-by-alphabetic)))))
+
 (provide 'dimitern-buffers)

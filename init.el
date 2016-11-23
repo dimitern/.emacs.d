@@ -18,8 +18,10 @@
 
 ;; dimitern-spaceline: spaceline and powerline config.
 (use-package dimitern-spaceline
-  :init
+  :config
   (add-hook 'after-init-hook #'dimitern-spaceline/emacs-theme)
+  (when (not (display-graphic-p))
+    (dimitern-spaceline/emacs-theme))
   :load-path "lisp/")
 
 ;; dimitern-startup: startup config.

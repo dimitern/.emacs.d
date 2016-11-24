@@ -35,20 +35,19 @@
        (dimitern-os/is-darwin))
   :ensure t
   :init
-  (setq
-   color-themes '()
-   font-use-system-font t ;; needed for fonts installation to work.
-   solarized-termcolors 256
-   )
+  (load-theme 'solarized-dark 'no-confirm 'no-enable)
   (unless (member dimitern-theme/font-family (font-family-list))
     ;; Font installation only works on Linux.
     (unless (dimitern-os/is-darwin)
       (dimitern-theme/install-font)
       (add-to-list 'initial-frame-alist (cons 'font (dimitern-theme/font)))
       (add-to-list 'default-frame-alist (cons 'font (dimitern-theme/font)))))
-  (customize-set-variable 'frame-background-mode 'dark)
-  (load-theme 'solarized-dark 'no-confirm 'no-enable)
   :config
+  (validate-setq
+   font-use-system-font t ;; needed for fonts installation to work.
+   solarized-termcolors 256
+   )
+  (customize-set-variable 'frame-background-mode 'dark)
   (enable-theme 'solarized-dark))
 
 (provide 'dimitern-theme)

@@ -6,7 +6,7 @@
  '(frame-background-mode (quote dark))
  '(package-selected-packages
    (quote
-    (stripe-buffer beacon page-break-lines yaml-mode swiper wgrep-ag ag hydra visual-regexp anzu paradox counsel ivy-hydra ivy spaceline which-key exec-path-from-shell validate solarized-theme use-package)))
+    (golden-ratio ace-window ibuffer-vc focus-autosave-mode stripe-buffer beacon page-break-lines yaml-mode swiper wgrep-ag ag hydra visual-regexp anzu paradox counsel ivy-hydra ivy spaceline which-key exec-path-from-shell validate solarized-theme use-package)))
  '(paradox-github-token t)
  '(solarized-termcolors 256 t))
 (custom-set-faces

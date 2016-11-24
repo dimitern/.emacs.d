@@ -45,7 +45,6 @@
 
 ;; dimitern-buffers: global buffer-related config.
 (use-package dimitern-buffers
-  :defer 0.5
   :load-path "lisp/")
 
 ;; dimitern-windows: global window-related config.

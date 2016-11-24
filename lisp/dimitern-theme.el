@@ -1,6 +1,6 @@
 ;; dimitern-theme.el: Emacs theme and fonts setup.
 ;;
- 
+
 ;; Default font (FIXME: only works on Ubuntu).
 (defvar dimitern-theme/font-family "Input Mono"
   "Font family for the theme.")
@@ -31,7 +31,7 @@
 (defvar dimitern-theme/theme nil
   "Selected default theme depending on system-type.")
 
-(defun dimitern-theme/load-default ()
+(defun dimitern-theme/load-default () 
   "Load the default theme, depending on system-type."
   (if (dimitern-os/is-darwin)
       ;; solarized-light for darwih, with bigger font size.

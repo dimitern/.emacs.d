@@ -3,6 +3,7 @@
 
 (use-package exec-path-from-shell
   :ensure t
+  :defer 1
   :unless (dimitern-os/is-darwin)
   :config
   (validate-setq

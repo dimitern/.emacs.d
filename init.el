@@ -18,10 +18,12 @@
 
 ;; dimitern-spaceline: spaceline and powerline config.
 (use-package dimitern-spaceline
+  :init
+  (add-hook 'emacs-startup-hook #'dimitern-spaceline/emacs-theme)
+  ;; This is also necessary to fix powerline in terminal mode.
   :config
-  (add-hook 'after-init-hook #'dimitern-spaceline/emacs-theme)
-  (when (not (display-graphic-p))
-    (dimitern-spaceline/emacs-theme))
+  (unless (display-graphic-p)
+    (add-hook 'tty-setup-hook #'dimitern-spaceline/emacs-theme))
   :load-path "lisp/")
 
 ;; dimitern-startup: startup config.

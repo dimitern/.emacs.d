@@ -77,7 +77,6 @@ Add this to `kill-buffer-query-functions'."
   (add-hook 'kill-buffer-query-functions
             #'dimitern-buffers/do-not-kill-important))
 
-;;;###autoload
 (defun dimitern-buffers/kill-this ()
   "Kill the current buffer."
   (interactive)

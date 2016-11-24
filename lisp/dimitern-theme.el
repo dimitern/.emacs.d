@@ -1,6 +1,6 @@
 ;; dimitern-theme.el: Emacs theme and fonts setup.
 ;;
-
+ 
 ;; Default font (FIXME: only works on Ubuntu).
 (defvar dimitern-theme/font-family "Input Mono"
   "Font family for the theme.")
@@ -28,24 +28,38 @@
 	(message "dimitern: Rebuilding fonts cache...")
 	(shell-command (format "fc-cache -r %s" home-font-dir)))))
 
-;; Install and enable solarized dark theme, installling font if needed.
-(use-package solarized-theme
-  :if (or
-       (display-graphic-p)
-       (dimitern-os/is-darwin))
-  :ensure t
-  :init
-  (load-theme 'solarized-dark 'no-confirm 'no-enable)
-  (unless (member dimitern-theme/font-family (font-family-list))
-    ;; Font installation only works on Linux.
-    (unless (dimitern-os/is-darwin)
+(defvar dimitern-theme/theme nil
+  "Selected default theme depending on system-type.")
+
+(defun dimitern-theme/load-default ()
+  "Load the default theme, depending on system-type."
+  (if (dimitern-os/is-darwin)
+      ;; solarized-light for darwih, with bigger font size.
+      (progn
+	(load-theme 'solarized-light 'no-confirm 'no-enable)
+	(customize-set-variable 'frame-background-mode 'light)
+	(setq dimitern-theme/theme 'solarized-light)
+	(set-face-attribute 'default nil :height (* 10 (frame-char-height))))
+    ;; solarized-dark for linux.
+    (load-theme 'solarized-dark 'no-confirm 'no-enable)
+    (validate-setq
+     dimitern-theme/theme 'solarized-dark
+     ;; Needed for fonts installation to work.
+     font-use-system-font t
+     )
+    ;; Install font if needed (linux only).
+    (unless (member dimitern-theme/font-family (font-family-list))
+      ;; Font installation only works on Linux.
       (dimitern-theme/install-font)
       (add-to-list 'initial-frame-alist (cons 'font (dimitern-theme/font)))
-      (add-to-list 'default-frame-alist (cons 'font (dimitern-theme/font)))))
+      (add-to-list 'default-frame-alist (cons 'font (dimitern-theme/font))))))
+
+;; Solarized theme config.
+(use-package solarized-theme
+  :defer 0.1
   :config
+  (dimitern-theme/load-default)
   (validate-setq
-   ;; Needed for fonts installation to work.
-   font-use-system-font t
    ;; Disable variable pitch fonts in Solarized theme
    solarized-use-variable-pitch nil
    ;; Prefer italics over bold.
@@ -54,7 +68,6 @@
    ;; Emphasize docstrings.
    solarized-distinct-doc-face t
    )
-  (customize-set-variable 'frame-background-mode 'dark)
-  (enable-theme 'solarized-dark))
+  (enable-theme dimitern-theme/theme))
 
 (provide 'dimitern-theme)

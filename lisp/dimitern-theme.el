@@ -44,8 +44,15 @@
       (add-to-list 'default-frame-alist (cons 'font (dimitern-theme/font)))))
   :config
   (validate-setq
-   font-use-system-font t ;; needed for fonts installation to work.
-   solarized-termcolors 256
+   ;; Needed for fonts installation to work.
+   font-use-system-font t
+   ;; Disable variable pitch fonts in Solarized theme
+   solarized-use-variable-pitch nil
+   ;; Prefer italics over bold.
+   solarized-use-less-bold t
+   solarized-use-more-italic t
+   ;; Emphasize docstrings.
+   solarized-distinct-doc-face t
    )
   (customize-set-variable 'frame-background-mode 'dark)
   (enable-theme 'solarized-dark))

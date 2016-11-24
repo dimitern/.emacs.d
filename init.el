@@ -65,7 +65,7 @@
 
 ;; dimitern-help: which-key, which-func, ivy, counsel, etc.
 (use-package dimitern-help
-  :defer 1
+  :defer 0.5
   :load-path "lisp/")
 
 ;; dimitern-search-replace: isearch, anzu, wgrep, ag, visual-regexp,

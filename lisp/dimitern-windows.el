@@ -1,17 +1,55 @@
 ;; dimitern-windows.el: additional window system config and helpers.
 ;;
 
-;; Standard window commands
-(bind-key "C-c w =" #'balance-windows)
-(bind-key "C-c w k" #'delete-window)
-(bind-key "C-c w /" #'split-window-right)
-(bind-key "C-c w -" #'split-window-below)
-(bind-key "C-c w m" #'delete-other-windows)
+(defun dimitern-windows/find-side-windows (&optional side)
+  "Get all side window if any.
+If SIDE is non-nil only get windows on that side."
+  (let (windows)
+    (walk-window-tree
+     (lambda (window)
+       (let ((window-side (window-parameter window 'window-side)))
+         (when (and window-side (or (not side) (eq window-side side)))
+           (push window windows)))))
+    windows))
 
-;; Additional custom bindings.
-(bind-key "C-c w q" #'dimitern-windows/quit-all-side-windows)
-(bind-key "C-c w d" #'dimitern-windows/toggle-current-window-dedication)
-(bind-key "C-c w b" #'dimitern-windows/switch-to-minibuffer-window)
+(defun dimitern-windows/quit-all-side-windows ()
+  "Quit all side windows of the current frame."
+  (interactive)
+  (dolist (window (dimitern-windows/find-side-windows))
+    (when (window-live-p window)
+      (quit-window nil window)
+      ;; When the window is still live, delete it
+      (when (window-live-p window)
+        (delete-window window)))))
+
+(defun dimitern-windows/switch-to-minibuffer-window ()
+  "Switch to current minibuffer window (if active)."
+  (interactive)
+  (when (active-minibuffer-window)
+    (select-window (active-minibuffer-window))))
+
+(defun dimitern-windows/toggle-current-window-dedication ()
+  "Toggle dedication state of a window."
+  (interactive)
+  (let* ((window    (selected-window))
+         (dedicated (window-dedicated-p window)))
+    (set-window-dedicated-p window (not dedicated))
+    (message "Window %sdedicated to %s"
+             (if dedicated "no longer " "")
+             (buffer-name))))
+
+(use-package default
+  :bind
+  ;; Standard window commands
+  (("C-c w =" . balance-window)
+   ("C-c w k" . delete-window)
+   ("C-c w /" . split-window-right)
+   ("C-c w -" . split-window-below)
+   ("C-c w m" . delete-other-windows)
+   ;; Additional custom bindings.   
+   ("C-c w q" . dimitern-windows/quit-all-side-windows)
+   ("C-c w d" . dimitern-windows/toggle-current-window-dedication)
+   ("C-c w b" . dimitern-windows/switch-to-minibuffer-window)))
 
 ;; windmove: move between windows with Shift+Arrow.
 (use-package windmove
@@ -75,45 +113,5 @@
   (validate-setq
    ediff-window-setup-function #'ediff-setup-windows-plain
    ediff-split-window-function #'split-window-horizontally))
-
-(defun dimitern-windows/find-side-windows (&optional side)
-  "Get all side window if any.
-If SIDE is non-nil only get windows on that side."
-  (let (windows)
-    (walk-window-tree
-     (lambda (window)
-       (let ((window-side (window-parameter window 'window-side)))
-         (when (and window-side (or (not side) (eq window-side side)))
-           (push window windows)))))
-    windows))
-
-;;;###autoload
-(defun dimitern-windows/quit-all-side-windows ()
-  "Quit all side windows of the current frame."
-  (interactive)
-  (dolist (window (dimitern-windows/find-side-windows))
-    (when (window-live-p window)
-      (quit-window nil window)
-      ;; When the window is still live, delete it
-      (when (window-live-p window)
-        (delete-window window)))))
-
-;;;###autoload
-(defun dimitern-windows/switch-to-minibuffer-window ()
-  "Switch to current minibuffer window (if active)."
-  (interactive)
-  (when (active-minibuffer-window)
-    (select-window (active-minibuffer-window))))
-
-;;;###autoload
-(defun dimitern-windows/toggle-current-window-dedication ()
-  "Toggle dedication state of a window."
-  (interactive)
-  (let* ((window    (selected-window))
-         (dedicated (window-dedicated-p window)))
-    (set-window-dedicated-p window (not dedicated))
-    (message "Window %sdedicated to %s"
-             (if dedicated "no longer " "")
-             (buffer-name))))
 
 (provide 'dimitern-windows)

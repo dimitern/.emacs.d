@@ -48,15 +48,18 @@
      font-use-system-font t
      )
     ;; Install font if needed (linux only).
-    (unless (member dimitern-theme/font-family (font-family-list))
-      ;; Font installation only works on Linux.
-      (dimitern-theme/install-font)
-      (add-to-list 'initial-frame-alist (cons 'font (dimitern-theme/font)))
-      (add-to-list 'default-frame-alist (cons 'font (dimitern-theme/font))))))
+    (if (member dimitern-theme/font-family (font-family-list))
+	t
+      (when (display-graphic-p)
+	;; Font installation only works on Linux.
+	(dimitern-theme/install-font)
+	(add-to-list 'initial-frame-alist (cons 'font (dimitern-theme/font)))
+	(add-to-list 'default-frame-alist (cons 'font (dimitern-theme/font)))))))
 
 ;; Solarized theme config.
 (use-package solarized-theme
-  :defer 0.1
+  :ensure t
+  :after frame
   :config
   (dimitern-theme/load-default)
   (validate-setq

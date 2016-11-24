@@ -11,7 +11,10 @@
 (add-hook 'after-init-hook (lambda ()
 			     (message "Time to load init file: %s"
 				      (emacs-init-time))
-			     (setq gc-cons-threshold dimitern/gc-cons-threshold)))
+			     (setq
+			      gc-cons-threshold dimitern/gc-cons-threshold
+			      use-package-verbose nil
+			      )))
 
 (defun dimitern-help/minibuffer-setup-hook ()
   "Disable GC while the minibuffer is active, reset on close."

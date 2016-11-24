@@ -9,13 +9,13 @@
 (use-package which-key
   :ensure t
   :init
+  ;; Use a popup at the frame bottom. 
+  (which-key-setup-side-window-bottom)
   (which-key-mode)
+  :config
   ;; Show current line/column number in mode-line.
   (line-number-mode)
   (column-number-mode)
-  :config
-  ;; Use a popup at the frame bottom. 
-  (which-key-setup-side-window-bottom)
   (validate-setq
    which-key-idle-delay 0.4
    which-key-sort-order 'which-key-prefix-then-key-order
@@ -153,15 +153,5 @@ mouse-3: go to end"))))
          ("C-c s a"                        . counsel-ag)
 	 ("C-c g L"                        . counsel-git-log)
          ("C-c j t"                        . counsel-imenu)))
-
-(defun dimitern-help/minibuffer-setup-hook ()
-  "Disable GC while the minibuffer is active, reset on close."
-  (setq gc-cons-threshold most-positive-fixnum))
-(add-hook 'minibuffer-setup-hook #'dimitern-help/minibuffer-setup-hook)
-
-(defun dimitern-help/minibuffer-exit-hook ()
-  "Enable GC on exiting the minibuffer."
-  (setq gc-cons-threshold dimitern/gc-cons-threshold))
-(add-hook 'minibuffer-exit-hook #'dimitern-help/minibuffer-exit-hook)
 
 (provide 'dimitern-help)

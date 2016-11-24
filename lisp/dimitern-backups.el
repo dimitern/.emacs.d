@@ -5,7 +5,7 @@
 (validate-setq
  ;; Put all backups, autosaves in one place.
  backup-directory-alist '(("." . "~/.emacs.d/backups"))
- auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t))
+ auto-save-file-name-transforms '((".*" "~/.emacs.d/autosaves" t))
  ;; Make backups, including for VC-managed files.
  make-backup-files t
  vc-make-backup-files t

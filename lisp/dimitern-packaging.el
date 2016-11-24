@@ -13,6 +13,16 @@
 				      (emacs-init-time))
 			     (setq gc-cons-threshold dimitern/gc-cons-threshold)))
 
+(defun dimitern-help/minibuffer-setup-hook ()
+  "Disable GC while the minibuffer is active, reset on close."
+  (setq gc-cons-threshold most-positive-fixnum))
+(add-hook 'minibuffer-setup-hook #'dimitern-help/minibuffer-setup-hook)
+
+(defun dimitern-help/minibuffer-exit-hook ()
+  "Enable GC on exiting the minibuffer."
+  (setq gc-cons-threshold dimitern/gc-cons-threshold))
+(add-hook 'minibuffer-exit-hook #'dimitern-help/minibuffer-exit-hook)
+
 ;; This sets load-path, needed before setting the package-archives
 ;; below.
 (package-initialize)
@@ -29,7 +39,7 @@
  ;; use-package: log what gets loaded and pin to MELPA by default.
  use-package-verbose t
  use-package-always-pin "melpa"  ;; prefer MELPA latest.
- use-package-minimum-reported-time 0.05
+ use-package-minimum-reported-time 0.1
  ;; Increase the number of lines in the *Messages* buffer to help debugging init
  ;; issues.
  message-log-max 10000

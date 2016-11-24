@@ -21,7 +21,6 @@
   :init
   (add-hook 'emacs-startup-hook #'dimitern-spaceline/emacs-theme)
   ;; This is also necessary to fix powerline in terminal mode.
-  :config
   (unless (display-graphic-p)
     (add-hook 'tty-setup-hook #'dimitern-spaceline/emacs-theme))
   :load-path "lisp/")
@@ -66,6 +65,7 @@
 
 ;; dimitern-help: which-key, which-func, ivy, counsel, etc.
 (use-package dimitern-help
+  :defer 1
   :load-path "lisp/")
 
 ;; dimitern-search-replace: isearch, anzu, wgrep, ag, visual-regexp,

@@ -4,17 +4,16 @@
 ;; Added by package.el.
 ;(package-initialize)
 
-(load "~/.emacs.d/lisp/dimitern-packaging.el" 'no-error)
+(load "~/.emacs.d/lisp/dimitern-packaging.el" 'no-error 'no-message)
 
 ;; dimitern-os: OS-specific helper functions.
 (use-package dimitern-os
   :load-path "lisp/")
-;; Using load to minimize statup time.
-(byte-recompile-file
- "~/.emacs.d/lisp/dimitern-theme.el"
- nil ;; Don't force if up-to-date.
- 0
- 'load)
+
+;; To minimize startup time, and because theme config rarely change, byte
+;; compile it, if the .elc is missing or not up-to-date.
+(byte-recompile-file "~/.emacs.d/lisp/dimitern-theme.el" nil 0)
+(load "~/.emacs.d/lisp/dimitern-theme.el" 'no-error 'no-message)
 
 (validate-setq
  ;; User Info

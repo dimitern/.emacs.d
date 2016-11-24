@@ -1,5 +1,6 @@
 # Transient paths
-auto-save-list/
+backups/
+autosaves/
 url/cookies
 url/cache
 .cache
@@ -13,6 +14,7 @@ ac-comphist.dat
 *~
 savehist
 recentf
+tramp
 
 # Compiled
 *.elc

@@ -6,19 +6,25 @@
 
 (load "~/.emacs.d/lisp/dimitern-packaging.el" 'no-error)
 
+;; dimitern-os: OS-specific helper functions.
+(use-package dimitern-os
+  :load-path "lisp/")
+;; Using load to minimize statup time.
+(byte-recompile-file
+ "~/.emacs.d/lisp/dimitern-theme.el"
+ nil ;; Don't force if up-to-date.
+ 0
+ 'load)
+
 (validate-setq
  ;; User Info
  user-full-name "Dimiter Naydenov"
  user-mail-address "dimiter@naydenov.net"
  )
 
-;; dimitern-os: OS-specific helper functions.
-(use-package dimitern-os
-  :load-path "lisp/")
-
 ;; dimitern-spaceline: spaceline and powerline config.
 (use-package dimitern-spaceline
-  :init
+  :config
   (add-hook 'emacs-startup-hook #'dimitern-spaceline/emacs-theme)
   ;; This is also necessary to fix powerline in terminal mode.
   (unless (display-graphic-p)
@@ -55,10 +61,6 @@
 (use-package dimitern-modes
   :load-path "lisp/")
 
-;; dimitern-theme: theme setup (solarized dark).
-(use-package dimitern-theme
-  :load-path "lisp/")
-
 ;; exec-path-from-shell: set shell environment variables.
 (use-package dimitern-exec-path-from-shell
   :load-path "lisp/")
@@ -71,4 +73,5 @@
 ;; dimitern-search-replace: isearch, anzu, wgrep, ag, visual-regexp,
 ;; swiper.
 (use-package dimitern-search-replace
+  :defer 0.5
   :load-path "lisp/")

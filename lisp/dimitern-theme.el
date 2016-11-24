@@ -1,6 +1,7 @@
 ;; dimitern-theme.el: Emacs theme and fonts setup.
 ;;
 
+
 ;; Default font (FIXME: only works on Ubuntu).
 (defvar dimitern-theme/font-family "Input Mono"
   "Font family for the theme.")
@@ -20,13 +21,13 @@
 
 (defun dimitern-theme/install-font ()
   "Install default font when missing."
-    (let ((home-font-dir (format "~/.%s" dimitern-theme/font-dir))
-	  (emacs-font-dir (format "~/.emacs.d/%s" dimitern-theme/font-dir)))
-      (when (not (member dimitern-theme/font-family (font-family-list)))
-	(message (format "dimitern: Installing fonts in '%s'" dimitern-theme/font-dir))
-	(shell-command (format "cp -R %s %s" emacs-font-dir home-font-dir))
-	(message "dimitern: Rebuilding fonts cache...")
-	(shell-command (format "fc-cache -r %s" home-font-dir)))))
+  (let ((home-font-dir (format "~/.%s" dimitern-theme/font-dir))
+	(emacs-font-dir (format "~/.emacs.d/%s" dimitern-theme/font-dir)))
+    (when (not (member dimitern-theme/font-family (font-family-list)))
+      (message (format "dimitern: Installing fonts in '%s'" dimitern-theme/font-dir))
+      (shell-command (format "cp -R %s %s" emacs-font-dir home-font-dir))
+      (message "dimitern: Rebuilding fonts cache...")
+      (shell-command (format "fc-cache -r %s" home-font-dir)))))
 
 (defvar dimitern-theme/theme nil
   "Selected default theme depending on system-type.")
@@ -60,7 +61,7 @@
 (use-package solarized-theme
   :ensure t
   :after frame
-  :config
+  :config  
   (dimitern-theme/load-default)
   (validate-setq
    ;; Disable variable pitch fonts in Solarized theme

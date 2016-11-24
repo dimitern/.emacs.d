@@ -4,58 +4,64 @@
 ;; page-break-lines: turn page breaks (^L) into lines.
 (use-package page-break-lines
   :ensure t
-  :after frame
-  :init
+  :defer 1
+  :config
   (global-page-break-lines-mode)
   :diminish page-break-lines-mode)
 
 ;; beacon: highlight cursor position in buffer (when switching).
 (use-package beacon
   :ensure t
-  :after frame
-  :init
+  :defer 1
+  :config
   (beacon-mode 1)
   :diminish beacon-mode)
 
 ;; hl-line: highlight the current line in buffer.
 (use-package hl-line
-  :after frame
-  :init
+  :defer 1
+  :config
   (global-hl-line-mode 1))
 
 ;; stripe-buffer: add stripes to buffers (lists).
 (use-package stripe-buffer
   :ensure t
-  :after frame
-  :init
+  :defer 1
+  :config
   (add-hook 'dired-mode-hook #'stripe-buffer-mode))
 
 ;; focus-autosave-mode: save buffers when focus is lost.
 (use-package focus-autosave-mode
   :ensure t
-  :after frame
-  :init
+  :defer 1
+  :config
   (focus-autosave-mode)
   :diminish focus-autosave-mode)
-
-;; Don't kill the important buffers
-(defconst dimitern-buffers/do-not-kill-names '("*scratch*" "*Messages*")
-  "Names of buffers that should not be killed.")
-
-(defun dimitern-buffers/do-not-kill-important ()
-  "Inhibit killing of important buffers.
-Add this to `kill-buffer-query-functions'."
-  (if (not (member (buffer-name) dimitern-buffers/do-not-kill-names))
-      t
-    (message "Not allowed to kill %s, burying instead" (buffer-name))
-    (bury-buffer)
-    nil))
 
 (use-package minibuffer
   :bind (("C-c b k" . dimitern-buffers/kill-this))
   :config
   (add-hook 'kill-buffer-query-functions
             #'dimitern-buffers/do-not-kill-important)
+
+  ;; Don't kill the important buffers
+  (defconst dimitern-buffers/do-not-kill-names '("*scratch*" "*Messages*")
+    "Names of buffers that should not be killed.")
+  
+  (defun dimitern-buffers/do-not-kill-important ()
+    "Inhibit killing of important buffers.
+Add this to `kill-buffer-query-functions'."
+    (if (not (member (buffer-name) dimitern-buffers/do-not-kill-names))
+	t
+      (message "Not allowed to kill %s, burying instead" (buffer-name))
+      (bury-buffer)
+      nil))
+
+  (defun dimitern-buffers/kill-this ()
+    "Kill the current buffer."
+    (interactive)
+    (kill-buffer (current-buffer)))
+  
   ;; Configure `display-buffer' behaviour for some special buffers.
   (validate-setq
    display-buffer-alist
@@ -81,16 +87,12 @@ Add this to `kill-buffer-query-functions'."
      ;; later entry with more specific actions.
      ("." nil (reusable-frames . visible)))))
 
-(defun dimitern-buffers/kill-this ()
-  "Kill the current buffer."
-  (interactive)
-  (kill-buffer (current-buffer)))
-
 ;; uniquify: make buffer names unique.
 (use-package uniquify
+  :defer 1
   :config
   (validate-setq
-   uniquify-buffer-name-style 'forward))
+   uniquify-buffer-name-style 'forward)) 
 
 ;; ibuffer: better buffer list.
 (use-package ibuffer
@@ -122,7 +124,7 @@ Add this to `kill-buffer-query-functions'."
 (use-package ibuffer-vc
   :ensure t
   :after ibuffer
-  :init
+  :config
   (add-hook 'ibuffer-hook
 	    (lambda ()
 	      (ibuffer-vc-set-filter-groups-by-vc-root)

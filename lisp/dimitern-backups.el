@@ -30,8 +30,8 @@
   (validate-setq
    savehist-file "~/.emacs.d/savehist"
    use-dialog-box nil
-   history-length t
-   history-delete-duplicates t
+   history-length t			; unlimited length.
+   history-delete-duplicates t		; no duplicates saved.
    savehist-save-minibuffer-history t
    savehist-additional-variables
    '(kill-ring

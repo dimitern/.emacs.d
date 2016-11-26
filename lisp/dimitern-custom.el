@@ -1,7 +1,7 @@
 ;; dimitern-custom.el: Easy Customization config.
 ;;
 
-(defconst dimitern-custom-file (locate-user-emacs-file "custom.el")
+(defconst dimitern-custom-file (locate-user-emacs-file "custom")
   "File used to store settings from Easy Customization UI.")
 
 (use-package cus-edit
@@ -18,7 +18,7 @@
    custom-unlispify-menu-entries nil
    )
   :init
-  (load dimitern-custom-file 'no-error 'no-message)
+  (load dimitern-custom-file 'no-error)
   )
 
 (provide 'dimitern-custom)

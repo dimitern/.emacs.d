@@ -4,73 +4,61 @@
 ;; Added by package.el.
 ;(package-initialize)
 
-(load "~/.emacs.d/lisp/dimitern-packaging.el" 'no-error 'no-message)
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
+(load "dimitern-packaging")
 
 ;; dimitern-os: OS-specific helper functions.
-(use-package dimitern-os
-  :load-path "lisp/")
-
-;; To minimize startup time, and because theme config rarely change, byte
-;; compile it, if the .elc is missing or not up-to-date.
-(byte-recompile-file "~/.emacs.d/lisp/dimitern-theme.el" nil 0)
-(load "~/.emacs.d/lisp/dimitern-theme.el" 'no-error 'no-message)
+(load "dimitern-os")
 
 (validate-setq
  ;; User Info
  user-full-name "Dimiter Naydenov"
  user-mail-address "dimiter@naydenov.net"
- )
+  )
+
+;; dimitern-theme: solarized theme config.
+(load "dimitern-theme")
 
 ;; dimitern-spaceline: spaceline and powerline config.
 (use-package dimitern-spaceline
-  :config
+  :init
   (add-hook 'emacs-startup-hook #'dimitern-spaceline/emacs-theme)
   ;; This is also necessary to fix powerline in terminal mode.
   (unless (display-graphic-p)
     (add-hook 'tty-setup-hook #'dimitern-spaceline/emacs-theme))
-  :load-path "lisp/")
+  )
 
 ;; dimitern-startup: startup config.
-(use-package dimitern-startup
-  :load-path "lisp/")
+(use-package dimitern-startup)
 
 ;; dimitern-backups: backups/autosaves config. 
-(use-package dimitern-backups
-  :load-path "lisp/")
+(use-package dimitern-backups)
 
 ;; dimitern-clipboard: clipboard-related config.
-(use-package dimitern-clipboard
-  :load-path "lisp/")
+(use-package dimitern-clipboard)
 
 ;; dimitern-frames: global frame-related config.
 (use-package dimitern-frames
   :init
-  (add-hook 'after-init-hook #'dimitern-frames/no-bars)
-  :load-path "lisp/")
+  (add-hook 'after-init-hook #'dimitern-frames/no-bars))
 
 ;; dimitern-buffers: global buffer-related config.
-(use-package dimitern-buffers
-  :load-path "lisp/")
+(use-package dimitern-buffers)
 
 ;; dimitern-windows: global window-related config.
-(use-package dimitern-windows
-  :load-path "lisp/")
+(use-package dimitern-windows)
 
 ;; dimitern-modes: global modes config.
-(use-package dimitern-modes
-  :load-path "lisp/")
+(use-package dimitern-modes)
 
 ;; exec-path-from-shell: set shell environment variables.
-(use-package dimitern-exec-path-from-shell
-  :load-path "lisp/")
+(use-package dimitern-exec-path-from-shell)
 
 ;; dimitern-help: which-key, which-func, ivy, counsel, etc.
 (use-package dimitern-help
-  :defer 0.5
-  :load-path "lisp/")
+  :defer 0.5)
 
 ;; dimitern-search-replace: isearch, anzu, wgrep, ag, visual-regexp,
 ;; swiper.
 (use-package dimitern-search-replace
-  :defer 0.5
-  :load-path "lisp/")
+  :defer 1)

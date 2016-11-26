@@ -1,7 +1,6 @@
 ;; dimitern-theme.el: Emacs theme and fonts setup.
 ;;
 
-
 ;; Default font (FIXME: only works on Ubuntu).
 (defvar dimitern-theme/font-family "Input Mono"
   "Font family for the theme.")
@@ -73,5 +72,3 @@
    solarized-distinct-doc-face t
    )
   (enable-theme dimitern-theme/theme))
-
-(provide 'dimitern-theme)

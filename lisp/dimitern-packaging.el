@@ -8,13 +8,12 @@
 (setq gc-cons-threshold most-positive-fixnum)
 
 ;; Debugging & load-time diagnostics.
-(add-hook 'after-init-hook (lambda ()
-			     (message "Time to load init file: %s"
-				      (emacs-init-time))
-			     (setq
-			      gc-cons-threshold dimitern/gc-cons-threshold
-			      use-package-verbose nil
-			      )))
+(add-hook 'after-init-hook
+	  (lambda ()
+	    (message "Time to load init file: %s"
+		     (emacs-init-time))
+	    (setq
+	     gc-cons-threshold dimitern/gc-cons-threshold)))
 
 (defun dimitern-help/minibuffer-setup-hook ()
   "Disable GC while the minibuffer is active, reset on close."
@@ -64,17 +63,19 @@
 ;; auto-compile: automatic byte compilation.
 (use-package auto-compile
   :ensure t
-  :config
-  (auto-compile-on-load-mode))
+  :init
+  (auto-compile-on-load-mode)
+  (auto-compile-on-save-mode))
 
 ;; validate: provides (validate-setq)
 (use-package validate
   :pin gnu
   :ensure t)
-  
+
 ;; paradox: better package manager.
 (use-package paradox
   :ensure t
+  :defer t
   :bind (("C-c a p" . paradox-list-packages)
          ("C-c a P" . paradox-upgrade-packages))
   :config

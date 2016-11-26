@@ -18,8 +18,6 @@
  initial-scratch-message nil
  )
 
-(use-package dimitern-custom
-  :load-path "lisp/"
-  )
+(use-package dimitern-custom)
 
 (provide 'dimitern-startup)

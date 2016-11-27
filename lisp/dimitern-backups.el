@@ -28,6 +28,7 @@ exists, creating it and its parent(s), when it does not exist."
   (validate-setq
    ;; Put all backups, autosaves in one place.
    backup-directory-alist `(("." . ,dimitern/backups-dir))
+   auto-save-file-name-prefix (concat dimitern/autosaves-dir ".saves-")
    auto-save-file-name-transforms `((".*" ,dimitern/autosaves-dir t))
    ;; Make backups, including for VC-managed files.
    make-backup-files t

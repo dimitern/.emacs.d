@@ -2,14 +2,33 @@
 ;; creation.
 ;;
 
+(defconst dimitern/backups-dir (expand-file-name "~/.emacs.d/backups/")
+  "Default directory for backup files.")
+
+(defconst dimitern/autosaves-dir (expand-file-name "~/.emacs.d/autosaves/")
+  "Default directory for auto-saved files.")
+
+(defconst dimitern/history-file (expand-file-name "~/.emacs.d/savehist")
+  "File to use for storing history, recentf, kill ring, etc.")
+
+(defun dimitern/ensure-path (path)
+  "Ensure the directory specified with the given absolute `path'
+exists, creating it and its parent(s), when it does not exist."
+  (unless (file-exists-p path)
+    (make-directory path 'with-parents)))
+
 ;; savehist - minibuffer history.
 (use-package savehist
   :ensure t
-  :preface
+  :init
+  ;; Ensure autosaves and backups directories exist. 
+  (mapc 'dimitern/ensure-path
+	`(,dimitern/backups-dir
+	  ,dimitern/autosaves-dir))
   (validate-setq
    ;; Put all backups, autosaves in one place.
-   backup-directory-alist '(("." . "~/.emacs.d/backups/"))
-   auto-save-file-name-transforms '((".*" "~/.emacs.d/autosaves/" t))
+   backup-directory-alist `(("." . ,dimitern/backups-dir))
+   auto-save-file-name-transforms `((".*" ,dimitern/autosaves-dir t))
    ;; Make backups, including for VC-managed files.
    make-backup-files t
    vc-make-backup-files t
@@ -25,10 +44,10 @@
    backup-by-copying-when-linked t
    backup-by-copying-when-mismatch t
    )
-  :init (savehist-mode 1)
+  (savehist-mode 1)
   :config
   (validate-setq
-   savehist-file "~/.emacs.d/savehist"
+   savehist-file dimitern/history-file
    use-dialog-box nil
    history-length t			; unlimited length.
    history-delete-duplicates t		; no duplicates saved.

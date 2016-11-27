@@ -17,19 +17,29 @@ exists, creating it and its parent(s), when it does not exist."
   (unless (file-exists-p path)
     (make-directory path 'with-parents)))
 
-;; savehist - minibuffer history.
+;; simple (base package) / auto-save (minor mode): automatically
+;; save modified files.
+(use-package simple
+  :defer t				; built-in package; can't require
+  :init
+  (dimitern/ensure-path dimitern/autosaves-dir)
+  (auto-save-mode 1)
+  :config
+  (setq
+   ;; Put all autosaves in one place.
+   auto-save-file-name-prefix (concat dimitern/autosaves-dir ".saves-")
+   auto-save-file-name-transforms `((".*" ,dimitern/autosaves-dir t))))
+  
+;; savehist: save minibuffer, recent files, kill ring, and buffers
+;; history.
 (use-package savehist
   :ensure t
   :init
-  ;; Ensure autosaves and backups directories exist. 
-  (mapc 'dimitern/ensure-path
-	`(,dimitern/backups-dir
-	  ,dimitern/autosaves-dir))
+  ;; Ensure autosaves and backups directories exist.
+  (dimitern/ensure-path dimitern/backups-dir)
   (validate-setq
-   ;; Put all backups, autosaves in one place.
+   ;; Put all backups in one place.
    backup-directory-alist `(("." . ,dimitern/backups-dir))
-   auto-save-file-name-prefix (concat dimitern/autosaves-dir ".saves-")
-   auto-save-file-name-transforms `((".*" ,dimitern/autosaves-dir t))
    ;; Make backups, including for VC-managed files.
    make-backup-files t
    vc-make-backup-files t

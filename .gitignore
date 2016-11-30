@@ -8,6 +8,7 @@ url/cache
 elpa/
 
 # Transient files
+company-statistics-cache.el
 ac-comphist.dat
 \#*
 .\#*

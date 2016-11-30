@@ -51,6 +51,9 @@
 ;; dimitern-navigation: navigation-related config.
 (use-package dimitern-navigation)
 
+;; dimitern-completion: company and related completion config.
+(use-package dimitern-completion)
+
 ;; dimitern-windows: global window-related config.
 (use-package dimitern-windows)
 

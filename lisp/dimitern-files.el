@@ -178,4 +178,177 @@
   ;; Bind analogous to `dired-jump' at C-c f j
   :bind (("C-c f J" . reveal-in-osx-finder)))
 
+;; expand-region:eExpand region by semantic units
+(use-package expand-region
+  :ensure t
+  :bind (("C-c v" . er/expand-region)))
+
+;; undo-tree: branching undo.
+(use-package undo-tree
+  :ensure t
+  :init (global-undo-tree-mode)
+  :diminish undo-tree-mode)
+
+;; Give us narrowing back!
+(put 'narrow-to-region 'disabled nil)
+(put 'narrow-to-page 'disabled nil)
+(put 'narrow-to-defun 'disabled nil)
+
+;; Same for region casing
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
+
+;; Additional keybindings
+(bind-key [remap just-one-space] #'cycle-spacing)
+(bind-key "s-SPC" #'cycle-spacing)
+
+;;; Internationalisation
+(prefer-coding-system 'utf-8)
+
+;; mule-cmds: input methods.
+(use-package mule-cmds
+  :defer t
+  :bind (("C-c t i" . toggle-input-method))
+  :config
+  (validate-setq default-input-method "german-postfix"))
+
+;; smartparens: parenthesis editing and balancing.
+(use-package smartparens
+  :ensure t
+  :bind (("C-c k" . lunaryorn-smartparens/body)
+         :map smartparens-strict-mode-map
+         ;; A fill paragraph in strict mode
+         ("M-q" . sp-indent-defun))
+  :init
+  ;; Hydra for Smartparens
+  (defhydra lunaryorn-smartparens (:hint nil)
+    "
+Sexps (quit with _q_)
+^Nav^            ^Barf/Slurp^                 ^Depth^
+^---^------------^----------^-----------------^-----^-----------------
+_f_: forward     _→_:          slurp forward   _R_: splice
+_b_: backward    _←_:          barf forward    _r_: raise
+_u_: backward ↑  _C-<right>_:  slurp backward  _↑_: raise backward
+_d_: forward ↓   _C-<left>_:   barf backward   _↓_: raise forward
+_p_: backward ↓
+_n_: forward ↑
+^Kill^           ^Misc^                       ^Wrap^
+^----^-----------^----^-----------------------^----^------------------
+_w_: copy        _j_: join                    _(_: wrap with ( )
+_k_: kill        _s_: split                   _{_: wrap with { }
+^^               _t_: transpose               _'_: wrap with ' '
+^^               _c_: convolute               _\"_: wrap with \" \"
+^^               _i_: indent defun"
+    ("q" nil)
+    ;; Wrapping
+    ("(" (lambda (_) (interactive "P") (sp-wrap-with-pair "(")))
+    ("{" (lambda (_) (interactive "P") (sp-wrap-with-pair "{")))
+    ("'" (lambda (_) (interactive "P") (sp-wrap-with-pair "'")))
+    ("\"" (lambda (_) (interactive "P") (sp-wrap-with-pair "\"")))
+    ;; Navigation
+    ("f" sp-forward-sexp )
+    ("b" sp-backward-sexp)
+    ("u" sp-backward-up-sexp)
+    ("d" sp-down-sexp)
+    ("p" sp-backward-down-sexp)
+    ("n" sp-up-sexp)
+    ;; Kill/copy
+    ("w" sp-copy-sexp)
+    ("k" sp-kill-sexp)
+    ;; Misc
+    ("t" sp-transpose-sexp)
+    ("j" sp-join-sexp)
+    ("s" sp-split-sexp)
+    ("c" sp-convolute-sexp)
+    ("i" sp-indent-defun)
+    ;; Depth changing
+    ("R" sp-splice-sexp)
+    ("r" sp-splice-sexp-killing-around)
+    ("<up>" sp-splice-sexp-killing-backward)
+    ("<down>" sp-splice-sexp-killing-forward)
+    ;; Barfing/slurping
+    ("<right>" sp-forward-slurp-sexp)
+    ("<left>" sp-forward-barf-sexp)
+    ("C-<left>" sp-backward-barf-sexp)
+    ("C-<right>" sp-backward-slurp-sexp))
+
+  (smartparens-global-mode)
+  (show-smartparens-global-mode)
+
+  (dolist (hook '(inferior-emacs-lisp-mode-hook
+                  emacs-lisp-mode-hook))
+    (add-hook hook #'smartparens-strict-mode))
+  :config
+  (require 'smartparens-config)
+
+  (validate-setq sp-autoskip-closing-pair 'always
+                 ;; Don't kill entire symbol on C-k
+                 sp-hybrid-kill-entire-symbol nil)
+  :diminish (smartparens-mode . " ⓟ"))
+
+(defun dimitern-whitespace-style-no-long-lines ()
+  "Configure `whitespace-mode' for Org.
+Disable the highlighting of overlong lines."
+  (setq-local whitespace-style (-difference whitespace-style
+                                            '(lines lines-tail))))
+
+(defun dimitern-whitespace-mode-local ()
+  "Enable `whitespace-mode' after local variables where set up."
+  (add-hook 'hack-local-variables-hook #'whitespace-mode nil 'local))
+
+;; whitespace: highlight bad whitespace.
+(use-package whitespace
+  :bind (("C-c t w" . whitespace-mode))
+  :init
+  (dolist (hook '(prog-mode-hook text-mode-hook conf-mode-hook))
+    (add-hook hook #'dimitern-whitespace-mode-local))
+  :config
+  ;; Highlight tabs, empty lines at beg/end, trailing whitespaces and overlong
+  ;; portions of lines via faces.  Also indicate tabs via characters
+  (validate-setq
+   whitespace-style '(face indentation space-after-tab space-before-tab
+                           tab-mark empty trailing lines-tail)
+   whitespace-line-column nil)          ; Use `fill-column' for overlong lines
+  :diminish (whitespace-mode . " ⓦ"))
+
+;; highlight-numbers: fontify number literals.
+(use-package highlight-numbers
+  :ensure t
+  :defer t
+  :init (add-hook 'prog-mode-hook #'highlight-numbers-mode))
+
+;; rainbow-mode: fontify color values in code
+(use-package rainbow-mode
+  :ensure t
+  :pin "gnu"
+  :bind (("C-c t r" . rainbow-mode))
+  :config (add-hook 'css-mode-hook #'rainbow-mode))
+
+;; highlight-symbol: highlighting and commands for symbols.
+(use-package highlight-symbol
+  :ensure t
+  :defer t
+  :bind
+  (("C-c s %" . highlight-symbol-query-replace)
+   ("C-c s n" . highlight-symbol-next-in-defun)
+   ("C-c s p" . highlight-symbol-prev-in-defun)
+   ("C-c s o" . highlight-symbol-occur))
+  ;; Navigate occurrences of the symbol under point with M-n and M-p, and
+  ;; highlight symbol occurrences
+  :init
+  (dolist (fn '(highlight-symbol-nav-mode highlight-symbol-mode))
+    (add-hook 'prog-mode-hook fn))
+  :config
+  (validate-setq
+   highlight-symbol-idle-delay 0.4          ; Highlight almost immediately
+   highlight-symbol-on-navigation-p t)      ; Highlight immediately after
+                                        ; navigation
+  :diminish highlight-symbol-mode)
+
+;; hl-todo: highlight TODOs in buffers.
+(use-package hl-todo
+  :ensure t
+  :defer t
+  :init (global-hl-todo-mode))
+
 (provide 'dimitern-files)

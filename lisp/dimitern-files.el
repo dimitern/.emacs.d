@@ -1,0 +1,181 @@
+;; dimitern-files.el: global files-related config.
+;;
+
+;; files: core commands for files.
+(use-package files
+  :bind
+  (("C-c f z" . revert-buffer)
+   ("C-c f /" . revert-buffer)
+   ;; Additional bindings for built-ins
+   ("C-c f v d" . add-dir-local-variable)
+   ("C-c f v l" . add-file-local-variable)
+   ("C-c f v p" . add-file-local-variable-prop-line)))
+  
+;; ffap: find files at point.
+(use-package ffap
+  :defer t
+  ;; Please stop pinging random hosts!  See
+  ;; https://github.com/technomancy/emacs-starter-kit/issues/39
+  :config (setq ffap-machine-p-known 'reject))
+
+;; server: the server of `emacsclient'.
+(use-package server
+  :if (not noninteractive)
+  :defer t
+  :init (server-mode)
+  :diminish (server-buffer-clients . " ⓒ"))
+
+;; dired: edit directories.
+(use-package dired
+  :defer t
+  :config
+  (validate-setq
+   dired-auto-revert-buffer t           ; Revert on re-visiting
+   ;; Better dired flags: `-l' is mandatory, `-a' shows all files, `-h' uses
+   ;; human-readable sizes, and `-F' appends file-type classifiers to file names
+   ;; (for better highlighting)
+   dired-listing-switches "-alhF"
+   dired-ls-F-marks-symlinks t          ; -F marks links with @
+   ;; Inhibit prompts for simple recursive operations
+   dired-recursive-copies 'always
+   ;; Auto-copy to other Dired split window
+   dired-dwim-target t)
+
+  (when (or (memq system-type '(gnu gnu/linux))
+            (string= (file-name-nondirectory insert-directory-program) "gls"))
+    ;; If we are on a GNU system or have GNU ls, add some more `ls' switches:
+    ;; `--group-directories-first' lists directories before files, and `-v'
+    ;; sorts numbers in file names naturally, i.e. "image1" goes before
+    ;; "image02"
+    (validate-setq
+     dired-listing-switches
+     (concat dired-listing-switches " --group-directories-first -v"))))
+
+;; dired-x: additional tools for dired.
+(use-package dired-x
+  :defer t
+  :bind (("C-c f j" . dired-jump)
+         ("C-x C-j" . dired-jump))
+  :init
+  (add-hook 'dired-mode-hook #'dired-omit-mode)
+  :after dired
+  :config
+  (validate-setq dired-omit-verbose nil)        ; Shut up, dired
+
+  (when (dimitern-os/is-darwin)
+    ;; OS X bsdtar is mostly compatible with GNU Tar
+    (validate-setq dired-guess-shell-gnutar "tar"))
+
+  ;; Diminish dired-omit-mode. We need this hack, because Dired Omit Mode has
+  ;; a very peculiar way of registering its lighter explicitly in
+  ;; `dired-omit-startup'.  We can't just use `:diminish' because the lighter
+  ;; isn't there yet after dired-omit-mode is loaded.
+  (add-function :after (symbol-function 'dired-omit-startup)
+                (lambda () (diminish 'dired-omit-mode " ⓞ"))
+                '((name . dired-omit-mode-diminish))))
+
+;; neotree: files tree side view.
+(use-package neotree
+  :ensure t
+  :bind (("C-c f t" . neotree-toggle))
+  :config
+  (validate-setq
+   neo-window-width 32
+   neo-create-file-auto-open t
+   neo-banner-message ""
+   neo-show-updir-line nil
+   neo-mode-line-type 'neotree
+   neo-smart-open t
+   neo-show-hidden-files t
+   neo-auto-indent-point t))
+
+;; ignoramus: ignore uninteresting files everywhere.
+(use-package ignoramus
+  :ensure t
+  :config
+  ;; Ignore some additional directories and file extensions
+  (dolist (name '("company-statistics-cache.el"
+                  ".cask"
+                  ".vagrant"
+                  ".ensime_cache" ".ensime"
+                  ".stack-work"))
+    ;; Ignore some additional directories
+    (add-to-list 'ignoramus-file-basename-exact-names name))
+
+  (dolist (ext '(".fls" ".out" ; LaTeX
+                 ))
+    (add-to-list 'ignoramus-file-endings ext))
+
+  (ignoramus-setup))
+
+;; hardhat: protect user-writable files.
+(use-package hardhat
+  :ensure t
+  :init (global-hardhat-mode)
+  :config (validate-setq hardhat-mode-lighter " Ⓗ"))
+
+;; bookmarks: bookmarks for Emacs buffers.
+(use-package bookmark
+  :bind (("C-c f b" . list-bookmarks))
+  ;; Save bookmarks immediately after a bookmark was added
+  :config (validate-setq bookmark-save-flag 1))
+
+;; recentf: save recently visited files.
+(use-package recentf
+  :init (recentf-mode)
+  :config
+  (validate-setq
+   recentf-max-saved-items 200
+   recentf-max-menu-items 15
+   ;; Cleanup recent files only when Emacs is idle, but not when the mode
+   ;; is enabled, because that unnecessarily slows down Emacs. My Emacs
+   ;; idles often enough to have the recent files list clean up regularly
+   recentf-auto-cleanup 300
+   recentf-exclude (list "/\\.git/.*\\'"     ; Git contents
+                         "/elpa/.*\\'"       ; Package files
+                         "/itsalltext/"      ; It's all text temp files
+                         ;; And all other kinds of boring files
+                         #'ignoramus-boring-p)))
+
+;; saveplace: save point position in files.
+(use-package saveplace
+  :init (save-place-mode 1))
+
+;; view read-only files.
+(validate-setq view-read-only t)
+
+;; autorevert: auto-revert buffers of changed files.
+(use-package autorevert
+  :init (global-auto-revert-mode)
+  :config
+  (validate-setq auto-revert-verbose nil ; Shut up, please!
+                 ;; Revert Dired buffers, too
+                 global-auto-revert-non-file-buffers t)
+
+  (when (dimitern-os/is-darwin)
+    ;; File notifications aren't supported on OS X
+    (validate-setq auto-revert-use-notify nil))
+  :diminish (auto-revert-mode . " Ⓐ"))
+
+;; image-file: visit images as images.
+(use-package image-file
+  :init (auto-image-file-mode))
+
+;; launch: open files in external programs
+(use-package launch
+  :ensure t
+  :defer t)
+
+;; sudo-edit: edit files as root, through Tramp
+(use-package sudo-edit
+  :ensure t
+  :defer t
+  :bind (("C-c f s" . sudo-edit)))
+
+;; reveal-in-osx-finder: reveal current buffer in finder.
+(use-package reveal-in-osx-finder
+  :ensure t
+  ;; Bind analogous to `dired-jump' at C-c f j
+  :bind (("C-c f J" . reveal-in-osx-finder)))
+
+(provide 'dimitern-files)

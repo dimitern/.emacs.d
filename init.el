@@ -45,6 +45,9 @@
 ;; dimitern-buffers: global buffer-related config.
 (use-package dimitern-buffers)
 
+;; dimitern-files: global files-related config.
+(use-package dimitern-files)
+
 ;; dimitern-windows: global window-related config.
 (use-package dimitern-windows)
 

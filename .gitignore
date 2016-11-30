@@ -15,6 +15,7 @@ ac-comphist.dat
 savehist
 recentf
 tramp
+places
 
 # Compiled
 *.elc

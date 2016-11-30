@@ -62,6 +62,8 @@ exists, creating it and its parent(s), when it does not exist."
    use-dialog-box nil
    history-length t			; unlimited length.
    history-delete-duplicates t		; no duplicates saved.
+   kill-do-not-save-duplicates t	; no duplicates in kill ring.
+   kill-ring-max 200			; more kill ring space.
    savehist-save-minibuffer-history t
    savehist-additional-variables
    '(kill-ring

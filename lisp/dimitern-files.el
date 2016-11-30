@@ -351,4 +351,90 @@ Disable the highlighting of overlong lines."
   :defer t
   :init (global-hl-todo-mode))
 
+;; auto-insert: automatic insertion into new files.
+(use-package auto-insert
+  :defer t
+  :bind (("C-c i a" . auto-insert)))
+
+;; ispell: spell checking.
+(use-package ispell
+  :defer t
+  :config
+  (validate-setq
+   ispell-program-name (executable-find "aspell")
+   ispell-dictionary "en_GB"            ; Default dictionary.
+   ispell-silently-savep t              ; Don't ask when saving the private dict
+   ;; Increase the height of the choices window to take our header line
+   ;; into account.
+   ispell-choices-win-default-height 5)
+
+  (unless ispell-program-name
+    (warn "No spell checker available.  Install Hunspell or ASpell for OS X.")))
+
+;; flyspell: on-the-fly spell checking.
+(use-package flyspell
+  :bind (("C-c t s" . flyspell-mode)
+         ("C-c l b" . flyspell-buffer))
+  :init
+  (dolist (hook '(text-mode-hook message-mode-hook))
+    (add-hook hook 'turn-on-flyspell))
+  (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+  :config
+  (validate-setq
+   flyspell-use-meta-tab nil
+   ;; Make Flyspell less chatty
+   flyspell-issue-welcome-flag nil
+   flyspell-issue-message-flag nil)
+
+  ;; Free C-M-i for completion
+  (define-key flyspell-mode-map "\M-\t" nil)
+  ;; Undefine mouse buttons which get in the way
+  (define-key flyspell-mouse-map [down-mouse-2] nil)
+  (define-key flyspell-mouse-map [mouse-2] nil)
+  :diminish (flyspell-mode . " ⓢ"))
+
+;; auto-dictionary: automatically infer dictionary.
+(use-package auto-dictionary
+  :ensure t
+  ;; Always change dictionary through adict, because it triggers hooks that let
+  ;; us automatically update the "language" for other modes (e.g. Typo Mode) as
+  ;; well
+  :bind (("C-c l l" . adict-change-dictionary)
+         ("C-c l g" . adict-guess-dictionary))
+  :init
+  (add-hook 'flyspell-mode-hook #'auto-dictionary-mode))
+
+;; flycheck: on-the-fly syntax checking.
+(use-package flycheck
+  :ensure t
+  :defer 1
+  :bind (("C-c t f" . flycheck-mode))
+  :config
+  (defhydra dimitern-flycheck-errors ()
+    "Flycheck errors."
+    ("n" flycheck-next-error "next")
+    ("p" flycheck-previous-error "previous")
+    ("f" flycheck-first-error "first")
+    ("l" flycheck-list-errors "list")
+    ("w" flycheck-copy-errors-as-kill "copy message"))
+
+  (global-flycheck-mode)
+  (validate-setq flycheck-standard-error-navigation nil
+                 flycheck-display-errors-function
+                 #'flycheck-display-error-messages-unless-error-list
+                 flycheck-scalastylerc "scalastyle_config.xml")
+  :diminish (flycheck-mode . " Ⓢ"))
+
+;; flycheck-pos-tip: show Flycheck errors in tooltip.
+(use-package flycheck-pos-tip
+  :ensure t
+  :after flycheck
+  :config (flycheck-pos-tip-mode))
+
+;; flycheck-title: show Flycheck errors in frame title.
+(use-package flycheck-title
+  :ensure t
+  :after flycheck
+  :config (flycheck-title-mode))
+
 (provide 'dimitern-files)

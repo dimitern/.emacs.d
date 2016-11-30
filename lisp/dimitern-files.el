@@ -215,13 +215,13 @@
 ;; smartparens: parenthesis editing and balancing.
 (use-package smartparens
   :ensure t
-  :bind (("C-c k" . lunaryorn-smartparens/body)
+  :bind (("C-c k" . dimitern-smartparens/body)
          :map smartparens-strict-mode-map
          ;; A fill paragraph in strict mode
          ("M-q" . sp-indent-defun))
   :init
   ;; Hydra for Smartparens
-  (defhydra lunaryorn-smartparens (:hint nil)
+  (defhydra dimitern-smartparens (:hint nil)
     "
 Sexps (quit with _q_)
 ^Nav^            ^Barf/Slurp^                 ^Depth^

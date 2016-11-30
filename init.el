@@ -48,6 +48,9 @@
 ;; dimitern-files: global files-related config.
 (use-package dimitern-files)
 
+;; dimitern-navigation: navigation-related config.
+(use-package dimitern-navigation)
+
 ;; dimitern-windows: global window-related config.
 (use-package dimitern-windows)
 

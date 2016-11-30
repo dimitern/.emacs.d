@@ -6,7 +6,7 @@
  '(frame-background-mode (quote light))
  '(package-selected-packages
    (quote
-    (reveal-in-osx-finder sudo-edit launch hardhat ignoramus neotree golden-ratio ace-window ibuffer-vc focus-autosave-mode stripe-buffer beacon page-break-lines yaml-mode swiper wgrep-ag ag hydra visual-regexp anzu paradox counsel ivy-hydra ivy spaceline which-key exec-path-from-shell validate solarized-theme use-package)))
+    (nlinum reveal-in-osx-finder sudo-edit launch hardhat ignoramus neotree golden-ratio ace-window ibuffer-vc focus-autosave-mode stripe-buffer beacon page-break-lines yaml-mode swiper wgrep-ag ag hydra visual-regexp anzu paradox counsel ivy-hydra ivy spaceline which-key exec-path-from-shell validate solarized-theme use-package)))
  '(paradox-github-token t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

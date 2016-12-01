@@ -51,7 +51,6 @@
 
 ;; ag: the silver searcher (grep on steroids)
 (use-package ag
-  :unless (dimitern-os/is-darwin)
   :after anzu
   :config
   (validate-setq

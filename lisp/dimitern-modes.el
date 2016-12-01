@@ -7,10 +7,11 @@
  default-major-mode 'text-mode
  )
 
+(setq-default indent-tabs-mode nil)
+
 (validate-setq
  ;; Default indent 4 spaces per tab, use spaces.
  standard-indent 4
- indent-tabs-mode nil
  ;; Double space after sentence, final newline.
  sentence-end-double-space nil
  require-final-newline t
@@ -145,6 +146,8 @@ Taken from http://stackoverflow.com/a/3072831/355252."
 (use-package elisp-mode
   :defer t
   :interpreter ("emacs" . emacs-lisp-mode)
+  :config
+  (setq indent-tabs-mode nil)
   :bind (:map emacs-lisp-mode-map
               ("C-c m e r" . eval-region)
               ("C-c t d" . toggle-debug-on-error)
@@ -152,71 +155,31 @@ Taken from http://stackoverflow.com/a/3072831/355252."
               ("C-c m e e" . eval-last-sexp)
               ("C-c m e f" . eval-defun)))
 
-;; projectile: project management for Emacs.
-(use-package projectile
-  :ensure t
-  :defer 1
-  :config
-  (projectile-mode)
+;; We can safely declare this function, since we'll only call it in Python
+;; Mode, that is, when python.el was already loaded.
+(declare-function python-shell-calculate-exec-path "python")
 
-  ;; Remove dead projects when Emacs is idle
-  (run-with-idle-timer 10 nil #'projectile-cleanup-known-projects)
+(defun flycheck-virtualenv-executable-find (executable)
+  "Find an EXECUTABLE in the current virtualenv if any."
+  (if (bound-and-true-p python-shell-virtualenv-root)
+      (let ((exec-path (python-shell-calculate-exec-path)))
+        (executable-find executable))
+    (executable-find executable)))
 
-  (defvar dimitern-virtualenv-workon-home
-    (or (getenv "WORKON_HOME") (expand-file-name "~/work/pyenvs"))
-    "The $WORKON_HOME path.")
-
-  (defun dimitern-virtualenv-init-from-workon-home ()
-    "Set the current virtualenv for this buffer."
-    (let* ((name (projectile-project-name))
-           (venv-dir (expand-file-name name dimitern-virtualenv-workon-home)))
-      (when (file-directory-p venv-dir)
-        (setq-local python-shell-virtualenv-root venv-dir))))
-
-  (add-hook 'python-mode-hook #'dimitern-virtualenv-init-from-workon-home)
-
-  (validate-setq projectile-completion-system 'ivy
-                 projectile-find-dir-includes-top-level t)
-
-  (defun dimitern-neotree-project-root (&optional directory)
-    "Open a NeoTree browser for a project DIRECTORY."
-    (interactive)
-    (let ((default-directory (or directory default-directory)))
-      (if (and (fboundp 'neo-global--window-exists-p)
-               (neo-global--window-exists-p))
-          (neotree-hide)
-        (neotree-find (projectile-project-root)))))
-
-  (bind-key "C-c p TAB" #'dimitern-neotree-project-root)
-  (bind-key "C-c p <insert>" #'projectile-add-known-project)
-  :diminish projectile-mode)
-
-;; counsel-projectile: counsel interface to projectile.
-(use-package counsel-projectile
-  :ensure t
-  :after projectile
-  :config
-  (counsel-projectile-on))
+(defun flycheck-virtualenv-setup ()
+  "Setup Flycheck for the current virtualenv."
+  (setq flycheck-executable-find #'flycheck-virtualenv-executable-find))
 
 ;; python: Python editing.
 (use-package python
-  :defer t
+  :ensure t
+  :mode ("\\.pyw?\\'" . python-mode)
   :config
-  (require 'flycheck)
-  ;; We can safely declare this function, since we'll only call it in Python
-  ;; Mode, that is, when python.el was already loaded.
-  (declare-function python-shell-calculate-exec-path "python")
 
-  (defun flycheck-virtualenv-executable-find (executable)
-    "Find an EXECUTABLE in the current virtualenv if any."
-    (if (bound-and-true-p python-shell-virtualenv-root)
-        (let ((exec-path (python-shell-calculate-exec-path)))
-          (executable-find executable))
-      (executable-find executable)))
-
-  (defun flycheck-virtualenv-setup ()
-    "Setup Flycheck for the current virtualenv."
-    (setq-local flycheck-executable-find #'flycheck-virtualenv-executable-find))
+  (let ((ipython (executable-find "ipython")))
+    (if ipython
+        (validate-setq python-shell-interpreter ipython)
+      (warn "IPython is missing, falling back to default python")))
 
   (setq
    python-indent-offset 4
@@ -225,18 +188,53 @@ Taken from http://stackoverflow.com/a/3072831/355252."
   ;; PEP 8 compliant filling rules, 79 chars maximum
   (add-hook 'python-mode-hook (lambda () (validate-setq fill-column 79)))
   (add-hook 'python-mode-hook #'subword-mode)
-  (add-hook 'python-mode-hook #'flycheck-virtualenv-setup)
+  (add-hook 'python-mode-hook #'dimitern-virtualenv-init-from-workon-home)
+  (add-hook 'python-mode-hook #'flycheck-virtualenv-setup))
 
-  (let ((ipython (executable-find "ipython")))
-    (if ipython
-        (validate-setq python-shell-interpreter ipython)
-      (warn "IPython is missing, falling back to default python"))))
+(defvar dimitern-virtualenv-workon-home
+  (or (getenv "WORKON_HOME") (expand-file-name "~/work/pyenvs"))
+  "The $WORKON_HOME path.")
+
+(defun dimitern-virtualenv-init-from-workon-home ()
+  "Set the current virtualenv for this buffer."
+  (let* ((name (projectile-project-name))
+         (venv-dir (expand-file-name name dimitern-virtualenv-workon-home)))
+    (when (file-directory-p venv-dir)
+      (setq python-shell-virtualenv-root venv-dir))))
+
+(defun dimitern-neotree-project-root (&optional directory)
+  "Open a NeoTree browser for a project DIRECTORY."
+  (interactive)
+  (let ((default-directory (or directory default-directory)))
+    (if (and (fboundp 'neo-global--window-exists-p)
+             (neo-global--window-exists-p))
+        (neotree-hide)
+      (neotree-find (projectile-project-root)))))
+
+;; projectile: project management for Emacs.
+(use-package projectile
+  :ensure t
+  :defer 1
+  :config
+  (validate-setq projectile-completion-system 'ivy
+                 projectile-find-dir-includes-top-level t)
+
+  (projectile-mode)
+
+  ;; Remove dead projects when Emacs is idle
+  (run-with-idle-timer 10 nil #'projectile-cleanup-known-projects)
+
+  (bind-key "C-c p TAB" #'dimitern-neotree-project-root)
+  (bind-key "C-c p <insert>" #'projectile-add-known-project)
+
+  :diminish projectile-mode)
 
 ;; anaconda-mode: powerful Python backend for Emacs.
 (use-package anaconda-mode
   :ensure t
   :defer t
-  :init (add-hook 'python-mode-hook #'anaconda-mode))
+  :init (add-hook 'python-mode-hook #'anaconda-mode)
+  :diminish (anaconda-mode . " Ⓐ "))
 
 ;; company-anaconda: Python backend for Company.
 (use-package company-anaconda
@@ -253,7 +251,7 @@ Taken from http://stackoverflow.com/a/3072831/355252."
 (use-package web-mode
   :ensure t
   :defer t
-  :mode (("\\.html\\'" . web-mode)))
+  :mode ("\\.html?\\'" . web-mode))
 
 ;; css-mode: CSS editing.
 (use-package css-mode
@@ -264,7 +262,7 @@ Taken from http://stackoverflow.com/a/3072831/355252."
 (use-package js2-mode
   :ensure t
   :defer t
-  :mode (("\\.js\\'" . js2-mode))
+  :mode ("\\.js\\'" . js2-mode)
   :config
   ;; Disable parser errors and strict warnings.  We have Flycheck 8)
   (validate-setq js2-mode-show-parse-errors nil
@@ -275,7 +273,7 @@ Taken from http://stackoverflow.com/a/3072831/355252."
 ;; sh-script: shell scripts.
 (use-package sh-script
   :defer t
-  :mode ("\\.zsh\\'" . sh-mode)
+  :mode ("\\.z?sh\\'" . sh-mode)
   :config
   ;; Use two spaces in shell scripts.
   (validate-setq

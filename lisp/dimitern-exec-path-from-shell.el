@@ -8,16 +8,17 @@
   :config
   (validate-setq
    exec-path-from-shell-variables '("PYTHONPATH"       ; Python modules
-				    "GOPATH"           ; Go packages
-				    "JAVA_OPTS"        ; Options for java processes
-				    "EMAIL"            ; My personal email
-				    "PATH"             ; Executables
-				    "INFOPATH"         ; Info directories
-				    "MANPATH"          ; Man pages
-				    )
+                                    "VIRTUAL_ENV"      ; Current virtualenv
+                                    "PATH"             ; Executables
+                                    "GOPATH"           ; Go packages
+                                    "JAVA_OPTS"        ; Options for java processes
+                                    "EMAIL"            ; My personal email
+                                    "INFOPATH"         ; Info directories
+                                    "MANPATH"          ; Man pages
+                                    )
    exec-path-from-shell-check-startup-files nil  ; No warnings (startup speeds up as well)
    )
-  
+
   ;; Initialize Emacs' environment from the shell
   (exec-path-from-shell-initialize)
 
@@ -28,6 +29,6 @@
   (with-eval-after-load 'info
     (dolist (dir (nreverse (parse-colon-path (getenv "INFOPATH"))))
       (when dir
-	(add-to-list 'Info-directory-list dir)))))
+        (add-to-list 'Info-directory-list dir)))))
 
 (provide 'dimitern-exec-path-from-shell)

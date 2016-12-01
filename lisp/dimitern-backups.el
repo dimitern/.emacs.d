@@ -20,12 +20,12 @@ exists, creating it and its parent(s), when it does not exist."
 ;; simple (base package) / auto-save (minor mode): automatically
 ;; save modified files.
 (use-package simple
-  :defer t				; built-in package; can't require
+  :defer t                              ; built-in package; can't require
   :init
   (dimitern/ensure-path dimitern/autosaves-dir)
   (setq
    ;; Put all autosaves in one place.
-   auto-save-file-name-prefix (concat dimitern/autosaves-dir ".saves-")
+   auto-save-list-file-prefix (concat dimitern/autosaves-dir ".saves-")
    auto-save-file-name-transforms `((".*" ,dimitern/autosaves-dir t)))
   (auto-save-mode 1))
 
@@ -60,10 +60,10 @@ exists, creating it and its parent(s), when it does not exist."
   (validate-setq
    savehist-file dimitern/history-file
    use-dialog-box nil
-   history-length t			; unlimited length.
-   history-delete-duplicates t		; no duplicates saved.
-   kill-do-not-save-duplicates t	; no duplicates in kill ring.
-   kill-ring-max 200			; more kill ring space.
+   history-length t                     ; unlimited length.
+   history-delete-duplicates t          ; no duplicates saved.
+   kill-do-not-save-duplicates t        ; no duplicates in kill ring.
+   kill-ring-max 200                    ; more kill ring space.
    savehist-save-minibuffer-history t
    savehist-additional-variables
    '(kill-ring

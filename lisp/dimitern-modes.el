@@ -58,7 +58,6 @@
   (add-hook 'gfm-mode-hook #'turn-off-auto-fill)
   ;; Use visual lines instead
   (add-hook 'gfm-mode-hook #'visual-line-mode)
-  (add-hook 'gfm-mode-hook #'lunaryorn-whitespace-style-no-long-lines)
 
   (bind-key "C-c C-s C" #'markdown-insert-gfm-code-block markdown-mode-map)
   (bind-key "C-c C-s P" #'markdown-insert-gfm-code-block markdown-mode-map)
@@ -158,7 +157,7 @@ Taken from http://stackoverflow.com/a/3072831/355252."
   :ensure t
   :defer 1
   :config
-  (projectile-global-mode)
+  (projectile-mode)
 
   ;; Remove dead projects when Emacs is idle
   (run-with-idle-timer 10 nil #'projectile-cleanup-known-projects)
@@ -187,6 +186,9 @@ Taken from http://stackoverflow.com/a/3072831/355252."
                (neo-global--window-exists-p))
           (neotree-hide)
         (neotree-find (projectile-project-root)))))
+
+  (bind-key "C-c p TAB" #'dimitern-neotree-project-root)
+  (bind-key "C-c p <insert>" #'projectile-add-known-project)
   :diminish projectile-mode)
 
 ;; counsel-projectile: counsel interface to projectile.

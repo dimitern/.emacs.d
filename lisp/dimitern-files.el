@@ -22,7 +22,9 @@
 (use-package server
   :if (not noninteractive)
   :defer t
-  :init (server-mode)
+  :config
+  (unless (server-running-p server-name)
+    (server-mode))
   :diminish (server-buffer-clients . " ⓒ"))
 
 ;; dired: edit directories.

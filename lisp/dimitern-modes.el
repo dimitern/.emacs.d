@@ -153,13 +153,77 @@ Taken from http://stackoverflow.com/a/3072831/355252."
               ("C-c m e e" . eval-last-sexp)
               ("C-c m e f" . eval-defun)))
 
+;; projectile: project management for Emacs.
+(use-package projectile
+  :ensure t
+  :defer 1
+  :config
+  (projectile-global-mode)
+
+  ;; Remove dead projects when Emacs is idle
+  (run-with-idle-timer 10 nil #'projectile-cleanup-known-projects)
+
+  (defvar dimitern-virtualenv-workon-home
+    (or (getenv "WORKON_HOME") (expand-file-name "~/work/pyenvs"))
+    "The $WORKON_HOME path.")
+
+  (defun dimitern-virtualenv-init-from-workon-home ()
+    "Set the current virtualenv for this buffer."
+    (let* ((name (projectile-project-name))
+           (venv-dir (expand-file-name name dimitern-virtualenv-workon-home)))
+      (when (file-directory-p venv-dir)
+        (setq-local python-shell-virtualenv-root venv-dir))))
+
+  (add-hook 'python-mode-hook #'dimitern-virtualenv-init-from-workon-home)
+
+  (validate-setq projectile-completion-system 'ivy
+                 projectile-find-dir-includes-top-level t)
+
+  (defun dimitern-neotree-project-root (&optional directory)
+    "Open a NeoTree browser for a project DIRECTORY."
+    (interactive)
+    (let ((default-directory (or directory default-directory)))
+      (if (and (fboundp 'neo-global--window-exists-p)
+               (neo-global--window-exists-p))
+          (neotree-hide)
+        (neotree-find (projectile-project-root)))))
+  :diminish projectile-mode)
+
+;; counsel-projectile: counsel interface to projectile.
+(use-package counsel-projectile
+  :ensure t
+  :after projectile
+  :config
+  (counsel-projectile-on))
+
 ;; python: Python editing.
 (use-package python
   :defer t
   :config
+  (require 'flycheck)
+  ;; We can safely declare this function, since we'll only call it in Python
+  ;; Mode, that is, when python.el was already loaded.
+  (declare-function python-shell-calculate-exec-path "python")
+
+  (defun flycheck-virtualenv-executable-find (executable)
+    "Find an EXECUTABLE in the current virtualenv if any."
+    (if (bound-and-true-p python-shell-virtualenv-root)
+        (let ((exec-path (python-shell-calculate-exec-path)))
+          (executable-find executable))
+      (executable-find executable)))
+
+  (defun flycheck-virtualenv-setup ()
+    "Setup Flycheck for the current virtualenv."
+    (setq-local flycheck-executable-find #'flycheck-virtualenv-executable-find))
+
+  (setq
+   python-indent-offset 4
+   indent-tabs-mode nil)
+
   ;; PEP 8 compliant filling rules, 79 chars maximum
   (add-hook 'python-mode-hook (lambda () (validate-setq fill-column 79)))
   (add-hook 'python-mode-hook #'subword-mode)
+  (add-hook 'python-mode-hook #'flycheck-virtualenv-setup)
 
   (let ((ipython (executable-find "ipython")))
     (if ipython
@@ -213,8 +277,8 @@ Taken from http://stackoverflow.com/a/3072831/355252."
   :config
   ;; Use two spaces in shell scripts.
   (validate-setq
-   sh-indentation 2                     ; The basic indentation
-   sh-basic-offset 2                    ; The offset for nested indentation
+   sh-indentation 4                     ; The basic indentation
+   sh-basic-offset 4                    ; The offset for nested indentation
    ))
 
 ;; nxml-mode: XML editing.

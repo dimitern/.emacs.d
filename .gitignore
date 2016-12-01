@@ -9,6 +9,7 @@ elpa/
 
 # Transient files
 company-statistics-cache.el
+projectile-bookmarks.eld
 ac-comphist.dat
 \#*
 .\#*

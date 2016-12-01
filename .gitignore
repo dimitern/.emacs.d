@@ -3,6 +3,7 @@ backups/
 autosaves/
 url/cookies
 url/cache
+image-dired/
 .cache
 .DS_Store
 elpa/

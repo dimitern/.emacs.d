@@ -177,7 +177,7 @@ Taken from http://stackoverflow.com/a/3072831/355252."
   :config
 
   (let ((ipython (executable-find "ipython")))
-    (if ipython
+    (if (and ipython (not (dimitern-os/is-darwin)))
         (validate-setq python-shell-interpreter ipython)
       (warn "IPython is missing, falling back to default python")))
 

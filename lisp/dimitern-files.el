@@ -10,10 +10,12 @@
    ("C-c f v d" . add-dir-local-variable)
    ("C-c f v l" . add-file-local-variable)
    ("C-c f v p" . add-file-local-variable-prop-line)))
-  
+
 ;; ffap: find files at point.
 (use-package ffap
   :defer t
+  :bind (("C-c  C-f" . find-file-at-point)
+         ("C-c C-d" . dired-at-point))
   ;; Please stop pinging random hosts!  See
   ;; https://github.com/technomancy/emacs-starter-kit/issues/39
   :config (setq ffap-machine-p-known 'reject))

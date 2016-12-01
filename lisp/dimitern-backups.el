@@ -23,15 +23,15 @@ exists, creating it and its parent(s), when it does not exist."
   :defer t				; built-in package; can't require
   :init
   (dimitern/ensure-path dimitern/autosaves-dir)
-  (auto-save-mode 1)
-  :config
   (setq
    ;; Put all autosaves in one place.
    auto-save-file-name-prefix (concat dimitern/autosaves-dir ".saves-")
-   auto-save-file-name-transforms `((".*" ,dimitern/autosaves-dir t))))
-  
+   auto-save-file-name-transforms `((".*" ,dimitern/autosaves-dir t)))
+  (auto-save-mode 1))
+
 ;; savehist: save minibuffer, recent files, kill ring, and buffers
 ;; history.
+
 (use-package savehist
   :ensure t
   :init

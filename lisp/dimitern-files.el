@@ -200,7 +200,7 @@
 
 ;; Additional keybindings
 (bind-key [remap just-one-space] #'cycle-spacing)
-(bind-key "s-SPC" #'cycle-spacing)
+(bind-key "C-c SPC" #'cycle-spacing)
 
 ;;; Internationalisation
 (prefer-coding-system 'utf-8)

@@ -152,6 +152,8 @@ Add this to `kill-buffer-query-functions'."
 (diminish 'auto-fill-function " Ⓕ")
 
 (bind-key "C-c x i" #'indent-region)
+(bind-key "C-c x d" #'downcase-dwim)
+(bind-key "C-c x u" #'upcase-dwim)
 
 ;; delsel: delete the selection instead of insert
 (use-package delsel

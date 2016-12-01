@@ -47,12 +47,12 @@
   ;; Don't kill the important buffers
   (defconst dimitern-buffers/do-not-kill-names '("*scratch*" "*Messages*")
     "Names of buffers that should not be killed.")
-  
+
   (defun dimitern-buffers/do-not-kill-important ()
     "Inhibit killing of important buffers.
 Add this to `kill-buffer-query-functions'."
     (if (not (member (buffer-name) dimitern-buffers/do-not-kill-names))
-	t
+        t
       (message "Not allowed to kill %s, burying instead" (buffer-name))
       (bury-buffer)
       nil))
@@ -61,22 +61,22 @@ Add this to `kill-buffer-query-functions'."
     "Kill the current buffer."
     (interactive)
     (kill-buffer (current-buffer)))
-  
+
   ;; Configure `display-buffer' behaviour for some special buffers.
   (validate-setq
    display-buffer-alist
    `(
      ;; Put REPLs and error lists into the bottom side window
      (,(rx bos
-	   (or "*Help"                         ; Help buffers
-	       "*Warnings*"                    ; Emacs warnings
-	       "*Compile-Log*"                 ; Emacs byte compiler log
-	       "*compilation"                  ; Compilation buffers
-	       "*Flycheck errors*"             ; Flycheck error list
-	       "*shell"                        ; Shell window
-	       "*SQL"                          ; SQL REPL
-	       (and (1+ nonl) " output*")      ; AUCTeX command output
-	       ))
+           (or "*Help"                         ; Help buffers
+               "*Warnings*"                    ; Emacs warnings
+               "*Compile-Log*"                 ; Emacs byte compiler log
+               "*compilation"                  ; Compilation buffers
+               "*Flycheck errors*"             ; Flycheck error list
+               "*shell"                        ; Shell window
+               "*SQL"                          ; SQL REPL
+               (and (1+ nonl) " output*")      ; AUCTeX command output
+               ))
       (display-buffer-reuse-window
        display-buffer-in-side-window)
       (side            . bottom)
@@ -92,7 +92,7 @@ Add this to `kill-buffer-query-functions'."
   :defer 1
   :config
   (validate-setq
-   uniquify-buffer-name-style 'forward)) 
+   uniquify-buffer-name-style 'forward))
 
 ;; ibuffer: better buffer list.
 (use-package ibuffer
@@ -126,10 +126,10 @@ Add this to `kill-buffer-query-functions'."
   :after ibuffer
   :config
   (add-hook 'ibuffer-hook
-	    (lambda ()
-	      (ibuffer-vc-set-filter-groups-by-vc-root)
-	      (unless (eq ibuffer-sorting-mode 'alphabetic)
-		(ibuffer-do-sort-by-alphabetic)))))
+            (lambda ()
+              (ibuffer-vc-set-filter-groups-by-vc-root)
+              (unless (eq ibuffer-sorting-mode 'alphabetic)
+                (ibuffer-do-sort-by-alphabetic)))))
 
 ;; easy-kill: easy killing and marking on C-w.
 (use-package easy-kill

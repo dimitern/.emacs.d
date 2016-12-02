@@ -73,7 +73,7 @@
     "C-c t" "toggle"
     "C-c w" "windows/frames"
     "C-c x" "text")
-  
+
   ;; Prefixes for major modes
   (which-key-declare-prefixes-for-mode 'markdown-mode
     "C-c TAB" "markdown/images"

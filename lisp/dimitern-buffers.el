@@ -143,7 +143,8 @@ Add this to `kill-buffer-query-functions'."
 ;; Indicate empty lines at the end of a buffer in the fringe, but require a
 ;; final new line
 (validate-setq indicate-empty-lines t
-               require-final-newline t)
+               require-final-newline t
+               enable-recursive-minibuffers t)
 
 ;; Configure a reasonable fill column, indicate it in the buffer and enable
 ;; automatic filling
@@ -173,7 +174,7 @@ Add this to `kill-buffer-query-functions'."
          ("C-c x w" . whitespace-cleanup))
   :init (dolist (hook '(prog-mode-hook text-mode-hook conf-mode-hook))
           (add-hook hook #'whitespace-cleanup-mode))
-  :diminish (whitespace-cleanup-mode . " Ⓦ"))
+  :diminish (whitespace-cleanup-mode . "🅦"))
 
 ;; subword: subword/superword editing.
 (use-package subword

@@ -25,7 +25,7 @@
 (use-package yasnippet
   :ensure t
   :defer t
-  :diminish (yas-minor-mode . " Ⓨ"))
+  :diminish (yas-minor-mode . "Ⓨ"))
 
 ;; company: graphical (auto-)completion.
 (use-package company

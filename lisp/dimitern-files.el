@@ -27,7 +27,7 @@
   :config
   (unless (server-running-p server-name)
     (server-mode))
-  :diminish (server-buffer-clients . " ⓒ"))
+  :diminish (server-buffer-clients . "ⓒ"))
 
 ;; dired: edit directories.
 (use-package dired
@@ -75,7 +75,7 @@
   ;; `dired-omit-startup'.  We can't just use `:diminish' because the lighter
   ;; isn't there yet after dired-omit-mode is loaded.
   (add-function :after (symbol-function 'dired-omit-startup)
-                (lambda () (diminish 'dired-omit-mode " ⓞ"))
+                (lambda () (diminish 'dired-omit-mode "ⓞ"))
                 '((name . dired-omit-mode-diminish))))
 
 ;; neotree: files tree side view.
@@ -151,6 +151,7 @@
 ;; autorevert: auto-revert buffers of changed files.
 (use-package autorevert
   :init (global-auto-revert-mode)
+  :bind (("C-c t a" . auto-revert-mode))
   :config
   (validate-setq auto-revert-verbose nil ; Shut up, please!
                  ;; Revert Dired buffers, too
@@ -159,7 +160,7 @@
   (when (dimitern-os/is-darwin)
     ;; File notifications aren't supported on OS X
     (validate-setq auto-revert-use-notify nil))
-  :diminish (auto-revert-mode . " Ⓐ"))
+  :diminish (auto-revert-mode . "🔃"))
 
 ;; image-file: visit images as images.
 (use-package image-file
@@ -288,7 +289,7 @@ _k_: kill        _s_: split                   _{_: wrap with { }
   (validate-setq sp-autoskip-closing-pair 'always
                  ;; Don't kill entire symbol on C-k
                  sp-hybrid-kill-entire-symbol nil)
-  :diminish (smartparens-mode . " ⓟ"))
+  :diminish (smartparens-mode . "⒫"))
 
 (defun dimitern-whitespace-style-no-long-lines ()
   "Configure `whitespace-mode' for Org.
@@ -313,7 +314,7 @@ Disable the highlighting of overlong lines."
    whitespace-style '(face indentation space-after-tab space-before-tab
                            tab-mark empty trailing lines-tail)
    whitespace-line-column nil)          ; Use `fill-column' for overlong lines
-  :diminish (whitespace-mode . " ⓦ"))
+  :diminish (whitespace-mode . "ⓦ"))
 
 ;; highlight-numbers: fontify number literals.
 (use-package highlight-numbers
@@ -395,7 +396,7 @@ Disable the highlighting of overlong lines."
   ;; Undefine mouse buttons which get in the way
   (define-key flyspell-mouse-map [down-mouse-2] nil)
   (define-key flyspell-mouse-map [mouse-2] nil)
-  :diminish (flyspell-mode . " ⓢ"))
+  :diminish (flyspell-mode . "ⓢ"))
 
 ;; auto-dictionary: automatically infer dictionary.
 (use-package auto-dictionary
@@ -427,7 +428,7 @@ Disable the highlighting of overlong lines."
                  flycheck-display-errors-function
                  #'flycheck-display-error-messages-unless-error-list
                  flycheck-scalastylerc "scalastyle_config.xml")
-  :diminish (flycheck-mode . " Ⓢ"))
+  :diminish (flycheck-mode . "Ⓢ"))
 
 ;; flycheck-pos-tip: show Flycheck errors in tooltip.
 (use-package flycheck-pos-tip

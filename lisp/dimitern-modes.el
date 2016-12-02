@@ -133,7 +133,7 @@ Taken from http://stackoverflow.com/a/3072831/355252."
   :init (add-hook 'eval-expression-minibuffer-setup-hook #'eldoc-mode)
   :config
   (setq-default eldoc-documentation-function #'describe-char-eldoc)
-  :diminish (eldoc-mode . " ⓓ"))
+  :diminish (eldoc-mode . "ⓓ"))
 
 ;; etags: tag navigation.
 (use-package etags
@@ -334,11 +334,13 @@ _p_: copy"
 ;; anaconda-mode: powerful Python backend for Emacs.
 (use-package anaconda-mode
   :ensure t
-  :defer t
-  :init
+  :after virtualenvwrapper
+  :config
   (add-hook 'python-mode-hook #'anaconda-mode)
   (add-hook 'python-mode-hook #'anaconda-eldoc-mode)
-  :diminish (anaconda-mode . " Ⓐ "))
+  (add-hook 'venv-postactivate-hook
+            #'(lambda () (pythonic-activate venv-current-dir)))
+  :diminish (anaconda-mode . "Ⓐ"))
 
 ;; company-anaconda: Python backend for Company.
 (use-package company-anaconda

@@ -44,7 +44,8 @@
   :ensure t
   :pin "gnu"
   :init
-  (nlinum-mode 1)
-  :bind (("C-c t l" . nlinum-mode)))
+  (global-nlinum-mode)
+  :bind (("C-c t l" . nlinum-mode))
+  :diminish (nlinum-mode " ⓝ "))
 
 (provide 'dimitern-navigation)

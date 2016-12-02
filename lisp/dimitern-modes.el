@@ -281,7 +281,7 @@ _p_: copy"
     ("c" venv-cdvirtualenv)
     ("m" venv-mkvirtualenv)
     ("p" venv-cpvirtualenv))
-  :after projectile
+  :after (python projectile)
   :bind (("C-z" . dimitern-venv/body))
   :config
 

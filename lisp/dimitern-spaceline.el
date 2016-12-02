@@ -41,7 +41,7 @@ initial startup time."
      major-mode
      process
      (flycheck-error flycheck-warning flycheck-info)
-     (python-virtualenvwrapper :fallback python-venv)
+     ((python-virtualenvwrapper :fallback python-venv))
      ((which-function projectile-root) :separator " @ ")
      ((minor-modes :separator spaceline-minor-modes-separator) :when active))
    ;; Right segment (the unimportant stuff)

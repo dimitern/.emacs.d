@@ -9,6 +9,7 @@
   (validate-setq
    exec-path-from-shell-variables '("PYTHONPATH"       ; Python modules
                                     "VIRTUAL_ENV"      ; Current virtualenv
+                                    "WORKON_HOME"      ; virtualenvwrapper home
                                     "PATH"             ; Executables
                                     "GOPATH"           ; Go packages
                                     "JAVA_OPTS"        ; Options for java processes

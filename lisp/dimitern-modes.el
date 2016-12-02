@@ -227,35 +227,55 @@ _l_: refresh
   :diminish projectile-mode)
 
 (defvar dimitern-virtualenv-workon-home
-  (or (getenv "WORKON_HOME") (expand-file-name "~/work/pyenvs"))
+  (or
+   (getenv "WORKON_HOME")
+   (expand-file-name "~/work/pyenvs/"))
   "The $WORKON_HOME path.")
 
 (defun dimitern-venv-projectile-auto-workon ()
   "If a venv matching the projectile project name exists, switch
 to the venv and active it."
-  (let ((path (concat venv-location (projectile-project-name))))
-    (when (file-exists-p (directory-file-name path))
-      (setq venv-current-name (projectile-project-name))
-      (venv--activate-dir path))))
+  (let ((path
+         (concat
+          venv-location
+          (projectile-project-name)
+          (f-path-separator))))
+    (if (file-exists-p path)
+        (progn
+          (setq venv-current-name (projectile-project-name))
+          (venv--activate-dir path)
+          (message
+           "Activated virtualenv `%s' (at `%s')"
+           venv-current-name
+           path))
+      (message
+       "No virtualenv (at `%s') matching current project (`%s') to activate."
+       path
+       (projectile-project-name)))))
 
 (defun dimitern-gud-set-pdb-cmdline ()
   "Set the GUD's pdb command line, followed by the current buffer
 filename. Prefer `ipython', if available."
-  (let ((ipython (executable-find "ipython")))
-    (if (file-exists-p ipython)
-        ;; prefer ipython, if available.
-        (setq pdb-cmdline (intern (format "%s -m pdb" ipython))
+  (let ((python-executable
+         (or
+          (executable-find "ipython")   ; prefer ipython, if available.
+          (executable-find "python")))) ; fallback to python otherwise.
+    (if (not (file-exists-p python-executable))
+        (error
+         (format
+          "Neither `ipython' nor `python' executable found in `%s'" exec-path))
+      (message "Using `%s' as python executable" python-executable)
+      (setq pdb-cmdline (intern (format "%s -m pdb" python-executable))
               gud-pdb-command-name (symbol-name pdb-cmdline))
-      ;; fallback to plain python otherwise.
-      (setq pdb-cmdline (intern "python -m pdb")
-            gud-pdb-command-name (symbol-name pdb-cmdline))))
 
-  ;; Ensure pdb is called with a sensible filename.
-  (defadvice pdb (before gud-query-cmdline activate)
-    "Provide a better default command line when called interactively."
-    (interactive
-     (list (gud-query-cmdline pdb-cmdline
-                              (file-name-nondirectory buffer-file-name))))))
+      ;; Ensure pdb is called with a sensible filename.
+      (defadvice pdb (before gud-query-cmdline activate)
+        "Provide a better default command line when called interactively."
+        (interactive
+         (list
+          (gud-query-cmdline
+           pdb-cmdline
+           (file-name-nondirectory buffer-file-name))))))))
 
 ;; virtualenvwrapper: emulator for Doug Hellmann's virtualenvwrapper.sh.
 (use-package virtualenvwrapper
@@ -289,19 +309,18 @@ _p_: copy"
    ;; Set venvs location from $WORKON_HOME or directly.
    venv-location dimitern-virtualenv-workon-home)
 
-  ;; Fix pdb command line.
-  (dimitern-gud-set-pdb-cmdline)
+  ;; Enable for interactive shells and eshell.
+  (venv-initialize-interactive-shells)
+  (venv-initialize-eshell)
 
   ;; Active matching venvs when switching to projects.
   (validate-setq
    projectile-switch-project-action
-   #'(lambda ()
-       (projectile-recentf)
-       (dimitern-venv-projectile-auto-workon)))
-
-  ;; Enable for interactive shells and eshell.
-  (venv-initialize-interactive-shells)
-  (venv-initialize-eshell))
+   '(lambda ()
+      (dimitern-venv-projectile-auto-workon)
+      ;; Fix pdb command line.
+      (dimitern-gud-set-pdb-cmdline)
+      (projectile-recentf))))
 
 (defun dimitern-neotree-project-root (&optional directory)
   "Open a NeoTree browser for a project DIRECTORY."

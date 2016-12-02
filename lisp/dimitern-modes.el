@@ -159,7 +159,22 @@ Taken from http://stackoverflow.com/a/3072831/355252."
 (use-package python
   :ensure t
   :mode ("\\.pyw?\\'" . python-mode)
-  :init
+  :bind (("M-RET" . dimitern-pdb/body))
+  :config
+
+  (let ((ipython (executable-find "ipython")))
+    (if (and ipython (not (dimitern-os/is-darwin)))
+        (validate-setq python-shell-interpreter ipython)
+      (warn "IPython is missing, falling back to default python")))
+
+  (setq
+   python-indent-offset 4
+   indent-tabs-mode nil)
+
+  ;; PEP 8 compliant filling rules, 79 chars maximum
+  (add-hook 'python-mode-hook (lambda () (validate-setq fill-column 79)))
+  (add-hook 'python-mode-hook #'subword-mode)
+
   (defhydra dimitern-pdb (:hint nil)
     "
 ^Pdb^ (_q_ to quit)
@@ -191,22 +206,7 @@ _l_: refresh
     ("<" gud-up)
     (">" gud-down)
     ("k" gud-stop-subjob)
-    ("l" gud-refresh))
-  :bind (("M-RET" . dimitern-pdb/body))
-  :config
-
-  (let ((ipython (executable-find "ipython")))
-    (if (and ipython (not (dimitern-os/is-darwin)))
-        (validate-setq python-shell-interpreter ipython)
-      (warn "IPython is missing, falling back to default python")))
-
-  (setq
-   python-indent-offset 4
-   indent-tabs-mode nil)
-
-  ;; PEP 8 compliant filling rules, 79 chars maximum
-  (add-hook 'python-mode-hook (lambda () (validate-setq fill-column 79)))
-  (add-hook 'python-mode-hook #'subword-mode))
+    ("l" gud-refresh)))
 
 ;; projectile: project management for Emacs.
 (use-package projectile
@@ -239,14 +239,16 @@ to the venv and active it."
       (venv--activate-dir path))))
 
 (defun dimitern-gud-set-pdb-cmdline ()
-  "Sets the GUD's pdb command line to use ipython (if available) or python, followed by `-m pdb'"
-  (if (executable-find "ipython")
-      ;; prefer ipython, if available.
-      (setq pdb-cmdline (intern "ipython -m pdb")
-            gud-pdb-command-name (symbol-name pdb-cmdline))
-    ;; use plain python otherwise.
-    (setq pdb-cmdline (intern "python -m pdb")
-          gud-pdb-command-name (symbol-name pdb-cmdline)))
+  "Set the GUD's pdb command line, followed by the current buffer
+filename. Prefer `ipython', if available."
+  (let ((ipython (executable-find "ipython")))
+    (if (file-exists-p ipython)
+        ;; prefer ipython, if available.
+        (setq pdb-cmdline (intern (format "%s -m pdb" ipython))
+              gud-pdb-command-name (symbol-name pdb-cmdline))
+      ;; fallback to plain python otherwise.
+      (setq pdb-cmdline (intern "python -m pdb")
+            gud-pdb-command-name (symbol-name pdb-cmdline))))
 
   ;; Ensure pdb is called with a sensible filename.
   (defadvice pdb (before gud-query-cmdline activate)
@@ -314,7 +316,9 @@ _p_: copy"
 (use-package anaconda-mode
   :ensure t
   :defer t
-  :init (add-hook 'python-mode-hook #'anaconda-mode)
+  :init
+  (add-hook 'python-mode-hook #'anaconda-mode)
+  (add-hook 'python-mode-hook #'anaconda-eldoc-mode)
   :diminish (anaconda-mode . " Ⓐ "))
 
 ;; company-anaconda: Python backend for Company.

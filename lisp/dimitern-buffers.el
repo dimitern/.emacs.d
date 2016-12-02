@@ -199,6 +199,7 @@ Add this to `kill-buffer-query-functions'."
                   prog-mode-hook
                   text-mode-hook))
     (add-hook hook #'visual-fill-column-mode))
+  (add-hook 'python-mode-hook #'(lambda () (visual-fill-column-mode -1)))
   ;; Center text by default, and move the fringes close to the text.
   :config
   (setq-default visual-fill-column-center-text nil

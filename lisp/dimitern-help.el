@@ -41,6 +41,7 @@
 
   (which-key-declare-prefixes
     ;; Prefixes for global prefixes and minor modes
+    "C-x C-a" "gud/pdb"
     "C-c @" "outline"
     "C-c !" "flycheck"
     "C-c 8" "typo"

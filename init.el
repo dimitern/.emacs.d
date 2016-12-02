@@ -23,6 +23,7 @@
 (use-package dimitern-spaceline
   :init
   (add-hook 'emacs-startup-hook #'dimitern-spaceline/emacs-theme)
+  (add-hook 'pyhon-mode-hook #'dimitern-spaceline/emacs-theme)
   ;; This is also necessary to fix powerline in terminal mode.
   (unless (display-graphic-p)
     (add-hook 'tty-setup-hook #'dimitern-spaceline/emacs-theme))

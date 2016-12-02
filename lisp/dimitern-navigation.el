@@ -43,6 +43,8 @@
 (use-package nlinum
   :ensure t
   :pin "gnu"
+  :config
+  (nlinum-mode)
   :bind (("C-c t l" . nlinum-mode)))
 
 (provide 'dimitern-navigation)

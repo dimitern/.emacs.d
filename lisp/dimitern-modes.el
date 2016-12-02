@@ -155,25 +155,44 @@ Taken from http://stackoverflow.com/a/3072831/355252."
               ("C-c m e e" . eval-last-sexp)
               ("C-c m e f" . eval-defun)))
 
-;; We can safely declare this function, since we'll only call it in Python
-;; Mode, that is, when python.el was already loaded.
-(declare-function python-shell-calculate-exec-path "python")
-
-(defun flycheck-virtualenv-executable-find (executable)
-  "Find an EXECUTABLE in the current virtualenv if any."
-  (if (bound-and-true-p python-shell-virtualenv-root)
-      (let ((exec-path (python-shell-calculate-exec-path)))
-        (executable-find executable))
-    (executable-find executable)))
-
-(defun flycheck-virtualenv-setup ()
-  "Setup Flycheck for the current virtualenv."
-  (setq flycheck-executable-find #'flycheck-virtualenv-executable-find))
-
 ;; python: Python editing.
 (use-package python
   :ensure t
   :mode ("\\.pyw?\\'" . python-mode)
+  :init
+  (defhydra dimitern-pdb (:hint nil)
+    "
+^Pdb^ (_q_ to quit)
+^---^-------------------
+_._: start gud/pdb
+_b_: set breakpoint
+_d_: remove breakpoint
+_s_: step into
+_n_: step over (next)
+_f_: step out (finish)
+_c_: continue (run)
+_p_: print expression
+_e_: exec statement
+_<_: up frame
+_>_: down frame
+_k_: stop subjob
+_l_: refresh
+"
+    ("q" nil)
+    ("." pdb)
+    ("b" gud-break)
+    ("d" gud-remove)
+    ("s" gud-step)
+    ("n" gud-next)
+    ("f" gud-finish)
+    ("c" gud-cont)
+    ("p" gud-print)
+    ("e" gud-statement)
+    ("<" gud-up)
+    (">" gud-down)
+    ("k" gud-stop-subjob)
+    ("l" gud-refresh))
+  :bind (("M-RET" . dimitern-pdb/body))
   :config
 
   (let ((ipython (executable-find "ipython")))
@@ -187,29 +206,7 @@ Taken from http://stackoverflow.com/a/3072831/355252."
 
   ;; PEP 8 compliant filling rules, 79 chars maximum
   (add-hook 'python-mode-hook (lambda () (validate-setq fill-column 79)))
-  (add-hook 'python-mode-hook #'subword-mode)
-  (add-hook 'python-mode-hook #'dimitern-virtualenv-init-from-workon-home)
-  (add-hook 'python-mode-hook #'flycheck-virtualenv-setup))
-
-(defvar dimitern-virtualenv-workon-home
-  (or (getenv "WORKON_HOME") (expand-file-name "~/work/pyenvs"))
-  "The $WORKON_HOME path.")
-
-(defun dimitern-virtualenv-init-from-workon-home ()
-  "Set the current virtualenv for this buffer."
-  (let* ((name (projectile-project-name))
-         (venv-dir (expand-file-name name dimitern-virtualenv-workon-home)))
-    (when (file-directory-p venv-dir)
-      (setq python-shell-virtualenv-root venv-dir))))
-
-(defun dimitern-neotree-project-root (&optional directory)
-  "Open a NeoTree browser for a project DIRECTORY."
-  (interactive)
-  (let ((default-directory (or directory default-directory)))
-    (if (and (fboundp 'neo-global--window-exists-p)
-             (neo-global--window-exists-p))
-        (neotree-hide)
-      (neotree-find (projectile-project-root)))))
+  (add-hook 'python-mode-hook #'subword-mode))
 
 ;; projectile: project management for Emacs.
 (use-package projectile
@@ -228,6 +225,90 @@ Taken from http://stackoverflow.com/a/3072831/355252."
   (bind-key "C-c p <insert>" #'projectile-add-known-project)
 
   :diminish projectile-mode)
+
+(defvar dimitern-virtualenv-workon-home
+  (or (getenv "WORKON_HOME") (expand-file-name "~/work/pyenvs"))
+  "The $WORKON_HOME path.")
+
+(defun dimitern-venv-projectile-auto-workon ()
+  "If a venv matching the projectile project name exists, switch
+to the venv and active it."
+  (let ((path (concat venv-location (projectile-project-name))))
+    (when (file-exists-p (directory-file-name path))
+      (setq venv-current-name (projectile-project-name))
+      (venv--activate-dir path))))
+
+(defun dimitern-gud-set-pdb-cmdline ()
+  "Sets the GUD's pdb command line to use ipython (if available) or python, followed by `-m pdb'"
+  (if (executable-find "ipython")
+      ;; prefer ipython, if available.
+      (setq pdb-cmdline (intern "ipython -m pdb")
+            gud-pdb-command-name (symbol-name pdb-cmdline))
+    ;; use plain python otherwise.
+    (setq pdb-cmdline (intern "python -m pdb")
+          gud-pdb-command-name (symbol-name pdb-cmdline)))
+
+  ;; Ensure pdb is called with a sensible filename.
+  (defadvice pdb (before gud-query-cmdline activate)
+    "Provide a better default command line when called interactively."
+    (interactive
+     (list (gud-query-cmdline pdb-cmdline
+                              (file-name-nondirectory buffer-file-name))))))
+
+;; virtualenvwrapper: emulator for Doug Hellmann's virtualenvwrapper.sh.
+(use-package virtualenvwrapper
+  :ensure t
+  :init
+  (defhydra dimitern-venv (:hint nil)
+    "
+virtualenvwrapper (quit with _q_)
+^Commands^
+^--------^------------------------
+_w_: workon
+_d_: deactivate
+_r_: remove
+_l_: list
+_c_: cd
+_m_: make
+_p_: copy"
+    ("q" nil)
+    ("w" venv-workon)
+    ("d" venv-deactivate)
+    ("r" venv-rmvirtualenv)
+    ("l" venv-lsvirtualenv)
+    ("c" venv-cdvirtualenv)
+    ("m" venv-mkvirtualenv)
+    ("p" venv-cpvirtualenv))
+  :after projectile
+  :bind (("C-z" . dimitern-venv/body))
+  :config
+
+  (validate-setq
+   ;; Set venvs location from $WORKON_HOME or directly.
+   venv-location dimitern-virtualenv-workon-home)
+
+  ;; Fix pdb command line.
+  (dimitern-gud-set-pdb-cmdline)
+
+  ;; Active matching venvs when switching to projects.
+  (validate-setq
+   projectile-switch-project-action
+   #'(lambda ()
+       (projectile-recentf)
+       (dimitern-venv-projectile-auto-workon)))
+
+  ;; Enable for interactive shells and eshell.
+  (venv-initialize-interactive-shells)
+  (venv-initialize-eshell))
+
+(defun dimitern-neotree-project-root (&optional directory)
+  "Open a NeoTree browser for a project DIRECTORY."
+  (interactive)
+  (let ((default-directory (or directory default-directory)))
+    (if (and (fboundp 'neo-global--window-exists-p)
+             (neo-global--window-exists-p))
+        (neotree-hide)
+      (neotree-find (projectile-project-root)))))
 
 ;; anaconda-mode: powerful Python backend for Emacs.
 (use-package anaconda-mode

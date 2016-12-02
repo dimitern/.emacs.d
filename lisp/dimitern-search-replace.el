@@ -51,6 +51,7 @@
 
 ;; ag: the silver searcher (grep on steroids)
 (use-package ag
+  :ensure t
   :after anzu
   :config
   (validate-setq

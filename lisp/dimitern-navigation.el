@@ -46,6 +46,6 @@
   :init
   (global-nlinum-mode)
   :bind (("C-c t l" . nlinum-mode))
-  :diminish (nlinum-mode " ⓝ "))
+  :diminish (nlinum-mode . " ⓝ "))
 
 (provide 'dimitern-navigation)

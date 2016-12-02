@@ -314,7 +314,7 @@ _p_: copy"
   (venv-initialize-eshell)
 
   ;; Active matching venvs when switching to projects.
-  (validate-setq
+  (setq
    projectile-switch-project-action
    '(lambda ()
       (dimitern-venv-projectile-auto-workon)

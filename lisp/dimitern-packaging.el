@@ -9,11 +9,11 @@
 
 ;; Debugging & load-time diagnostics.
 (add-hook 'after-init-hook
-	  (lambda ()
-	    (message "Time to load init file: %s"
-		     (emacs-init-time))
-	    (setq
-	     gc-cons-threshold dimitern/gc-cons-threshold)))
+          (lambda ()
+            (message "Time to load init file: %s"
+                     (emacs-init-time))
+            (setq
+             gc-cons-threshold dimitern/gc-cons-threshold)))
 
 (defun dimitern-help/minibuffer-setup-hook ()
   "Disable GC while the minibuffer is active, reset on close."
@@ -35,9 +35,11 @@
  ; Don't activate installed packages on startup.
  package-enable-at-startup nil
  ;; Setup package archives to include MELPA, then ELPA.
- package-archives (append package-archives
-			  '(("melpa" . "http://melpa.org/packages/")
-			    ("gnu" . "http://elpa.gnu.org/packages/")))
+ package-archives (append
+                   package-archives
+                   '(("melpa" . "https://melpa.org/packages/")
+                     ("melpa-stable" . "https://stable.melpa.org/packages/")
+                     ("gnu" . "http://elpa.gnu.org/packages/")))
  ;; use-package: log what gets loaded and pin to MELPA by default.
  use-package-verbose t
  use-package-always-pin "melpa"  ;; prefer MELPA latest.

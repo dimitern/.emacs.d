@@ -179,6 +179,7 @@
 
 ;; reveal-in-osx-finder: reveal current buffer in finder.
 (use-package reveal-in-osx-finder
+  :when (dimitern-os/is-darwin)
   :ensure t
   ;; Bind analogous to `dired-jump' at C-c f j
   :bind (("C-c f J" . reveal-in-osx-finder)))
@@ -329,6 +330,14 @@ Disable the highlighting of overlong lines."
   :bind (("C-c t r" . rainbow-mode))
   :config (add-hook 'css-mode-hook #'rainbow-mode))
 
+;; rainbow-delimiters: highlight delimiters by depth.
+(use-package rainbow-delimiters
+  :ensure t
+  :defer t
+  :init
+  (dolist (hook '(text-mode-hook prog-mode-hook))
+    (add-hook hook #'rainbow-delimiters-mode)))
+
 ;; highlight-symbol: highlighting and commands for symbols.
 (use-package highlight-symbol
   :ensure t
@@ -433,6 +442,7 @@ Disable the highlighting of overlong lines."
 ;; flycheck-pos-tip: show Flycheck errors in tooltip.
 (use-package flycheck-pos-tip
   :ensure t
+  :disabled t
   :after flycheck
   :config (flycheck-pos-tip-mode))
 
@@ -441,5 +451,8 @@ Disable the highlighting of overlong lines."
   :ensure t
   :after flycheck
   :config (flycheck-title-mode))
+
+;;; Internationalisation
+(prefer-coding-system 'utf-8)
 
 (provide 'dimitern-files)

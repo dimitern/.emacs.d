@@ -14,6 +14,9 @@
   :ensure t
   :defer 1
   :config
+  (validate-setq
+   beacon-blink-duration 0.05
+   beacon-blink-delay 0.1)
   (beacon-mode 1)
   :diminish beacon-mode)
 
@@ -130,6 +133,13 @@ Add this to `kill-buffer-query-functions'."
               (ibuffer-vc-set-filter-groups-by-vc-root)
               (unless (eq ibuffer-sorting-mode 'alphabetic)
                 (ibuffer-do-sort-by-alphabetic)))))
+
+;; ibuffer-projectile: group buffers by Projectile project.
+(use-package ibuffer-projectile
+  :ensure t
+  :after projectile
+  :defer t
+  :init (add-hook 'ibuffer-hook #'ibuffer-projectile-set-filter-groups))
 
 ;; easy-kill: easy killing and marking on C-w.
 (use-package easy-kill

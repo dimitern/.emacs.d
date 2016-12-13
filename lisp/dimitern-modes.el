@@ -394,4 +394,63 @@ _p_: copy"
   :config (validate-setq nxml-slash-auto-complete-flag t
                          nxml-auto-insert-xml-declaration-flag t))
 
+;; magit: the one and only Git frontend.
+(use-package magit
+  :ensure t
+  :pin "melpa-stable"
+  :bind (("C-c g c" . magit-clone)
+         ("C-c g s" . magit-status)
+         ("C-c g b" . magit-blame)
+         ("C-c g l" . magit-log-buffer-file)
+         ("C-c g p" . magit-pull))
+  :config
+  ;; Shut up, Magit
+  (validate-setq
+   magit-completing-read-function #'ivy-completing-read
+   magit-save-repository-buffers 'dontask
+   magit-refs-show-commit-count 'all
+   ;; Use separate buffers for one-file logs so that we don't need to reset
+   ;; the filter everytime for full log view
+   magit-log-buffer-file-locked t
+   ;; This is creepy, Magit
+   magit-revision-show-gravatars nil
+   ;; Show status buffer in fullscreen
+   magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1
+   )
+
+  ;; Set Magit's repo dirs for `magit-status' from Projectile's known
+  ;; projects.  Initialize the `magit-repository-directories'
+  ;; immediately after Projectile was loaded, and update it every time
+  ;; we switched projects, because the new project might have been
+  ;; unknown before
+  (defun dimitern-magit-set-repo-dirs-from-projectile ()
+    "Set `magit-repo-dirs' from known Projectile projects."
+    (let ((project-dirs (bound-and-true-p projectile-known-projects)))
+      ;; Remove trailing slashes from project directories, because
+      ;; Magit adds trailing slashes again, which breaks the
+      ;; presentation in the Magit prompt.
+      (validate-setq magit-repository-directories
+                     (mapcar #'directory-file-name project-dirs))))
+
+  (with-eval-after-load 'projectile
+    (dimitern-magit-set-repo-dirs-from-projectile))
+
+  (add-hook 'projectile-switch-project-hook
+            #'dimitern-magit-set-repo-dirs-from-projectile))
+
+;; gitconfig-mode: git configuration mode.
+(use-package gitconfig-mode
+  :ensure t
+  :defer t)
+
+;; gitignore-mode: .gitignore mode.
+(use-package gitignore-mode
+  :ensure t
+  :defer t)
+
+;; gitattributes-mode: git attributes mode.
+(use-package gitattributes-mode
+  :ensure t
+  :defer t)
+
 (provide 'dimitern-modes)

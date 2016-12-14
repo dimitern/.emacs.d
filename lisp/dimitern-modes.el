@@ -161,13 +161,7 @@ Taken from http://stackoverflow.com/a/3072831/355252."
   :mode ("\\.pyw?\\'" . python-mode)
   :bind (("M-RET" . dimitern-pdb/body))
   :config
-
-  (let ((ipython (executable-find "ipython")))
-    (if (and ipython (not (dimitern-os/is-darwin)))
-        (validate-setq python-shell-interpreter ipython)
-      (warn "IPython is missing, falling back to default python")))
-
-  (setq
+  (validate-setq
    python-indent-offset 4
    indent-tabs-mode nil)
 
@@ -267,7 +261,6 @@ filename. Prefer `ipython', if available."
       (message "Using `%s' as python executable" python-executable)
       (setq pdb-cmdline (intern (format "%s -m pdb" python-executable))
               gud-pdb-command-name (symbol-name pdb-cmdline))
-
       ;; Ensure pdb is called with a sensible filename.
       (defadvice pdb (before gud-query-cmdline activate)
         "Provide a better default command line when called interactively."

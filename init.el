@@ -10,6 +10,10 @@
 ;; dimitern-os: OS-specific helper functions.
 (load "dimitern-os")
 
+;; homebrew installs executables in /usr/local/bin
+(when (dimitern-os/is-darwin)
+  (add-to-list 'exec-path "/usr/local/bin"))
+
 (validate-setq
  ;; User Info
  user-full-name "Dimiter Naydenov"

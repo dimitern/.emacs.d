@@ -27,3 +27,4 @@ places
 
 # Packaging
 .cask
+/projectile.cache

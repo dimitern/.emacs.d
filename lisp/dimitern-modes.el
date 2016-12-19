@@ -155,6 +155,13 @@ Taken from http://stackoverflow.com/a/3072831/355252."
               ("C-c m e e" . eval-last-sexp)
               ("C-c m e f" . eval-defun)))
 
+(defun dimitern/newline-and-enter-sexp (&rest ignored)
+  "Open a new parenthesis, brace, or bracket with relevant newlines and indent."
+  (newline)
+  (indent-according-to-mode)
+  (forward-line -1)
+  (indent-according-to-mode))
+
 ;; python: Python editing.
 (use-package python
   :ensure t
@@ -168,6 +175,10 @@ Taken from http://stackoverflow.com/a/3072831/355252."
   ;; PEP 8 compliant filling rules, 79 chars maximum
   (add-hook 'python-mode-hook (lambda () (validate-setq fill-column 79)))
   (add-hook 'python-mode-hook #'subword-mode)
+
+  (dolist (open-pair '("(" "[" "{"))
+  (sp-local-pair 'python-mode open-pair nil
+                 :post-handlers '((dimitern/newline-and-enter-sexp "RET"))))
 
   (defhydra dimitern-pdb (:hint nil)
     "

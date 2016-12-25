@@ -28,3 +28,4 @@ places
 # Packaging
 .cask
 /projectile.cache
+/bookmarks

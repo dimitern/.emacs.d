@@ -398,6 +398,13 @@ _p_: copy"
   :config (validate-setq nxml-slash-auto-complete-flag t
                          nxml-auto-insert-xml-declaration-flag t))
 
+;; org-mode: Best mode of all!
+(use-package org-mode
+  :bind (("C-c o a" . org-agenda)
+         ("C-c o b" . org-iswitchb)
+         ("C-c o l" . org-store-link))
+  )
+
 ;; magit: the one and only Git frontend.
 (use-package magit
   :ensure t

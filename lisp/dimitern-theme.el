@@ -28,22 +28,13 @@
       (message "dimitern: Rebuilding fonts cache...")
       (shell-command (format "fc-cache -r %s" home-font-dir)))))
 
-(defvar dimitern-theme/theme nil
-  "Selected default theme depending on system-type.")
-
 (defun dimitern-theme/load-default ()
   "Load the default theme, depending on system-type."
+  (load-theme 'material 'no-confirm 'no-enable)
   (if (dimitern-os/is-darwin)
-      ;; solarized-light for darwih, with bigger font size.
-      (progn
-        (load-theme 'solarized-light 'no-confirm 'no-enable)
-        (customize-set-variable 'frame-background-mode 'light)
-        (setq dimitern-theme/theme 'solarized-light)
-        (set-face-attribute 'default nil :height (* 10 (frame-char-height))))
-    ;; solarized-dark for linux.
-    (load-theme 'solarized-dark 'no-confirm 'no-enable)
+      ;; bigger font size for darwin.
+      (set-face-attribute 'default nil :height (* 10 (frame-char-height)))
     (validate-setq
-     dimitern-theme/theme 'solarized-dark
      ;; Needed for fonts installation to work.
      font-use-system-font t
      )
@@ -56,19 +47,10 @@
         (add-to-list 'initial-frame-alist (cons 'font (dimitern-theme/font)))
         (add-to-list 'default-frame-alist (cons 'font (dimitern-theme/font)))))))
 
-;; Solarized theme config.
-(use-package solarized-theme
+;; Material theme config.
+(use-package material-theme
   :ensure t
   :after frame
   :config
   (dimitern-theme/load-default)
-  (validate-setq
-   ;; Disable variable pitch fonts in Solarized theme
-   solarized-use-variable-pitch nil
-   ;; Prefer italics over bold.
-   solarized-use-less-bold t
-   solarized-use-more-italic t
-   ;; Emphasize docstrings.
-   solarized-distinct-doc-face t
-   )
-  (enable-theme dimitern-theme/theme))
+  (enable-theme 'material))

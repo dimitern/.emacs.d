@@ -414,9 +414,10 @@ _p_: copy"
 
 ;; org-bullets: UTF-8 bullets for org headings.
 (use-package org-bullets
+  :ensure t
   :after org-mode
   :config
-  (add-hook 'org-mode-hook (lambda ( org-bullets-mode 1)))
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
   )
 
 ;; magit: the one and only Git frontend.

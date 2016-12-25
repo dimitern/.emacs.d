@@ -400,6 +400,8 @@ _p_: copy"
 
 ;; org-mode: Best mode of all!
 (use-package org-mode
+  :mode ("\\.org\\'" . org-mode)
+  :defer t
   :bind (("C-c C-a" . org-agenda)
          ("C-c o a" . org-attach)
          ("C-c o o" . org-agenda)

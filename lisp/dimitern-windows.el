@@ -46,7 +46,7 @@ If SIDE is non-nil only get windows on that side."
    ("C-c w /" . split-window-right)
    ("C-c w -" . split-window-below)
    ("C-c w m" . delete-other-windows)
-   ;; Additional custom bindings.   
+   ;; Additional custom bindings.
    ("C-c w q" . dimitern-windows/quit-all-side-windows)
    ("C-c w d" . dimitern-windows/toggle-current-window-dedication)
    ("C-c w b" . dimitern-windows/switch-to-minibuffer-window)))
@@ -64,7 +64,7 @@ If SIDE is non-nil only get windows on that side."
   (winner-mode))
 
 ;; ace-window: fast window switching.
-(use-package ace-window              
+(use-package ace-window
   :ensure t
   :bind (("C-x o" . ace-window)
          ("C-c w w" . ace-window)))

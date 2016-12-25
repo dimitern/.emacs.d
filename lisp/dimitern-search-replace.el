@@ -31,9 +31,7 @@
    ([remap isearch-query-replace-regexp] . anzu-isearch-query-replace-regexp))
   :config
   (global-anzu-mode)
-  (validate-setq
-   anzu-cons-mode-line-p nil
-   )
+  (validate-setq anzu-cons-mode-line-p nil)
   :diminish anzu-mode)
 
 ;; swiper: isearch with overview.

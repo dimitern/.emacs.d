@@ -1,15 +1,15 @@
 ;; dimitern-frames.el: Global window system, and frames config.
 ;;
 
-;;;###autoload 
+;;;###autoload
 (defun dimitern-frames/no-bars ()
   "Disable both the tool bar and scroll bar.
 Menu bar is also disabled unless on darwin GUI."
   (tool-bar-mode -1)
   (scroll-bar-mode -1)
   (unless (and
-	   (dimitern-os/is-darwin)
-	   (display-graphic-p))
+           (dimitern-os/is-darwin)
+           (display-graphic-p))
     (menu-bar-mode -1)))
 
 ;; face-remap: face remapping (text scaling)
@@ -33,7 +33,7 @@ Menu bar is also disabled unless on darwin GUI."
    frame-resize-pixelwise t
    ;; More useful frame names.
    frame-title-format '(:eval (if (buffer-file-name)
-				  (abbreviate-file-name (buffer-file-name)) "%b"))
+                                  (abbreviate-file-name (buffer-file-name)) "%b"))
    ;; Size new windows proportionally wrt other windows
    window-combination-resize t
    )

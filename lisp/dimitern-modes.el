@@ -401,7 +401,6 @@ _p_: copy"
 ;; org-mode: Best mode of all!
 (use-package org-mode
   :mode ("\\.org\\'" . org-mode)
-  :defer t
   :bind (("C-c C-a" . org-agenda)
          ("C-c o a" . org-attach)
          ("C-c o o" . org-agenda)
@@ -410,15 +409,20 @@ _p_: copy"
          :map org-mode-map
          ("C-c C-a" . org-agenda)
          ("C-c a"   . org-attach))
-  )
+  :init
+  (add-hook
+   'org-mode-hook (lambda ()
+                    ;; nicer bullets for headings.
+                    (org-bullets-mode 1)
+                    ;; no wrapping long lines.
+                    (visual-fill-column-mode -1)
+                    ;; no line numbers.
+                    (nlinum-mode -1))))
 
 ;; org-bullets: UTF-8 bullets for org headings.
 (use-package org-bullets
   :ensure t
-  :after org-mode
-  :config
-  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-  )
+  :defer t)
 
 ;; magit: the one and only Git frontend.
 (use-package magit

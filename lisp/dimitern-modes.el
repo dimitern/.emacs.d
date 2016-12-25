@@ -400,7 +400,8 @@ _p_: copy"
 
 ;; org-mode: Best mode of all!
 (use-package org-mode
-  :bind (("C-c o a" . org-agenda)
+  :bind (("C-c C-a" . org-agenda)
+         ("C-c o o" . org-agenda)
          ("C-c o b" . org-iswitchb)
          ("C-c o l" . org-store-link))
   )
@@ -409,7 +410,8 @@ _p_: copy"
 (use-package magit
   :ensure t
   :pin "melpa-stable"
-  :bind (("C-c g c" . magit-clone)
+  :bind (("C-c C-g" . magit-status)
+         ("C-c g c" . magit-clone)
          ("C-c g s" . magit-status)
          ("C-c g b" . magit-blame)
          ("C-c g l" . magit-log-buffer-file)

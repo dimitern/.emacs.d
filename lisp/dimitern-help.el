@@ -102,6 +102,10 @@
     "C-c C-e" "web/element"
     "C-c C-t" "web/tags")
 
+  (which-key-declare-prefixes-for-mode 'org-mode
+    "C-c C-a" "org-agenda"
+    "C-c a"   "org-attach")
+
   :diminish which-key-mode)
 
 ;; which-func: show the current elisp function in mode line.

@@ -401,9 +401,13 @@ _p_: copy"
 ;; org-mode: Best mode of all!
 (use-package org-mode
   :bind (("C-c C-a" . org-agenda)
+         ("C-c o a" . org-attach)
          ("C-c o o" . org-agenda)
          ("C-c o b" . org-iswitchb)
-         ("C-c o l" . org-store-link))
+         ("C-c o l" . org-store-link)
+         :map org-mode-map
+         ("C-c C-a" . org-agenda)
+         ("C-c a"   . org-attach))
   )
 
 ;; magit: the one and only Git frontend.

@@ -23,7 +23,6 @@
 (use-package anzu
   :ensure t
   :defer 1
-  :init (global-anzu-mode)
   :bind
   (([remap query-replace] . anzu-query-replace)
    ([remap query-replace-regexp] . anzu-query-replace-regexp)
@@ -31,6 +30,7 @@
    ([remap isearch-query-replace] . anzu-isearch-query-replace)
    ([remap isearch-query-replace-regexp] . anzu-isearch-query-replace-regexp))
   :config
+  (global-anzu-mode)
   (validate-setq
    anzu-cons-mode-line-p nil
    )

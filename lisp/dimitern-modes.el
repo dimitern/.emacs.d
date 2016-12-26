@@ -406,10 +406,20 @@ _p_: copy"
          ("C-c o o" . org-agenda)
          ("C-c o b" . org-iswitchb)
          ("C-c o l" . org-store-link)
+         ("C-c o c" . org-capture)
          :map org-mode-map
          ("C-c C-a" . org-agenda)
          ("C-c a"   . org-attach))
+  :config
+  (setq
+   org-capture-templates
+   '(("t" "TODO" entry
+      (file+headline (concat org-directory "/newgtd.org") "Tasks")
+     "* TODO %^{Brief Description} %^g\n  Added: %U\n  %i\n  %a"))
+   )
   :init
+  (setq org-directory (expand-file-name "~/Dropbox/org-home"))
+  (setq org-default-notes-file (concat org-directory "/newgtd.org"))
   (add-hook
    'org-mode-hook (lambda ()
                     ;; nicer bullets for headings.

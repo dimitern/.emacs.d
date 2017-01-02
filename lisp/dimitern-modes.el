@@ -398,6 +398,18 @@ _p_: copy"
   :config (validate-setq nxml-slash-auto-complete-flag t
                          nxml-auto-insert-xml-declaration-flag t))
 
+;; holiday: calendar config and holidays.
+(use-package holiday
+  :init
+  (require 'bulgarian-holidays)
+  (setq
+   ;; use European date format.
+   calendar-european-month-header t
+   ;; local holidays in Bulgaria.
+   calendar-holidays holiday-bulgarian-holidays
+   )
+  )
+
 ;; org-mode: Best mode of all!
 (use-package org-mode
   :mode ("\\.org\\'" . org-mode)
@@ -419,7 +431,22 @@ _p_: copy"
      ("a" "APPT" entry
       (file+headline (concat org-directory "/newgtd.org") "Задачи")
       "* APPT %^{Brief Description} %^g\n  Добавено: %U\n  %i\n  %a")
-   ))
+     )
+   ;; do not show completed tasks, if scheduled or with deadline.
+   org-agenda-skip-deadline-if-done t
+   org-agenda-skip-scheduled-if-done t
+   ;; always start the agenda on the current day.
+   org-agenda-start-on-weekday nil
+   ;; agenda shows all days, even if they have no associated tasks.
+   org-agenda-show-all-dates t
+   ;; show the following 7 days in the agenda.
+   org-agenda-ndays 7
+   ;; store captured notes in reverse date order (newest on top).
+   org-reverse-note-order t
+   )
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((ledger . t)))
   :init
   (setq org-directory (expand-file-name "~/Dropbox/org-home"))
   (setq org-default-notes-file (concat org-directory "/newgtd.org"))

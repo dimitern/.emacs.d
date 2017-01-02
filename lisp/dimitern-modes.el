@@ -414,9 +414,12 @@ _p_: copy"
   (setq
    org-capture-templates
    '(("t" "TODO" entry
-      (file+headline (concat org-directory "/newgtd.org") "Tasks")
-     "* TODO %^{Brief Description} %^g\n  Added: %U\n  %i\n  %a"))
-   )
+      (file+headline (concat org-directory "/newgtd.org") "Задачи")
+      "* TODO %^{Brief Description} %^g\n  Добавено: %U\n  %i\n  %a")
+     ("a" "APPT" entry
+      (file+headline (concat org-directory "/newgtd.org") "Задачи")
+      "* APPT %^{Brief Description} %^g\n  Добавено: %U\n  %i\n  %a")
+   ))
   :init
   (setq org-directory (expand-file-name "~/Dropbox/org-home"))
   (setq org-default-notes-file (concat org-directory "/newgtd.org"))

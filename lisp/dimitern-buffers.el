@@ -42,7 +42,7 @@
   :diminish focus-autosave-mode)
 
 (use-package minibuffer
-  :bind (("C-c b k" . dimitern-buffers/kill-this))
+  :bind (("C-c M-b k" . dimitern-buffers/kill-this))
   :config
   (add-hook 'kill-buffer-query-functions
             #'dimitern-buffers/do-not-kill-important)
@@ -173,9 +173,9 @@ Add this to `kill-buffer-query-functions'."
 
 ;; newcomment: built-in comment features.
 (use-package newcomment
-  :bind (("C-c c d" . comment-dwim)
-         ("C-c c l" . comment-line)
-         ("C-c c r" . comment-region)))
+  :bind (("C-c M-c d" . comment-dwim)
+         ("C-c M-c l" . comment-line)
+         ("C-c M-c r" . comment-region)))
 
 ;; whitespace-cleanup-mode: cleanup whitespace in buffers.
 (use-package whitespace-cleanup-mode

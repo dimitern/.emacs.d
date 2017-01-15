@@ -413,15 +413,13 @@ _p_: copy"
 ;; org-mode: Best mode of all!
 (use-package org-mode
   :mode ("\\.org\\'" . org-mode)
-  :bind (("C-c C-a" . org-agenda)
-         ("C-c o a" . org-attach)
-         ("C-c o o" . org-agenda)
-         ("C-c o b" . org-iswitchb)
-         ("C-c o l" . org-store-link)
-         ("C-c o c" . org-capture)
+  :bind (("C-c a" . org-agenda)
+         ("C-c b" . org-iswitchb)
+         ("C-c l" . org-store-link)
+         ("C-c c" . org-capture)
          :map org-mode-map
-         ("C-c C-a" . org-agenda)
-         ("C-c a"   . org-attach))
+         ("C-c a"   . org-agenda)
+         ("C-c C-a" . org-attach))
   :config
   (setq
    org-capture-templates
@@ -450,6 +448,11 @@ _p_: copy"
   :init
   (setq org-directory (expand-file-name "~/Dropbox/org-home"))
   (setq org-default-notes-file (concat org-directory "/newgtd.org"))
+  ;; Make windmove work in org-mode:
+  (add-hook 'org-shiftup-final-hook 'windmove-up)
+  (add-hook 'org-shiftleft-final-hook 'windmove-left)
+  (add-hook 'org-shiftdown-final-hook 'windmove-down)
+  (add-hook 'org-shiftright-final-hook 'windmove-right)
   (add-hook
    'org-mode-hook (lambda ()
                     ;; nicer bullets for headings.

@@ -14,7 +14,7 @@
 ;; ffap: find files at point.
 (use-package ffap
   :defer t
-  :bind (("C-c  C-f" . find-file-at-point)
+  :bind (("C-c C-f" . find-file-at-point)
          ("C-c C-d" . dired-at-point))
   ;; Please stop pinging random hosts!  See
   ;; https://github.com/technomancy/emacs-starter-kit/issues/39
@@ -388,7 +388,7 @@ Disable the highlighting of overlong lines."
 ;; flyspell: on-the-fly spell checking.
 (use-package flyspell
   :bind (("C-c t s" . flyspell-mode)
-         ("C-c l b" . flyspell-buffer))
+         ("C-c M-l b" . flyspell-buffer))
   :init
   (dolist (hook '(text-mode-hook message-mode-hook))
     (add-hook hook 'turn-on-flyspell))
@@ -413,8 +413,8 @@ Disable the highlighting of overlong lines."
   ;; Always change dictionary through adict, because it triggers hooks that let
   ;; us automatically update the "language" for other modes (e.g. Typo Mode) as
   ;; well
-  :bind (("C-c l l" . adict-change-dictionary)
-         ("C-c l g" . adict-guess-dictionary))
+  :bind (("C-c M-l l" . adict-change-dictionary)
+         ("C-c M-l g" . adict-guess-dictionary))
   :init
   (add-hook 'flyspell-mode-hook #'auto-dictionary-mode))
 

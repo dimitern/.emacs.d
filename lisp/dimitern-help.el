@@ -49,9 +49,12 @@
     "C-c 8 <" "typo/left-brackets"
     "C-c 8 >" "typo/right-brackets"
     ;; Prefixes for my personal bindings
-    "C-c a" "applications"
-    "C-c b" "buffers"
-    "C-c c" "compile-and-comments"
+    "C-c M-a applications"
+    "C-c a" "org-agenda"
+    "C-c b" "org-iswitchb"
+    "C-c M-b" "buffers"
+    "C-c c" "org-capture"
+    "C-c M-c" "compile-and-comments"
     "C-c e" "errors"
     "C-c f" "files"
     "C-c f v" "variables"
@@ -62,12 +65,13 @@
     "C-c i" "insert"
     "C-c i l" "licenses"
     "C-c j" "jump"
-    "C-c l" "language/spelling"
+    "C-c l" "org-store-link"
+    "C-c M-l" "language/spelling"
     "C-c m" "major mode"
-    "C-c C-a" "org-agenda"
+    "C-c C-v" "org-babel"
     "C-c o" "org-mode"
-    "C-c /" "cursors"
-    "C-c / i" "cursors/insert"
+    "C-c M-/" "cursors"
+    "C-c M-/ i" "cursors/insert"
     "C-c p" "projects"
     "C-c p s" "projects/search"
     "C-c p x" "projects/execute"
@@ -103,8 +107,12 @@
     "C-c C-t" "web/tags")
 
   (which-key-declare-prefixes-for-mode 'org-mode
-    "C-c C-a" "org-agenda"
-    "C-c a"   "org-attach")
+    "C-c a"   "org-agenda"
+    "C-c b"   "org-iswitchb"
+    "C-c c"   "org-capture"
+    "C-c C-e" "org-export"
+    "C-c l"   "org-store-link"
+    "C-c C-a" "org-attach")
 
   :diminish which-key-mode)
 
@@ -128,7 +136,7 @@ mouse-3: go to end"))))
 ;; ivy: minibuffer completion.
 (use-package ivy
   :ensure t
-  :bind (("C-c b r" . ivy-resume))
+  :bind (("C-c M-b r" . ivy-resume))
   :init
   (ivy-mode 1)
   ;; Include recentf and bookmarks to switch buffer, and tune the

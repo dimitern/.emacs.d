@@ -51,12 +51,25 @@ If SIDE is non-nil only get windows on that side."
    ("C-c w d" . dimitern-windows/toggle-current-window-dedication)
    ("C-c w b" . dimitern-windows/switch-to-minibuffer-window)))
 
+
+(eval-when-compile (require 'cl))
+
+(defun dimitern/ignore-error-wrapper (fn)
+  "Return a new function calling `FN' that ignore errors.
+The function wraps a function with `ignore-errors' macro."
+  (lexical-let ((fn fn))
+    (lambda ()
+      (interactive)
+      (ignore-errors
+        (funcall fn)))))
+
 ;; windmove: move between windows with Shift+Arrow.
 (use-package windmove
-  :bind (("C-c w <left>"  . windmove-left)
-         ("C-c w <right>" . windmove-right)
-         ("C-c w <up>"    . windmove-up)
-         ("C-c w <down>"  . windmove-down)))
+  :config (windmove-default-keybindings 'shift)
+  :bind (("S-<left>"  . windmove-left)
+         ("S-<right>" . windmove-right)
+         ("S-<up>"    . windmove-up)
+         ("S-<down>"  . windmove-down)))
 
 ;; winner: undo and redo window configurations.
 (use-package winner

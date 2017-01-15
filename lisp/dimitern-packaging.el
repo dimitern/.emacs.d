@@ -78,8 +78,8 @@
 (use-package paradox
   :ensure t
   :defer t
-  :bind (("C-c a p" . paradox-list-packages)
-         ("C-c a P" . paradox-upgrade-packages))
+  :bind (("C-c M-a p" . paradox-list-packages)
+         ("C-c M-a P" . paradox-upgrade-packages))
   :config
   (validate-setq
    paradox-execute-asynchronously nil   ; No async update, please

@@ -37,9 +37,10 @@
  ;; Setup package archives to include MELPA, then ELPA.
  package-archives (append
                    package-archives
-                   '(("melpa" . "https://melpa.org/packages/")
+                   '(("melpa"        . "https://melpa.org/packages/")
                      ("melpa-stable" . "https://stable.melpa.org/packages/")
-                     ("gnu" . "http://elpa.gnu.org/packages/")))
+                     ("org"          . "http://orgmode.org/elpa/")
+                     ("gnu"          . "http://elpa.gnu.org/packages/")))
  ;; use-package: log what gets loaded and pin to MELPA by default.
  use-package-verbose t
  use-package-always-pin "melpa"  ;; prefer MELPA latest.

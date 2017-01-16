@@ -234,7 +234,9 @@ _l_: refresh
 (defvar dimitern-virtualenv-workon-home
   (or
    (getenv "WORKON_HOME")
-   (expand-file-name "~/work/pyenvs/"))
+   (if (dimitern-os/is-linux)
+       (expand-file-name "~/work/pyenvs/")
+       (expand-file-name "z:/pyenvs/")))
   "The $WORKON_HOME path.")
 
 (defun dimitern-venv-projectile-auto-workon ()

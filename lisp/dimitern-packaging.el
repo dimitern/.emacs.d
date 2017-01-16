@@ -2,8 +2,12 @@
 ;;
 
 ;; Save the original GC threshold to restore it later.
-(defvar dimitern/gc-cons-threshold gc-cons-threshold
+(defvar dimitern/gc-cons-threshold
+  (if (eq system-name "win7")
+      (* gc-cons-threshold 100)   ; scrolling quite slow on Windows otherwise.
+    gc-cons-threshold)
   "Original gc-cons-threshold value.")
+
 ;; Increse GC threshold to speed up init loading.
 (setq gc-cons-threshold most-positive-fixnum)
 

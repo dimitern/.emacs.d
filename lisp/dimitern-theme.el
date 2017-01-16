@@ -2,11 +2,11 @@
 ;;
 
 ;; Default font (FIXME: only works on Ubuntu).
-(defvar dimitern-theme/font-family "Input Mono"
+(defvar dimitern-theme/font-family "InputMono"
   "Font family for the theme.")
 (defvar dimitern-theme/font-name "Light"
   "Font name for the theme.")
-(defvar dimitern-theme/font-size 9
+(defvar dimitern-theme/font-size 14
   "Font size for the theme.")
 (defvar dimitern-theme/font-dir "fonts/Input-Font/"
   "Fonts directory prefix.")
@@ -34,16 +34,19 @@
   (if (dimitern-os/is-darwin)
       ;; bigger font size for darwin.
       (set-face-attribute 'default nil :height (* 10 (frame-char-height)))
-    (validate-setq
-     ;; Needed for fonts installation to work.
-     font-use-system-font t
-     )
+
+    (when (dimitern-os/is-darwin)
+      (setq
+       ;; Needed for fonts installation to work.
+       font-use-system-font t))
     ;; Install font if needed (linux only).
-    (if (member dimitern-theme/font-family (font-family-list))
+    (if (and
+         (dimitern-os/is-linux)
+         (member dimitern-theme/font-family (font-family-list)))
         t
       (when (display-graphic-p)
         ;; Font installation only works on Linux.
-        (dimitern-theme/install-font)
+        (unless (dimitern-os/is-windows) (dimitern-theme/install-font))
         (add-to-list 'initial-frame-alist (cons 'font (dimitern-theme/font)))
         (add-to-list 'default-frame-alist (cons 'font (dimitern-theme/font)))))))
 

@@ -4,7 +4,7 @@
 (use-package exec-path-from-shell
   :ensure t
   :defer 1
-  :unless (dimitern-os/is-darwin)
+  :when (dimitern-os/is-linux)
   :config
   (validate-setq
    exec-path-from-shell-variables '("PYTHONPATH"       ; Python modules

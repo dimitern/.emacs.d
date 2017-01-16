@@ -9,4 +9,8 @@
   "Returns non-nil if running on Mac OS X (darwin)."
   (eq system-type 'darwin))
 
+(defun dimitern-os/is-windows ()
+  "Returns non-nil if running on Windows."
+  (eq system-type 'windows-nt))
+
 (provide 'dimitern-os)

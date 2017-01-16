@@ -13,7 +13,7 @@
  mouse-yank-at-point t
  )
 
-(unless (dimitern-os/is-darwin)
+(when (dimitern-os/is-linux)
   (validate-setq
    ;; Transfer clipboard back to X before quitting Emacs (unless on
    ;; darwin).

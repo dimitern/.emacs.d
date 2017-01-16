@@ -21,7 +21,7 @@
    which-key-sort-order 'which-key-prefix-then-key-order
    ;; Let's go unicode :)
    which-key-key-replacement-alist
-   '(("<\\([[:alnum:]-]+\\)>" . "\\1")
+   '(("<\\([[:alnum:]]+\\)>" . "\\1")
      ("up"                    . "↑")
      ("right"                 . "→")
      ("down"                  . "↓")
@@ -41,45 +41,40 @@
 
   (which-key-declare-prefixes
     ;; Prefixes for global prefixes and minor modes
-    "C-x C-a" "gud/pdb"
-    "C-c @" "outline"
-    "C-c !" "flycheck"
-    "C-c 8" "typo"
-    "C-c 8 -" "typo/dashes"
-    "C-c 8 <" "typo/left-brackets"
-    "C-c 8 >" "typo/right-brackets"
-    ;; Prefixes for my personal bindings
-    "C-c M-a applications"
-    "C-c a" "org-agenda"
-    "C-c b" "org-iswitchb"
-    "C-c M-b" "buffers"
-    "C-c c" "org-capture"
-    "C-c M-c" "compile-and-comments"
-    "C-c e" "errors"
-    "C-c f" "files"
-    "C-c f v" "variables"
-    "C-c C-g" "magit-status"
-    "C-c g" "git"
-    "C-c g g" "github/gist"
-    "C-c h" "help"
-    "C-c i" "insert"
-    "C-c i l" "licenses"
-    "C-c j" "jump"
-    "C-c l" "org-store-link"
-    "C-c M-l" "language/spelling"
-    "C-c m" "major mode"
-    "C-c C-v" "org-babel"
-    "C-c o" "org-mode"
-    "C-c M-/" "cursors"
-    "C-c M-/ i" "cursors/insert"
-    "C-c p" "projects"
-    "C-c p s" "projects/search"
-    "C-c p x" "projects/execute"
-    "C-c p 4" "projects/other-window"
-    "C-c s" "search"
-    "C-c t" "toggle"
-    "C-c w" "windows/frames"
-    "C-c x" "text")
+    "C-x C-a"    "gud/pdb"
+    "C-c @"      "outline"
+    "C-c !"      "flycheck"
+    "C-c M-a"    "applications"
+    "C-c a"      "org-agenda"
+    "C-c b"      "org-iswitchb"
+    "C-c M-b"    "buffers"
+    "C-c c"      "org-capture"
+    "C-c M-c"    "compile-and-comments"
+    "C-c e"      "errors"
+    "C-c f"      "files"
+    "C-c f v"    "variables"
+    "C-c C-g"    "magit-status"
+    "C-c g"      "git"
+    "C-c g g"    "github/gist"
+    "C-c h"      "help"
+    "C-c i"      "insert"
+    "C-c i l"    "licenses"
+    "C-c j"      "jump"
+    "C-c l"      "org-store-link"
+    "C-c M-l"    "language/spelling"
+    "C-c m"      "major mode"
+    "C-c C-v"    "org-babel"
+    "C-c o"      "org-mode"
+    "C-c M-/"    "cursors"
+    "C-c M-/ i"  "cursors/insert"
+    "C-c p"      "projects"
+    "C-c p s"    "projects/search"
+    "C-c p x"    "projects/execute"
+    "C-c p 4"    "projects/other-window"
+    "C-c s"      "search"
+    "C-c t"      "toggle"
+    "C-c w"      "windows/frames"
+    "C-c x"      "text")
 
   ;; Prefixes for major modes
   (which-key-declare-prefixes-for-mode 'markdown-mode
@@ -89,14 +84,14 @@
     "C-c C-s" "markdown/style"
     "C-c C-t" "markdown/header"
     "C-c C-x" "markdown/structure"
-    "C-c m" "markdown/personal")
+    "C-c m"   "markdown/personal")
 
   (which-key-declare-prefixes-for-mode 'emacs-lisp-mode
-    "C-c m" "elisp/personal"
+    "C-c m"   "elisp/personal"
     "C-c m e" "eval")
 
   (which-key-declare-prefixes-for-mode 'js2-mode
-    "C-c m" "js/personal"
+    "C-c m"   "js/personal"
     "C-c m r" "refactor")
 
   (which-key-declare-prefixes-for-mode 'web-mode

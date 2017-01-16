@@ -31,3 +31,4 @@ places
 /bookmarks
 /lisp/bulgarian-holidays.el
 /.org-id-locations
+org-clock-save.el

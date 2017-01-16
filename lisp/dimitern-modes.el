@@ -414,7 +414,7 @@ _p_: copy"
 (use-package org
   :pin "org"
   :ensure t
-  :mode ("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode)
+  :mode ("\\.\\(org\\|org_archive\\)$" . org-mode)
   :bind (("C-c a" . org-agenda)
          ("C-c b" . org-iswitchb)
          ("C-c l" . org-store-link)
@@ -453,8 +453,6 @@ _p_: copy"
    '((ledger . t)))
   :init
   (require 'ox-md)
-  (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
-
   (setq org-directory (expand-file-name "~/Dropbox/org-home"))
   (setq org-default-notes-file (concat org-directory "/newgtd.org"))
   ;; Make windmove work in org-mode:

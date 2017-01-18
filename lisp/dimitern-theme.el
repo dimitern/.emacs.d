@@ -2,7 +2,10 @@
 ;;
 
 ;; Default font (FIXME: only works on Ubuntu).
-(defvar dimitern-theme/font-family "InputMono"
+(defvar dimitern-theme/font-family
+  (if (dimitern-os/is-windows)
+      "InputMono"
+    "Input Mono")
   "Font family for the theme.")
 (defvar dimitern-theme/font-name "Light"
   "Font name for the theme.")

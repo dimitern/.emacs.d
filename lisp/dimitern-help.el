@@ -139,6 +139,7 @@ mouse-3: go to end"))))
   (validate-setq
    ivy-use-virtual-buffers t
    ivy-count-format "(%d/%d) "
+   ivy-use-selectable-prompt t
    )
   :diminish ivy-mode)
 
@@ -147,7 +148,11 @@ mouse-3: go to end"))))
   :ensure t
   :after ivy
   :bind (:map ivy-minibuffer-map
-         ("C-o" . hydra-ivy/body)))
+              ("C-j" . ivy-immediate-done)
+              ("RET" . ivy-alt-done)
+              ("<left>" . counsel-up-directory)
+              ("<right>" . ivy-alt-done)
+              ("C-o" . hydra-ivy/body)))
 
 ;; counsel: ivy-powered commands completion.
 (use-package counsel
@@ -160,7 +165,8 @@ mouse-3: go to end"))))
          ([remap completion-at-point]      . counsel-company)
          ("C-c f L"                        . counsel-load-library)
          ("C-c f r"                        . counsel-recentf)
-         ("C-c i 8"                        . counsel-unicode-char)
+         ("C-c #"                          . counsel-colors-web)
+         ;;("C-c i 8"                        . counsel-unicode-char)
          ("C-c s a"                        . counsel-ag)
          ("C-c g L"                        . counsel-git-log)
          ("C-c j t"                        . counsel-imenu)))

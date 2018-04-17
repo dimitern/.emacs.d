@@ -22,9 +22,56 @@
  vc-follow-symlinks t
  )
 
+;; Golang configuration
+(use-package go-mode
+  :ensure t
+  :config
+  (defun dimitern/golang-onsave()
+    "Run golang-onsave.sh, which does runs go build, install, test, and vet."
+    (interactive)
+    (shell-command "~/work/bin/golang-onsave.sh"))
+
+  (defun dimitern/go-coverage-current-file()
+    "Run go-coverage, passing 'cover' as the filename, instead of asking"
+    (interactive)
+    (go-coverage
+     (if (boundp 'go--coverage-current-file-name)
+         go--coverage-current-file-name
+       "cover")))
+
+  ;; gofmt on save using goimports
+  (setq gofmt-command "goimports")
+  (setq go-test-verbose t)
+  (add-hook 'before-save-hook 'gofmt-before-save)
+
+  :bind (("C-c i" . go-goto-imports)
+         ("M-." . godef-jump)
+         ("M-*" . xref-pop-marker-stack)
+         ("C-M-." . godef-jump-other-window)
+         ("C-c g h" . dimitern/go-coverage-current-file)
+         ("C-c g d" . godoc-at-point)
+         ("C-c g c" . go-test-current-coverage)
+         ("C-c g t" . go-test-current-test)
+         ("C-c g f" . go-test-current-file)
+         ("C-c g p" . go-test-current-project)
+         ("C-c g x" . go-run)
+         ("C-c g l" . golint)
+         ("C-c g r" . go-rename)
+         ("C-c g SPC" . dimitern/golang-onsave)))
+
+;; go-errcheck - helper to run errcheck.
+(use-package go-errcheck
+  :pin "melpa"
+  :ensure t)
+
 ;; When saving files, set execute permission if #! is in first line.
 (add-hook 'after-save-hook
           'executable-make-buffer-file-executable-if-script-p)
+
+;; package-lint: linter for Emacs lisp packages
+(use-package package-lint
+  :pin "melpa"
+  :ensure t)
 
 ;; yaml-mode
 (use-package yaml-mode
@@ -162,11 +209,31 @@ Taken from http://stackoverflow.com/a/3072831/355252."
   (forward-line -1)
   (indent-according-to-mode))
 
+;; pydoc: browse Python documentation.
+(use-package pydoc
+  :ensure t
+  :after anaconda-mode
+  :bind (("C-M-." . pydoc-at-point)))
+
+;; ein: Emacs IPython Notebooks.
+(use-package ein
+  :pin "melpa"
+  :ensure t)
+
+;; haml-mode: HAML syntax support.
+(use-package haml-mode
+  :ensure t
+  :mode ("\\.haml?\\'" . haml-mode))
+
 ;; python: Python editing.
 (use-package python
   :ensure t
   :mode ("\\.pyw?\\'" . python-mode)
-  :bind (("M-RET" . dimitern-pdb/body))
+  :bind (("M-RET" . dimitern-pdb/body)
+         ;;("M-/" . company-complete-common-or-cycle)
+         ("<tab>" . indent-according-to-mode)
+         ("<backtab>" . indent-rigidly)
+         ("C-<tab>" . anaconda-mode-complete))
   :config
   (validate-setq
    python-indent-offset 4
@@ -177,8 +244,8 @@ Taken from http://stackoverflow.com/a/3072831/355252."
   (add-hook 'python-mode-hook #'subword-mode)
 
   (dolist (open-pair '("(" "[" "{"))
-  (sp-local-pair 'python-mode open-pair nil
-                 :post-handlers '((dimitern/newline-and-enter-sexp "RET"))))
+    (sp-local-pair 'python-mode open-pair nil
+                   :post-handlers '((dimitern/newline-and-enter-sexp "RET"))))
 
   (defhydra dimitern-pdb (:hint nil)
     "
@@ -213,10 +280,16 @@ _l_: refresh
     ("k" gud-stop-subjob)
     ("l" gud-refresh)))
 
+;; flycheck-mypy: FlyCheck interface to MyPy static type checker.
+(use-package flycheck-mypy
+  :ensure t
+  :after python
+  :config
+  (flycheck-add-next-checker 'python-flake8 'python-mypy))
+
 ;; projectile: project management for Emacs.
 (use-package projectile
   :ensure t
-  :defer 1
   :config
   (validate-setq projectile-completion-system 'ivy
                  projectile-find-dir-includes-top-level t)
@@ -226,9 +299,6 @@ _l_: refresh
   ;; Remove dead projects when Emacs is idle
   (run-with-idle-timer 10 nil #'projectile-cleanup-known-projects)
 
-  (bind-key "C-c p TAB" #'dimitern-neotree-project-root)
-  (bind-key "C-c p <insert>" #'projectile-add-known-project)
-
   :diminish projectile-mode)
 
 (defvar dimitern-virtualenv-workon-home
@@ -236,12 +306,13 @@ _l_: refresh
    (getenv "WORKON_HOME")
    (if (dimitern-os/is-linux)
        (expand-file-name "~/work/pyenvs/")
-       (expand-file-name "z:/pyenvs/")))
+     (expand-file-name "z:/pyenvs/")))
   "The $WORKON_HOME path.")
 
 (defun dimitern-venv-projectile-auto-workon ()
   "If a venv matching the projectile project name exists, switch
 to the venv and active it."
+  (interactive)
   (let ((path
          (concat
           venv-location
@@ -273,7 +344,7 @@ filename. Prefer `ipython', if available."
           "Neither `ipython' nor `python' executable found in `%s'" exec-path))
       (message "Using `%s' as python executable" python-executable)
       (setq pdb-cmdline (intern (format "%s -m pdb" python-executable))
-              gud-pdb-command-name (symbol-name pdb-cmdline))
+            gud-pdb-command-name (symbol-name pdb-cmdline))
       ;; Ensure pdb is called with a sensible filename.
       (defadvice pdb (before gud-query-cmdline activate)
         "Provide a better default command line when called interactively."
@@ -286,12 +357,18 @@ filename. Prefer `ipython', if available."
 ;; virtualenvwrapper: emulator for Doug Hellmann's virtualenvwrapper.sh.
 (use-package virtualenvwrapper
   :ensure t
-  :init
+  :bind (("C-z" . dimitern-venv/body))
+  :after projectile
+  :config
+   ;; Set venvs location from $WORKON_HOME or directly.
+  (venv-set-location dimitern-virtualenv-workon-home)
+
   (defhydra dimitern-venv (:hint nil)
     "
 virtualenvwrapper (quit with _q_)
 ^Commands^
 ^--------^------------------------
+_a_: auto workon
 _w_: workon
 _d_: deactivate
 _r_: remove
@@ -300,6 +377,7 @@ _c_: cd
 _m_: make
 _p_: copy"
     ("q" nil)
+    ("a" dimitern-venv-projectile-auto-workon)
     ("w" venv-workon)
     ("d" venv-deactivate)
     ("r" venv-rmvirtualenv)
@@ -307,40 +385,25 @@ _p_: copy"
     ("c" venv-cdvirtualenv)
     ("m" venv-mkvirtualenv)
     ("p" venv-cpvirtualenv))
-  :after (python projectile)
-  :bind (("C-z" . dimitern-venv/body))
-  :config
-
-  (validate-setq
-   ;; Set venvs location from $WORKON_HOME or directly.
-   venv-location dimitern-virtualenv-workon-home)
 
   ;; Enable for interactive shells and eshell.
   (venv-initialize-interactive-shells)
   (venv-initialize-eshell)
 
   ;; Active matching venvs when switching to projects.
-  (setq
+  (validate-setq
    projectile-switch-project-action
-   '(lambda ()
-      (dimitern-venv-projectile-auto-workon)
-      ;; Fix pdb command line.
-      (dimitern-gud-set-pdb-cmdline)
-      (projectile-recentf))))
-
-(defun dimitern-neotree-project-root (&optional directory)
-  "Open a NeoTree browser for a project DIRECTORY."
-  (interactive)
-  (let ((default-directory (or directory default-directory)))
-    (if (and (fboundp 'neo-global--window-exists-p)
-             (neo-global--window-exists-p))
-        (neotree-hide)
-      (neotree-find (projectile-project-root)))))
+   #'(lambda ()
+       (progn
+         (dimitern-venv-projectile-auto-workon)
+         ;; Fix pdb command line.
+         (dimitern-gud-set-pdb-cmdline)
+         (projectile-recentf)))))
 
 ;; anaconda-mode: powerful Python backend for Emacs.
 (use-package anaconda-mode
   :ensure t
-  :after virtualenvwrapper
+  :after python
   :config
   (add-hook 'python-mode-hook #'anaconda-mode)
   (add-hook 'python-mode-hook #'anaconda-eldoc-mode)
@@ -351,13 +414,32 @@ _p_: copy"
 ;; company-anaconda: Python backend for Company.
 (use-package company-anaconda
   :ensure t
-  :after company
+  :after anaconda-mode
   :config (add-to-list 'company-backends 'company-anaconda))
+
+;; py-autopep8: Reformat Python source to conform to PEP8 on save.
+(use-package py-autopep8
+  :ensure t
+  :config
+  (validate-setq
+   py-autopep8-options '("--max-line-length=100"))
+  (add-hook 'python-mode-hook 'py-autopep8-enable-on-save))
 
 ;; pip-requirements: requirements.txt files editing.
 (use-package pip-requirements
   :ensure t
-  :defer t)
+  :after python)
+
+;; py-isort: sorts Python imports uniformly.
+(use-package py-isort
+  :ensure t
+  :after python
+  :config
+  (add-hook 'before-save-hook 'py-isort-before-save)
+  (validate-setq
+   py-isort-options '("--lines=100"
+                      "--force-single-line-imports"
+                      "--order-by-type")))
 
 ;; web-mode: HTML editing.
 (use-package web-mode
@@ -396,21 +478,32 @@ _p_: copy"
 ;; nxml-mode: XML editing.
 (use-package nxml-mode
   :defer t
+
+  ;; :bind (("C-<right>" . forward-sexp)
+  ;;        ("C-<left>"  . backward-sexp)
+  ;;        ("C-<down>" . nxml-down-element)
+  ;;        ("C-<up>" . nxml-backward-up-element))
+
   ;; Complete closing tags, and insert XML declarations into empty files
-  :config (validate-setq nxml-slash-auto-complete-flag t
-                         nxml-auto-insert-xml-declaration-flag t))
+  :config
+  (validate-setq nxml-slash-auto-complete-flag t
+                 nxml-auto-insert-xml-declaration-flag t
+                 line-move-visual t)
+  (visual-line-mode 1)
+  )
 
 ;; holiday: calendar config and holidays.
-(use-package holiday
-  :init
-  (require 'bulgarian-holidays)
-  (setq
-   ;; use European date format.
-   calendar-european-month-header t
-   ;; local holidays in Bulgaria.
-   calendar-holidays holiday-bulgarian-holidays
-   )
-  )
+;; (use-package holiday
+;;   :pin "gnu"
+;;   :init
+;;   (require 'bulgarian-holidays)
+;;   (setq
+;;    ;; use European date format.
+;;    calendar-european-month-header t
+;;    ;; local holidays in Bulgaria.
+;;    calendar-holidays bulgarian-holidays-translated
+;;    )
+;;   )
 
 ;; org-mode: Best mode of all!
 (use-package org
@@ -423,7 +516,8 @@ _p_: copy"
          ("C-c c" . org-capture)
          :map org-mode-map
          ("C-c a"   . org-agenda)
-         ("C-c C-a" . org-attach))
+         ("C-c C-a" . org-attach)
+         ("C-c n"))
   :config
   (setq
    org-capture-templates
@@ -456,6 +550,7 @@ _p_: copy"
   :init
   (require 'ox-md)
   (setq org-directory (expand-file-name "~/Dropbox/org-home"))
+  (setq org-mobile-directory (expand-file-name "~/Dropbox/MobileOrg"))
   (setq org-default-notes-file (concat org-directory "/newgtd.org"))
   ;; Make windmove work in org-mode:
   (add-hook 'org-shiftup-final-hook 'windmove-up)
@@ -535,5 +630,63 @@ _p_: copy"
 (use-package gitattributes-mode
   :ensure t
   :defer t)
+
+(use-package gnus
+  :init
+  (setq
+   user-email-address "dimiter@naydenov.net"
+   smtpmail-smtp-server "mail5.host.bg"
+   message-send-mail-function 'smtpmail-send-it)
+  :config
+  (validate-setq
+   user-full-name "Dimiter Naydenov"
+   gnus-select-method
+   '(nnimap "personal"
+            (nnimap-address "mail5.host.bg")
+            (nnimap-stream ssl))
+   send-mail-function 'smtpmail-send-it
+   gnus-message-archive-group "nnimap:Sent")
+
+  (add-to-list 'gnus-secondary-select-methods
+               '(nnimap "company"
+                        (nnimap-address "hopkins.host.bg")
+                        (nnimap-stream ssl))))
+
+;; Rust mode.
+(use-package rust-mode
+  :pin "melpa"
+  :ensure t
+  :defer t
+  :mode ("\\.rs\\'" . rust-mode))
+
+;; Rust auto-completion.
+(use-package racer
+  :after rust-mode
+  :ensure t
+  :diminish (racer-mode . "Ⓡ")
+  :config
+  (add-hook 'rust-mode-hook #'racer-mode)
+  (add-hook 'racer-mode-hook #'eldoc-mode)
+  (add-hook 'racer-mode-hook #'company-mode)
+  (define-key rust-mode-map (kbd "M-/") #'company-indent-or-complete-common)
+  (validate-setq
+   company-tooltip-align-annotations t
+   racer-rust-src-path (getenv "RUST_SRC_PATH"))
+  :pin "melpa")
+
+;; Rust support for flycheck.
+(use-package flycheck-rust
+  :after rust-mode
+  :ensure t
+  :config
+  (add-hook 'rust-mode-hook #'flycheck-rust-setup)
+  :pin "melpa")
+
+;; nginx-mode: editing Nginx config files.
+(use-package nginx-mode
+  :pin "melpa"
+  :ensure t
+  :defer t
+  :mode ("\\.nginx\\'" . nginx-mode))
 
 (provide 'dimitern-modes)

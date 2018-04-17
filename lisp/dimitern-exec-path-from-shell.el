@@ -12,7 +12,9 @@
                                     "WORKON_HOME"      ; virtualenvwrapper home
                                     "PATH"             ; Executables
                                     "GOPATH"           ; Go packages
+                                    "GOROOT"           ; Go itself
                                     "JAVA_OPTS"        ; Options for java processes
+                                    "RUST_SRC_PATH"    ; Rust sources (for Racer)
                                     "EMAIL"            ; My personal email
                                     "INFOPATH"         ; Info directories
                                     "MANPATH"          ; Man pages

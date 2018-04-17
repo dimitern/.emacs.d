@@ -78,10 +78,27 @@
                 (lambda () (diminish 'dired-omit-mode "ⓞ"))
                 '((name . dired-omit-mode-diminish))))
 
+;; open neotree at projectile project root and select current file.
+;; Source: https://www.emacswiki.org/emacs/NeoTree
+(defun dimitern/neotree-project-dir ()
+  "Open NeoTree using the git root."
+  (interactive)
+  (let ((project-dir (projectile-project-root))
+        (file-name (buffer-file-name)))
+    (neotree-toggle)
+    (if project-dir
+        (if (neo-global--window-exists-p)
+            (progn
+              (neotree-dir project-dir)
+              (neotree-find file-name)))
+      (message "Could not find git project root."))))
+
+
 ;; neotree: files tree side view.
 (use-package neotree
   :ensure t
-  :bind (("C-c f t" . neotree-toggle))
+  :bind (("C-c f t" . neotree-toggle)
+         ("C-c p TAB" . dimitern/neotree-project-dir))
   :config
   (validate-setq
    neo-window-width 32
@@ -90,7 +107,7 @@
    neo-show-updir-line nil
    neo-mode-line-type 'neotree
    neo-smart-open t
-   neo-show-hidden-files t
+   neo-show-hidden-files nil
    neo-auto-indent-point t))
 
 ;; ignoramus: ignore uninteresting files everywhere.
@@ -278,8 +295,8 @@ _k_: kill        _s_: split                   _{_: wrap with { }
     ("C-<left>" sp-backward-barf-sexp)
     ("C-<right>" sp-backward-slurp-sexp))
 
-  (smartparens-global-mode)
-  (show-smartparens-global-mode)
+  (show-smartparens-mode t)
+  (add-hook 'nxml-mode-hook #'turn-off-show-smartparens-mode)
 
   (dolist (hook '(inferior-emacs-lisp-mode-hook
                   emacs-lisp-mode-hook))
@@ -430,12 +447,13 @@ Disable the highlighting of overlong lines."
     ("f" flycheck-first-error "first")
     ("l" flycheck-list-errors "list")
     ("w" flycheck-copy-errors-as-kill "copy message"))
+  (setq-default flycheck-flake8-maximum-line-length 100)
 
   (global-flycheck-mode)
-  (validate-setq flycheck-standard-error-navigation nil
-                 flycheck-display-errors-function
-                 #'flycheck-display-error-messages-unless-error-list
-                 flycheck-scalastylerc "scalastyle_config.xml")
+  (validate-setq
+   flycheck-standard-error-navigation nil
+   flycheck-display-errors-function #'flycheck-display-error-messages-unless-error-list
+   flycheck-scalastylerc "scalastyle_config.xml")
   :diminish (flycheck-mode . "Ⓢ"))
 
 ;; flycheck-pos-tip: show Flycheck errors in tooltip.

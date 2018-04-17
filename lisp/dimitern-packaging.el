@@ -64,6 +64,10 @@
 ;; Enable use-package, bind-key, and diminish.
 (eval-when-compile
   (require 'use-package))
+
+(use-package diminish
+  :ensure t)
+
 (require 'diminish)
 (require 'bind-key)
 

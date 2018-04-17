@@ -25,7 +25,7 @@ Menu bar is also disabled unless on darwin GUI."
   (global-set-key (kbd "C-x C-z") 'suspend-frame)
   ;; Allow toggling the menu bar with F1.
   (global-set-key [f1] 'menu-bar-mode)
-  (add-to-list 'initial-frame-alist '(fullscreen . maximized))
+  ;(add-to-list 'initial-frame-alist '(fullscreen . maximized))
   (validate-setq
    ;; No audible bell (ding), use visual bell instead.
    visible-bell t

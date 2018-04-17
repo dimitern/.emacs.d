@@ -35,8 +35,8 @@
       (shell-command (format "fc-cache -r %s" home-font-dir)))))
 
 (defun dimitern-theme/load-default ()
-  "Load the default theme, depending on system-type."
-  (load-theme 'material 'no-confirm 'no-enable)
+  "Load the default theme, depending on `system-type'."
+  (load-theme 'material t t)
   (if (dimitern-os/is-darwin)
       ;; bigger font size for darwin.
       (set-face-attribute 'default nil :height (* 10 (frame-char-height)))
@@ -61,5 +61,5 @@
   :ensure t
   :after frame
   :config
-  (dimitern-theme/load-default)
+  ;;(dimitern-theme/load-default)
   (enable-theme 'material))

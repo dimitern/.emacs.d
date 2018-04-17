@@ -391,14 +391,23 @@ _p_: copy"
   (venv-initialize-eshell)
 
   ;; Active matching venvs when switching to projects.
-  (validate-setq
+  (unless (dimitern-os/is-windows)
+      (setq
    projectile-switch-project-action
-   #'(lambda ()
-       (progn
-         (dimitern-venv-projectile-auto-workon)
-         ;; Fix pdb command line.
-         (dimitern-gud-set-pdb-cmdline)
-         (projectile-recentf)))))
+   '(lambda ()
+      (dimitern-venv-projectile-auto-workon)
+      ;; Fix pdb command line.
+      (dimitern-gud-set-pdb-cmdline)
+      (projectile-recentf)))))
+
+(defun dimitern-neotree-project-root (&optional directory)
+  "Open a NeoTree browser for a project DIRECTORY."
+  (interactive)
+  (let ((default-directory (or directory default-directory)))
+    (if (and (fboundp 'neo-global--window-exists-p)
+             (neo-global--window-exists-p))
+        (neotree-hide)
+      (neotree-find (projectile-project-root)))))
 
 ;; anaconda-mode: powerful Python backend for Emacs.
 (use-package anaconda-mode

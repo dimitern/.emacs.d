@@ -74,6 +74,22 @@
  '(package-selected-packages
    (quote
     (haml-mode pycoverage ov py-isort nginx-mode nginx company-racer company-rust flycheck-rust racer rust-mode rust flycheck-mypy material-light material ein go-errcheck errcheck go-mode pydoc multiple-cursors package-lint py-autopep8 org-mobile org-mode holiday org-capture org-bullets material-theme gitattributes-mode gitignore-mode gitconfig-mode magit rainbow-delimiters ibuffer-projectile virtualenvwrapper ace-link avy ivy-pages visual-fill-column adaptive-wrap whitespace-cleanup-mode easy-kill counsel-projectile projectile js2-mode web-mode pip-requirements company-anaconda anaconda-mode graphviz-dot-mode json-mode markdown-mode flycheck-title flycheck-pos-tip flycheck auto-dictionary company-emoji company-math company-statistics company-quickhelp company yasnippet rainbow-mode highlight-numbers highlight-symbol hl-todo expand-region undo-tree smartparens nlinum reveal-in-osx-finder sudo-edit launch hardhat ignoramus neotree golden-ratio ace-window ibuffer-vc focus-autosave-mode stripe-buffer beacon page-break-lines yaml-mode swiper wgrep-ag ag hydra visual-regexp anzu paradox counsel ivy-hydra ivy spaceline which-key exec-path-from-shell validate solarized-theme use-package)))
+=======
+ '(diff-switches "-u -a")
+ '(exec-path
+   (quote
+    ("c:/Python27/Lib/site-packages/PyQt4" "c:/emacs/bin" "C:/Windows/system32" "C:/Windows" "C:/Windows/System32/Wbem" "C:/Windows/System32/WindowsPowerShell/v1.0/" "C:/Program Files/Git/cmd" "C:/Program Files (x86)/Aspell/bin" "C:/Program Files (x86)/Graphviz2.38/bin" "C:/Program Files (x86)/Microsoft SQL Server/Client SDK/ODBC/110/Tools/Binn/" "C:/Program Files (x86)/Microsoft SQL Server/120/Tools/Binn/" "C:/Program Files (x86)/Microsoft SQL Server/120/DTS/Binn/" "C:/Program Files (x86)/Microsoft SQL Server/120/Tools/Binn/ManagementStudio/" "c:/python27" "c:/python27/scripts" "c:/emacs/libexec/emacs/25.1/x86_64-w64-mingw32")))
+ '(explicit-shell-file-name "c:/Windows/System32/cmd.exe")
+ '(frame-background-mode (quote light))
+ '(fringe-mode (quote (16 . 0)) nil (fringe))
+ '(magit-git-debug t)
+ '(org-agenda-files
+   (quote
+    ("~/Dropbox/org-home/birthday.org" "~/Dropbox/org-home/newgtd.org")))
+ '(package-selected-packages
+   (quote
+    (pdbtrack org-mode holiday org-capture org-bullets material-theme gitattributes-mode gitignore-mode gitconfig-mode magit rainbow-delimiters ibuffer-projectile virtualenvwrapper ace-link avy ivy-pages visual-fill-column adaptive-wrap whitespace-cleanup-mode easy-kill counsel-projectile projectile js2-mode web-mode pip-requirements company-anaconda anaconda-mode graphviz-dot-mode json-mode markdown-mode flycheck-title flycheck-pos-tip flycheck auto-dictionary company-emoji company-math company-statistics company-quickhelp company yasnippet rainbow-mode highlight-numbers highlight-symbol hl-todo expand-region undo-tree smartparens nlinum reveal-in-osx-finder sudo-edit launch hardhat ignoramus neotree golden-ratio ace-window ibuffer-vc focus-autosave-mode stripe-buffer beacon page-break-lines yaml-mode swiper wgrep-ag ag hydra visual-regexp anzu paradox counsel ivy-hydra ivy spaceline which-key exec-path-from-shell validate solarized-theme use-package)))
+>>>>>>> Stashed changes
  '(paradox-github-token t)
  '(pos-tip-background-color nil)
  '(pos-tip-foreground-color "gray")

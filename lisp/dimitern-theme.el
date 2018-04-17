@@ -11,7 +11,7 @@
   "Font name for the theme.")
 (defvar dimitern-theme/font-size
   (if (dimitern-os/is-windows)
-      14
+      10
     9)
   "Font size for the theme.")
 (defvar dimitern-theme/font-dir "fonts/Input-Font/"

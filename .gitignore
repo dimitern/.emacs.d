@@ -20,6 +20,9 @@ savehist
 recentf
 tramp
 places
+eshell/history
+/session.*
+.mc-*.el
 
 # Compiled
 *.elc

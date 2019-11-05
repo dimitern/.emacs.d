@@ -440,15 +440,14 @@ _p_: copy"
 
   ;; Active matching venvs when switching to projects.
   (unless (dimitern-os/is-windows)
-      (setq
-   projectile-switch-project-action
-<<<<<< HEAD
-   #'(lambda ()
-       (progn
-         (venv-projectile-auto-workon)
-         ;; Fix pdb command line.
-         (dimitern-gud-set-pdb-cmdline)
-         (projectile-recentf))))))
+    (setq
+     projectile-switch-project-action
+     #'(lambda ()
+         (progn
+           (venv-projectile-auto-workon)
+           ;; Fix pdb command line.
+           (dimitern-gud-set-pdb-cmdline)
+           (projectile-recentf))))))
 
 ;; anaconda-mode: powerful Python backend for Emacs.
 (use-package anaconda-mode
@@ -500,7 +499,6 @@ _p_: copy"
 (use-package web-mode
   :ensure t
   :defer t
-  :mode ("\\.html?\\'" . web-mode)
   :config
   (validate-setq
    web-mode-enable-current-column-highlight t
@@ -509,24 +507,12 @@ _p_: copy"
    web-mode-code-indent-offset 2
    web-mode-css-indent-offset 2
    tab-width 2)
-  :mode ("\\.\\(jsx?\\|html?\\|hbs\\)\\'" . web-mode)
+  :mode ("\\.\\(jsx?\\|html?\\|hbs\\)\\'" . web-mode))
 
 ;; css-mode: CSS editing.
 (use-package css-mode
   :defer t
   :config (validate-setq css-indent-offset 2))
-
-;; ;; js2-mode: powerful Javascript mode.
-;; (use-package js2-mode
-;;   :ensure t
-;;   :defer t
-;;   :mode ("\\.js\\'" . js2-mode)
-;;   :config
-;;   ;; Disable parser errors and strict warnings.  We have Flycheck 8)
-;;   (validate-setq js2-mode-show-parse-errors nil
-;;                  js2-mode-show-strict-warnings nil
-;;                  js2-highlight-level 3  ; Try to highlight most ECMA built-ins
-;;                  ))
 
 ;; sh-script: shell scripts.
 (use-package sh-script
@@ -613,14 +599,9 @@ _p_: copy"
    'org-babel-load-languages
    '((ledger . t)))
   :init
-<<<<<<< HEAD
   (require 'ox-md)
-  (setq org-directory (expand-file-name "~/Dropbox/org-home"))
-  (setq org-mobile-directory (expand-file-name "~/Dropbox/MobileOrg"))
-=======
   (setq org-directory (expand-file-name "~/Nextcloud/Dropbox/org-home"))
   (setq org-mobile-directory (expand-file-name "~/Nextcloud/Dropbox/MobileOrg"))
->>>>>>> Last changes.
   (setq org-default-notes-file (concat org-directory "/newgtd.org"))
   ;; Make windmove work in org-mode:
   (add-hook 'org-shiftup-final-hook 'windmove-up)

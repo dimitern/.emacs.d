@@ -36,7 +36,6 @@
  '(company-tooltip-align-annotations t)
  '(company-tooltip-flip-when-above t)
  '(company-tooltip-minimum-width 40)
- '(coverage-dir "/home/dimitern/work/upwork/samuel-shabaz/src/website/")
  '(custom-enabled-themes (quote (doom-tomorrow-day)))
  '(custom-safe-themes
    (quote
@@ -47,13 +46,10 @@
  '(ein:url-or-port (quote ("http://127.0.0.1:8889")))
  '(enable-local-variables :safe)
  '(fci-rule-color "#37474f")
-
  '(flycheck-disabled-checkers (quote (python-pylint python-pycompile)))
-
  '(flycheck-checkers
    (quote
     (ada-gnat asciidoctor asciidoc c/c++-clang c/c++-gcc c/c++-cppcheck cfengine chef-foodcritic coffee coffee-coffeelint coq css-csslint css-stylelint cwl d-dmd dockerfile-hadolint elixir-dogma emacs-lisp emacs-lisp-checkdoc erlang-rebar3 erlang eruby-erubis fortran-gfortran go-gofmt go-golint go-vet go-build go-test go-errcheck go-unconvert go-megacheck groovy haml handlebars haskell-stack-ghc haskell-ghc haskell-hlint html-tidy javascript-eslint javascript-jshint javascript-standard json-jsonlint json-python-json jsonnet less less-stylelint llvm-llc lua-luacheck lua perl perl-perlcritic php php-phpmd php-phpcs processing proselint protobuf-protoc pug puppet-parser puppet-lint r-lintr racket rpm-rpmlint markdown-mdl nix rst-sphinx rst ruby-rubocop ruby-reek ruby-rubylint ruby ruby-jruby rust-cargo rust scala scala-scalastyle scheme-chicken scss-lint scss-stylelint sass/scss-sass-lint sass scss sh-bash sh-posix-dash sh-posix-bash sh-zsh sh-shellcheck slim slim-lint sql-sqlint systemd-analyze tcl-nagelfar tex-chktex tex-lacheck texinfo typescript-tslint verilog-verilator xml-xmlstarlet xml-xmllint yaml-jsyaml yaml-ruby python-mypy python-flake8)))
- '(flycheck-disabled-checkers (quote (python-pycompile python-pylint python-mypy)))
  '(flycheck-display-errors-function nil)
  '(flycheck-executable-find (quote flycheck-default-executable-find))
  '(flycheck-flake8-maximum-complexity 10)
@@ -72,8 +68,6 @@
    (quote
     ("--follow-imports=silent" "--ignore-missing-imports")))
  '(flycheck-python-mypy-executable "mypy")
- '(flycheck-python-pylint-executable
-   "/home/dimitern/work/upwork/metronom-pro-backend/.venv/bin/pylint")
  '(flycheck-syntax-check-failed-hook (quote (ignore)))
  '(frame-background-mode (quote dark))
  '(global-nlinum-mode t)
@@ -86,7 +80,7 @@
  '(ivy-action-wrap t)
  '(ivy-display-function nil)
  '(ivy-wrap t)
-  '(jdee-db-active-breakpoint-face-colors (cons "#1B2229" "#fd971f"))
+ '(jdee-db-active-breakpoint-face-colors (cons "#1B2229" "#fd971f"))
  '(jdee-db-requested-breakpoint-face-colors (cons "#1B2229" "#b6e63e"))
  '(jdee-db-spec-breakpoint-face-colors (cons "#1B2229" "#525254"))
  '(js-indent-level 2)
@@ -100,15 +94,8 @@
     ("https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/3.0.1/github-markdown.css")))
  '(markdown-enable-html nil)
  '(mouse-wheel-scroll-amount (quote (0.07)))
- '(neo-autorefresh nil)
- '(neo-hidden-regexp-list
-   (quote
-    ("^\\." "\\.pyc$" "~$" "^#.*#$" "\\.elc$" "__pycache__")))
- '(neo-show-hidden-files nil)
- '(neo-theme (quote nerd))
- '(neo-vc-integration (quote (face char)))
  '(nlinum-highlight-current-line t)
-<'(nlinum-use-right-margin t)
+ '(nlinum-use-right-margin t)
  '(org-agenda-files
    (quote
     ("~/Dropbox/org-home/newgtd.org" "~/Dropbox/org-home/birthday.org")))
@@ -123,9 +110,6 @@
  '(frame-background-mode (quote light))
  '(fringe-mode (quote (16 . 0)) nil (fringe))
  '(magit-git-debug t)
- '(org-agenda-files
-   (quote
-    ("~/Dropbox/org-home/birthday.org" "~/Dropbox/org-home/newgtd.org")))
  '(package-selected-packages
    (quote
     (pdbtrack org-mode holiday org-capture org-bullets material-theme gitattributes-mode gitignore-mode gitconfig-mode magit rainbow-delimiters ibuffer-projectile virtualenvwrapper ace-link avy ivy-pages visual-fill-column adaptive-wrap whitespace-cleanup-mode easy-kill counsel-projectile projectile js2-mode web-mode pip-requirements company-anaconda anaconda-mode graphviz-dot-mode json-mode markdown-mode flycheck-title flycheck-pos-tip flycheck auto-dictionary company-emoji company-math company-statistics company-quickhelp company yasnippet rainbow-mode highlight-numbers highlight-symbol hl-todo expand-region undo-tree smartparens nlinum reveal-in-osx-finder sudo-edit launch hardhat ignoramus neotree golden-ratio ace-window ibuffer-vc focus-autosave-mode stripe-buffer beacon page-break-lines yaml-mode swiper wgrep-ag ag hydra visual-regexp anzu paradox counsel ivy-hydra ivy spaceline which-key exec-path-from-shell validate solarized-theme use-package)))
@@ -158,7 +142,6 @@
    (quote
     ("--multi-line=3" "--trailing-comma" "--force-grid-wrap=0" "--use-parentheses" "--line-width=120")))
  '(python-shell-interpreter "ipython")
->>>>>>> Last changes.
  '(racer-rust-src-path nil)
  '(ring-bell-function (lambda nil))
  '(rust-format-on-save t)
@@ -176,7 +159,7 @@
      (blacken-mode . t)
      (pythonic-activate . \.venv)
      (flycheck-checker . python-flake8)
-))))
+)))
  '(sentence-end-double-space nil)
  '(show-smartparens-global-mode t)
  '(standard-indent 2)
@@ -265,7 +248,7 @@
  '(web-mode-enable-element-tag-fontification t)
  '(when (eq system-type (quote windows-nt)) t)
  '(whitespace-line-column 88)
- '(x-gtk-use-system-tooltips nil)
+ '(x-gtk-use-system-tooltips nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -280,4 +263,4 @@
  '(neo-file-link-face ((t (:foreground "deep sky blue"))))
  '(neo-header-face ((t (:foreground "magenta"))))
  '(neo-root-dir-face ((t (:foreground "magenta"))))
- '(nlinum-current-line ((t (:inherit linum :background "dim gray" :foreground "white" :weight bold))))
+ '(nlinum-current-line ((t (:inherit linum :background "dim gray" :foreground "white" :weight bold)))))

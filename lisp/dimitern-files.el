@@ -370,19 +370,19 @@ Disable the highlighting of overlong lines."
   :defer t
   :bind (("C-c i a" . auto-insert)))
 
-;; ispell: spell checking.
-(use-package ispell
-  :defer t
-  :config
-  (validate-setq
-   ispell-program-name (executable-find "aspell")
-   ispell-silently-savep t              ; Don't ask when saving the private dict
-   ;; Increase the height of the choices window to take our header line
-   ;; into account.
-   ispell-choices-win-default-height 5)
+;; ;; ispell: spell checking.
+;; (use-package ispell
+;;   :defer t
+;;   :config
+;;   (validate-setq
+;;    ispell-program-name (executable-find "ispell")
+;;    ispell-silently-savep t              ; Don't ask when saving the private dict
+;;    ;; Increase the height of the choices window to take our header line
+;;    ;; into account.
+;;    ispell-choices-win-default-height 5)
 
-  (unless ispell-program-name
-    (warn "No spell checker available.  Install Hunspell or ASpell for OS X.")))
+;;   (unless ispell-program-name
+;;     (warn "No spell checker available.  Install Hunspell or ASpell for OS X.")))
 
 ;; flyspell: on-the-fly spell checking.
 (use-package flyspell

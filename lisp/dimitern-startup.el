@@ -18,6 +18,7 @@
  initial-scratch-message nil
  )
 
+(use-package dimitern-theme)
 (use-package dimitern-custom)
 
 (provide 'dimitern-startup)

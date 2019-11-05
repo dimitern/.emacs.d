@@ -209,6 +209,16 @@ Taken from http://stackoverflow.com/a/3072831/355252."
   (forward-line -1)
   (indent-according-to-mode))
 
+(defun dimitern/toggle-subword-mode ()
+  "Toggle between `subword-mode' and `superword-mode' for `python-mode-hook'"
+  (interactive)
+  (if (memq 'subword-mode python-mode-hook)
+      (progn
+        (superword-mode)
+        (message "Disabled subword-mode for current buffer..."))
+    (subword-mode)
+    (message "Enabled subword-mode for current buffer...")))
+
 ;; pydoc: browse Python documentation.
 (use-package pydoc
   :ensure t
@@ -225,6 +235,11 @@ Taken from http://stackoverflow.com/a/3072831/355252."
   :ensure t
   :mode ("\\.haml?\\'" . haml-mode))
 
+(defun dimitern/isort-blacken-save-buffer ()
+  "Calls `py-isort-buffer', `blacken-mode', and `save-buffer'."
+  (interactive)
+  (progn (py-isort-buffer) (blacken-mode) (save-buffer)))
+
 ;; python: Python editing.
 (use-package python
   :ensure t
@@ -233,15 +248,18 @@ Taken from http://stackoverflow.com/a/3072831/355252."
          ;;("M-/" . company-complete-common-or-cycle)
          ("<tab>" . indent-according-to-mode)
          ("<backtab>" . indent-rigidly)
+         ("C-c t s" . dimitern/toggle-subword-mode)
+         ("C-c f F" . dimitern/isort-blacken-save-buffer)
          ("C-<tab>" . anaconda-mode-complete))
   :config
   (validate-setq
    python-indent-offset 4
    indent-tabs-mode nil)
 
-  ;; PEP 8 compliant filling rules, 79 chars maximum
-  (add-hook 'python-mode-hook (lambda () (validate-setq fill-column 79)))
-  (add-hook 'python-mode-hook #'subword-mode)
+  ;; PEP 8 semi-compliant filling rules, 88 chars soft maximum (see: black)
+  (add-hook 'python-mode-hook (lambda () (validate-setq fill-column 88)))
+  (add-hook 'python-mode-hook 'subword-mode)
+  (add-hook 'python-mode-hook #'nlinum-mode)
 
   (dolist (open-pair '("(" "[" "{"))
     (sp-local-pair 'python-mode open-pair nil
@@ -280,6 +298,57 @@ _l_: refresh
     ("k" gud-stop-subjob)
     ("l" gud-refresh)))
 
+
+(defun dimitern/toggle-py-isort-on-save ()
+  (interactive)
+  (if (memq 'py-isort-before-save before-save-hook)
+      (progn
+        (remove-hook 'before-save-hook #'py-isort-before-save t)
+        (message "Disabled py-isort-before-save for current buffer..."))
+    (add-hook 'before-save-hook #'py-isort-before-save  nil t)
+    (message "Enabled py-isort-before-save for current buffer...")))
+
+
+(define-minor-mode py-isort-mode
+  "Automatically run `py-isort-buffer' before saving."
+  :lighter "ｉ"
+  (if (memq 'py-isort-buffer before-save-hook)
+      (progn
+        (remove-hook 'before-save-hook 'py-isort-buffer t)
+        (message "Disabled py-isort-mode for current buffer..."))
+    (add-hook 'before-save-hook 'py-isort-buffer nil t)
+    (message "Enabled py-isort-mode for current buffer...")))
+
+
+;; py-isort: sorts Python imports uniformly.
+(use-package py-isort
+  :ensure t
+  :after python
+  :bind (:map python-mode-map
+              ("C-c t i" . dimitern/toggle-py-isort-on-save)
+              ("C-c f I" . #'py-isort-buffer))
+
+  ;; The following settings make isort compatible with black.
+  :config
+  (validate-setq
+   py-isort-options '("--multi-line=3"
+                      "--trailing-comma"
+                      "--force-grid-wrap=0"
+                      "--use-parentheses"
+                      "--line-width=120"
+                      )))
+
+;; pipenv: Pipenv porcelain inside Emacs
+(use-package pipenv
+  :pin "melpa"
+  :ensure t
+  :diminish (pipenv-mode . "󠁐🅿")
+  :config
+  (add-hook 'python-mode-hook 'pipenv-mode)
+  (validate-setq
+   pipenv-projectile-after-switch-function
+   #'pipenv-projectile-after-switch-default))
+
 ;; flycheck-mypy: FlyCheck interface to MyPy static type checker.
 (use-package flycheck-mypy
   :ensure t
@@ -293,8 +362,9 @@ _l_: refresh
   :config
   (validate-setq projectile-completion-system 'ivy
                  projectile-find-dir-includes-top-level t)
-
-  (projectile-mode)
+  (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  (projectile-mode +1)
 
   ;; Remove dead projects when Emacs is idle
   (run-with-idle-timer 10 nil #'projectile-cleanup-known-projects)
@@ -308,28 +378,6 @@ _l_: refresh
        (expand-file-name "~/work/pyenvs/")
      (expand-file-name "z:/pyenvs/")))
   "The $WORKON_HOME path.")
-
-(defun dimitern-venv-projectile-auto-workon ()
-  "If a venv matching the projectile project name exists, switch
-to the venv and active it."
-  (interactive)
-  (let ((path
-         (concat
-          venv-location
-          (projectile-project-name)
-          (f-path-separator))))
-    (if (file-exists-p path)
-        (progn
-          (setq venv-current-name (projectile-project-name))
-          (venv--activate-dir path)
-          (message
-           "Activated virtualenv `%s' (at `%s')"
-           venv-current-name
-           path))
-      (message
-       "No virtualenv (at `%s') matching current project (`%s') to activate."
-       path
-       (projectile-project-name)))))
 
 (defun dimitern-gud-set-pdb-cmdline ()
   "Set the GUD's pdb command line, followed by the current buffer
@@ -368,7 +416,7 @@ filename. Prefer `ipython', if available."
 virtualenvwrapper (quit with _q_)
 ^Commands^
 ^--------^------------------------
-_a_: auto workon
+_a_: projectile auto workon
 _w_: workon
 _d_: deactivate
 _r_: remove
@@ -377,7 +425,7 @@ _c_: cd
 _m_: make
 _p_: copy"
     ("q" nil)
-    ("a" dimitern-venv-projectile-auto-workon)
+    ("a" #'(lambda () (interactive) (venv-projectile-auto-workon)))
     ("w" venv-workon)
     ("d" venv-deactivate)
     ("r" venv-rmvirtualenv)
@@ -394,20 +442,13 @@ _p_: copy"
   (unless (dimitern-os/is-windows)
       (setq
    projectile-switch-project-action
-   '(lambda ()
-      (dimitern-venv-projectile-auto-workon)
-      ;; Fix pdb command line.
-      (dimitern-gud-set-pdb-cmdline)
-      (projectile-recentf)))))
-
-(defun dimitern-neotree-project-root (&optional directory)
-  "Open a NeoTree browser for a project DIRECTORY."
-  (interactive)
-  (let ((default-directory (or directory default-directory)))
-    (if (and (fboundp 'neo-global--window-exists-p)
-             (neo-global--window-exists-p))
-        (neotree-hide)
-      (neotree-find (projectile-project-root)))))
+<<<<<< HEAD
+   #'(lambda ()
+       (progn
+         (venv-projectile-auto-workon)
+         ;; Fix pdb command line.
+         (dimitern-gud-set-pdb-cmdline)
+         (projectile-recentf))))))
 
 ;; anaconda-mode: powerful Python backend for Emacs.
 (use-package anaconda-mode
@@ -417,7 +458,7 @@ _p_: copy"
   (add-hook 'python-mode-hook #'anaconda-mode)
   (add-hook 'python-mode-hook #'anaconda-eldoc-mode)
   (add-hook 'venv-postactivate-hook
-            #'(lambda () (pythonic-activate venv-current-dir)))
+            #'(lambda () (pythonic-activate (format "%s/.venv" (projectile-project-root)))))
   :diminish (anaconda-mode . "Ⓐ"))
 
 ;; company-anaconda: Python backend for Company.
@@ -426,18 +467,23 @@ _p_: copy"
   :after anaconda-mode
   :config (add-to-list 'company-backends 'company-anaconda))
 
-;; py-autopep8: Reformat Python source to conform to PEP8 on save.
-(use-package py-autopep8
+;; blacken: Python Black code formatter support.
+(use-package blacken
+  :pin "melpa"
   :ensure t
+  :after python
+  :bind (:map python-mode-map
+              ("C-c t b" . blacken-mode)
+              ("C-c f B" . #'blacken-buffer))
   :config
-  (validate-setq
-   py-autopep8-options '("--max-line-length=100"))
-  (add-hook 'python-mode-hook 'py-autopep8-enable-on-save))
+  (add-hook 'python-mode-hook #'blacken-mode)
+  :diminish (blacken-mode . "🅱"))
 
 ;; pip-requirements: requirements.txt files editing.
 (use-package pip-requirements
   :ensure t
   :after python)
+
 
 ;; py-isort: sorts Python imports uniformly.
 (use-package py-isort
@@ -454,24 +500,33 @@ _p_: copy"
 (use-package web-mode
   :ensure t
   :defer t
-  :mode ("\\.html?\\'" . web-mode))
+  :mode ("\\.html?\\'" . web-mode)
+  :config
+  (validate-setq
+   web-mode-enable-current-column-highlight t
+   web-mode-enable-current-element-highlight t
+   web-mode-markup-indent-offset 2
+   web-mode-code-indent-offset 2
+   web-mode-css-indent-offset 2
+   tab-width 2)
+  :mode ("\\.\\(jsx?\\|html?\\|hbs\\)\\'" . web-mode)
 
 ;; css-mode: CSS editing.
 (use-package css-mode
   :defer t
   :config (validate-setq css-indent-offset 2))
 
-;; js2-mode: powerful Javascript mode.
-(use-package js2-mode
-  :ensure t
-  :defer t
-  :mode ("\\.js\\'" . js2-mode)
-  :config
-  ;; Disable parser errors and strict warnings.  We have Flycheck 8)
-  (validate-setq js2-mode-show-parse-errors nil
-                 js2-mode-show-strict-warnings nil
-                 js2-highlight-level 3  ; Try to highlight most ECMA built-ins
-                 ))
+;; ;; js2-mode: powerful Javascript mode.
+;; (use-package js2-mode
+;;   :ensure t
+;;   :defer t
+;;   :mode ("\\.js\\'" . js2-mode)
+;;   :config
+;;   ;; Disable parser errors and strict warnings.  We have Flycheck 8)
+;;   (validate-setq js2-mode-show-parse-errors nil
+;;                  js2-mode-show-strict-warnings nil
+;;                  js2-highlight-level 3  ; Try to highlight most ECMA built-ins
+;;                  ))
 
 ;; sh-script: shell scripts.
 (use-package sh-script
@@ -526,6 +581,7 @@ _p_: copy"
          :map org-mode-map
          ("C-c a"   . org-agenda)
          ("C-c C-a" . org-attach)
+         ("C-c t l" . org-toggle-link-display)
          ("C-c n"))
   :config
   (setq
@@ -557,9 +613,14 @@ _p_: copy"
    'org-babel-load-languages
    '((ledger . t)))
   :init
+<<<<<<< HEAD
   (require 'ox-md)
   (setq org-directory (expand-file-name "~/Dropbox/org-home"))
   (setq org-mobile-directory (expand-file-name "~/Dropbox/MobileOrg"))
+=======
+  (setq org-directory (expand-file-name "~/Nextcloud/Dropbox/org-home"))
+  (setq org-mobile-directory (expand-file-name "~/Nextcloud/Dropbox/MobileOrg"))
+>>>>>>> Last changes.
   (setq org-default-notes-file (concat org-directory "/newgtd.org"))
   ;; Make windmove work in org-mode:
   (add-hook 'org-shiftup-final-hook 'windmove-up)
@@ -572,6 +633,8 @@ _p_: copy"
                     (org-bullets-mode 1)
                     ;; no wrapping long lines.
                     (visual-fill-column-mode -1)
+                    ;; automatically export Org-Revel presentations to HTML on save
+                    (dimitern/toggle-org-reveal-export-on-save)
                     ;; no line numbers.
                     (nlinum-mode -1))))
 
@@ -697,5 +760,19 @@ _p_: copy"
   :ensure t
   :defer t
   :mode ("\\.nginx\\'" . nginx-mode))
+
+;; clojure-mode: Clojure support
+(use-package clojure-mode
+  :pin "melpa"
+  :ensure t
+  :defer t
+  :mode ("\\.clj\\'" . clojure-mode))
+
+;; inf-clojure: Clojure inferior mode
+(use-package inf-clojure
+  :pin "melpa"
+  :ensure t
+  :after clojure-mode
+  :defer t)
 
 (provide 'dimitern-modes)

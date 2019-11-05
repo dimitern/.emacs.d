@@ -93,23 +93,6 @@
               (neotree-find file-name)))
       (message "Could not find git project root."))))
 
-
-;; neotree: files tree side view.
-(use-package neotree
-  :ensure t
-  :bind (("C-c f t" . neotree-toggle)
-         ("C-c p TAB" . dimitern/neotree-project-dir))
-  :config
-  (validate-setq
-   neo-window-width 32
-   neo-create-file-auto-open t
-   neo-banner-message ""
-   neo-show-updir-line nil
-   neo-mode-line-type 'neotree
-   neo-smart-open t
-   neo-show-hidden-files nil
-   neo-auto-indent-point t))
-
 ;; ignoramus: ignore uninteresting files everywhere.
 (use-package ignoramus
   :ensure t
@@ -231,7 +214,7 @@
 ;; mule-cmds: input methods.
 (use-package mule-cmds
   :defer t
-  :bind (("C-c t i" . toggle-input-method))
+  :bind (("C-c t 8" . toggle-input-method))
   :config
   (validate-setq default-input-method "german-postfix"))
 
@@ -331,7 +314,7 @@ Disable the highlighting of overlong lines."
   (validate-setq
    whitespace-style '(face indentation space-after-tab space-before-tab
                            tab-mark empty trailing lines-tail)
-   whitespace-line-column nil)          ; Use `fill-column' for overlong lines
+   whitespace-line-column 88)
   :diminish (whitespace-mode . "ⓦ"))
 
 ;; highlight-numbers: fontify number literals.
@@ -431,6 +414,7 @@ Disable the highlighting of overlong lines."
   ;; well
   :bind (("C-c M-l l" . adict-change-dictionary)
          ("C-c M-l g" . adict-guess-dictionary))
+  :diminish (auto-dictionary-mode)
   :init
   (add-hook 'flyspell-mode-hook #'auto-dictionary-mode))
 
@@ -447,7 +431,7 @@ Disable the highlighting of overlong lines."
     ("f" flycheck-first-error "first")
     ("l" flycheck-list-errors "list")
     ("w" flycheck-copy-errors-as-kill "copy message"))
-  (setq-default flycheck-flake8-maximum-line-length 100)
+  (setq-default flycheck-flake8-maximum-line-length 120)
 
   (global-flycheck-mode)
   (validate-setq

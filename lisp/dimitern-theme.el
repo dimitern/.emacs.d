@@ -56,10 +56,21 @@
         (add-to-list 'initial-frame-alist (cons 'font (dimitern-theme/font)))
         (add-to-list 'default-frame-alist (cons 'font (dimitern-theme/font)))))))
 
-;; Material theme config.
-(use-package material-theme
+(use-package doom-themes
   :ensure t
+  :pin "melpa"
   :after frame
   :config
-  ;;(dimitern-theme/load-default)
-  (enable-theme 'material))
+  ;; (load-theme 'doom-tomorrow-day t nil)
+  (load-theme 'doom-vibrant t nil)
+  )
+
+;; ;; Material theme config.
+;; (use-package material-theme
+;;   :ensure t
+;;   :after frame
+;;   :config
+;;   ;;(dimitern-theme/load-default)
+;;   (enable-theme 'material))
+
+(provide 'dimitern-theme)

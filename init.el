@@ -20,6 +20,9 @@
  user-mail-address "dimiter@naydenov.net"
   )
 
+;; dimitern-mail: e-mail setup.
+(load "dimitern-mail")
+
 ;; dimitern-theme: solarized theme config.
 (load "dimitern-theme")
 

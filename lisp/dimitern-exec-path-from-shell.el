@@ -9,6 +9,8 @@
   (validate-setq
    exec-path-from-shell-variables '("PYTHONPATH"       ; Python modules
                                     "VIRTUAL_ENV"      ; Current virtualenv
+                                    "PIPENV_VENV_IN_PROJECT" ; Pipenv: No .venv in projects
+                                    "PIPENV_MAX_DEPTH"       ; Pipenv: Pipfile search dept
                                     "WORKON_HOME"      ; virtualenvwrapper home
                                     "PATH"             ; Executables
                                     "GOPATH"           ; Go packages

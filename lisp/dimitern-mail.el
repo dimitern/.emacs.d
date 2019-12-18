@@ -9,9 +9,9 @@
 ;;; (use-package dimitern-mail)
 
 
-(use-package notmuch
-  :pin "melpa"
-  :ensure t)
+;; (use-package notmuch
+;;   :pin "melpa"
+;;   :ensure t)
 
 
 (provide 'dimitern-mail)

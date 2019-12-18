@@ -6,9 +6,9 @@
  '(ag-highlight-search t)
  '(anaconda-mode-eldoc-as-single-line nil)
  '(ansi-color-faces-vector
-   [default bold shadow italic underline bold bold-italic bold])
+   [default default default italic underline success warning error])
  '(ansi-color-names-vector
-   (vector "#ffffff" "#f36c60" "#8bc34a" "#fff59d" "#4dd0e1" "#b39ddb" "#81d4fa" "#263238"))
+   ["#2e3436" "#a40000" "#4e9a06" "#c4a000" "#204a87" "#5c3566" "#729fcf" "#eeeeec"])
  '(blacken-line-length (quote fill))
  '(calendar-christian-all-holidays-flag t)
  '(calendar-mark-holidays-flag t)
@@ -36,10 +36,15 @@
  '(company-tooltip-align-annotations t)
  '(company-tooltip-flip-when-above t)
  '(company-tooltip-minimum-width 40)
- '(custom-enabled-themes (quote (doom-city-lights)))
+ '(compilation-message-face (quote default))
+ '(cua-global-mark-cursor-color "#2aa198")
+ '(cua-normal-cursor-color "#839496")
+ '(cua-overwrite-cursor-color "#b58900")
+ '(cua-read-only-cursor-color "#859900")
+ '(custom-enabled-themes (quote (doom-city-lights manoj-dark)))
  '(custom-safe-themes
    (quote
-    ("fd944f09d4d0c4d4a3c82bd7b3360f17e3ada8adf29f28199d09308ba01cc092" "a3fa4abaf08cc169b61dea8f6df1bbe4123ec1d2afeb01c17e11fdc31fc66379" "d2e9c7e31e574bf38f4b0fb927aaff20c1e5f92f72001102758005e53d77b8c9" "f0dc4ddca147f3c7b1c7397141b888562a48d9888f1595d69572db73be99a024" "43c808b039893c885bdeec885b4f7572141bd9392da7f0bd8d8346e02b2ec8da" "8aca557e9a17174d8f847fb02870cb2bb67f3b6e808e46c0e54a44e3e18e1020" "6b289bab28a7e511f9c54496be647dc60f5bd8f9917c9495978762b99d8c96a0" "93a0885d5f46d2aeac12bf6be1754faa7d5e28b27926b8aa812840fe7d0b7983" "75d3dde259ce79660bac8e9e237b55674b910b470f313cdf4b019230d01a982a" "10461a3c8ca61c52dfbbdedd974319b7f7fd720b091996481c8fb1dded6c6116" "151bde695af0b0e69c3846500f58d9a0ca8cb2d447da68d7fbf4154dcf818ebc" "d1b4990bd599f5e2186c3f75769a2c5334063e9e541e37514942c27975700370" "cd736a63aa586be066d5a1f0e51179239fe70e16a9f18991f6f5d99732cabb32" "6b2636879127bf6124ce541b1b2824800afc49c6ccd65439d6eb987dbf200c36" "49ec957b508c7d64708b40b0273697a84d3fee4f15dd9fc4a9588016adee3dad" "9954ed41d89d2dcf601c8e7499b6bb2778180bfcaeb7cdfc648078b8e05348c6" "6d589ac0e52375d311afaa745205abb6ccb3b21f6ba037104d71111e7e76a3fc" "fe666e5ac37c2dfcf80074e88b9252c71a22b6f5d2f566df9a7aa4f9bea55ef8" "a8c210aa94c4eae642a34aaf1c5c0552855dfca2153fa6dd23f3031ce19453d4" "a24c5b3c12d147da6cef80938dca1223b7c7f70f2f382b26308eba014dc4833a" "732b807b0543855541743429c9979ebfb363e27ec91e82f463c91e68c772f6e3" "7e559cd74b715c744ff8cf276a774e4a087ae7065062cb258bc3ef30faecb55b" "98cc377af705c0f2133bb6d340bf0becd08944a588804ee655809da5d8140de6" "c1ab17435aaac39206b0f34dddda6349d91004c27258ab55301b973b179ddd55" "b63c0298290e6c6aa17d64fbce2c2a83c4b420d73c378f4f96dd8e1883ac6d51" "5dc0ae2d193460de979a463b907b4b2c6d2c9c4657b2e9e66b8898d2592e3de5" default)))
+    ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "b63c0298290e6c6aa17d64fbce2c2a83c4b420d73c378f4f96dd8e1883ac6d51" "fd944f09d4d0c4d4a3c82bd7b3360f17e3ada8adf29f28199d09308ba01cc092" "a3fa4abaf08cc169b61dea8f6df1bbe4123ec1d2afeb01c17e11fdc31fc66379" "d2e9c7e31e574bf38f4b0fb927aaff20c1e5f92f72001102758005e53d77b8c9" "f0dc4ddca147f3c7b1c7397141b888562a48d9888f1595d69572db73be99a024" "43c808b039893c885bdeec885b4f7572141bd9392da7f0bd8d8346e02b2ec8da" "8aca557e9a17174d8f847fb02870cb2bb67f3b6e808e46c0e54a44e3e18e1020" "6b289bab28a7e511f9c54496be647dc60f5bd8f9917c9495978762b99d8c96a0" "93a0885d5f46d2aeac12bf6be1754faa7d5e28b27926b8aa812840fe7d0b7983" "75d3dde259ce79660bac8e9e237b55674b910b470f313cdf4b019230d01a982a" "10461a3c8ca61c52dfbbdedd974319b7f7fd720b091996481c8fb1dded6c6116" "151bde695af0b0e69c3846500f58d9a0ca8cb2d447da68d7fbf4154dcf818ebc" "d1b4990bd599f5e2186c3f75769a2c5334063e9e541e37514942c27975700370" "cd736a63aa586be066d5a1f0e51179239fe70e16a9f18991f6f5d99732cabb32" "6b2636879127bf6124ce541b1b2824800afc49c6ccd65439d6eb987dbf200c36" "49ec957b508c7d64708b40b0273697a84d3fee4f15dd9fc4a9588016adee3dad" "9954ed41d89d2dcf601c8e7499b6bb2778180bfcaeb7cdfc648078b8e05348c6" "6d589ac0e52375d311afaa745205abb6ccb3b21f6ba037104d71111e7e76a3fc" "fe666e5ac37c2dfcf80074e88b9252c71a22b6f5d2f566df9a7aa4f9bea55ef8" "a8c210aa94c4eae642a34aaf1c5c0552855dfca2153fa6dd23f3031ce19453d4" "a24c5b3c12d147da6cef80938dca1223b7c7f70f2f382b26308eba014dc4833a" "732b807b0543855541743429c9979ebfb363e27ec91e82f463c91e68c772f6e3" "7e559cd74b715c744ff8cf276a774e4a087ae7065062cb258bc3ef30faecb55b" "98cc377af705c0f2133bb6d340bf0becd08944a588804ee655809da5d8140de6" "c1ab17435aaac39206b0f34dddda6349d91004c27258ab55301b973b179ddd55" "b63c0298290e6c6aa17d64fbce2c2a83c4b420d73c378f4f96dd8e1883ac6d51" "5dc0ae2d193460de979a463b907b4b2c6d2c9c4657b2e9e66b8898d2592e3de5" default)))
  '(diff-switches "-u -a")
  '(doom-modeline-mode t)
  '(ein:default-url-or-port "http://127.0.0.1:8889")
@@ -50,7 +55,8 @@
    (quote
     (nil "/usr/local/bin/" "/home/dimitern/work/aws-codecommit/invoice-engine/.venv/bin" "/home/dimitern/.poetry/bin/" "/home/dimitern/.poetry/bin/" "/home/dimitern/anaconda3/bin/" "/home/dimitern/.local/bin/" "/home/dimitern/.pyenv/plugins/pyenv-virtualenv/shims/" "/home/dimitern/.pyenv/shims/" "/home/dimitern/.pyenv/bin/" "/home/dimitern/.nvm/versions/node/v10.9.0/bin/" "/usr/local/cuda-9.2/bin/" "/usr/local/go/bin/" "/home/dimitern/work/go/bin/" "/home/dimitern/.cargo/bin/" "/home/dimitern/.cargo/bin/" "/home/dimitern/work/bin/" "/home/dimitern/.local/bin/" "/bin/" "/home/dimitern/work/go/bin/" "/home/dimitern/.cask/bin/" "/home/dimitern/.poetry/bin/" "/home/dimitern/.cargo/bin/" "/home/dimitern/.cargo/bin/" "/home/dimitern/work/bin/" "/home/dimitern/.local/bin/" "/bin/" "/home/dimitern/work/go/bin/" "/home/dimitern/.cask/bin/" "/usr/local/sbin/" "/usr/local/bin/" "/usr/sbin/" "/usr/bin/" "/sbin/" "/bin/" "/usr/games/" "/usr/local/games/" "/snap/bin/" "/home/dimitern/.rvm/bin/" "/home/dimitern/.rvm/bin/" "/home/dimitern/.rvm/bin/" "/usr/local/libexec/emacs/26.2/x86_64-pc-linux-gnu/")))
  '(explicit-shell-file-name "c:/Windows/System32/cmd.exe")
- '(fci-rule-color "#37474f")
+ '(fci-rule-color "#3a3a3a")
+ '(frame-background-mode (quote light))
  '(flycheck-checkers
    (quote
     (ada-gnat asciidoctor asciidoc c/c++-clang c/c++-gcc c/c++-cppcheck cfengine chef-foodcritic coffee coffee-coffeelint coq css-csslint css-stylelint cwl d-dmd dockerfile-hadolint elixir-dogma emacs-lisp emacs-lisp-checkdoc erlang-rebar3 erlang eruby-erubis fortran-gfortran go-gofmt go-golint go-vet go-build go-test go-errcheck go-unconvert go-megacheck groovy haml handlebars haskell-stack-ghc haskell-ghc haskell-hlint html-tidy javascript-eslint javascript-jshint javascript-standard json-jsonlint json-python-json jsonnet less less-stylelint llvm-llc lua-luacheck lua perl perl-perlcritic php php-phpmd php-phpcs processing proselint protobuf-protoc pug puppet-parser puppet-lint r-lintr racket rpm-rpmlint markdown-mdl nix rst-sphinx rst ruby-rubocop ruby-reek ruby-rubylint ruby ruby-jruby rust-cargo rust scala scala-scalastyle scheme-chicken scss-lint scss-stylelint sass/scss-sass-lint sass scss sh-bash sh-posix-dash sh-posix-bash sh-zsh sh-shellcheck slim slim-lint sql-sqlint systemd-analyze tcl-nagelfar tex-chktex tex-lacheck texinfo typescript-tslint verilog-verilator xml-xmlstarlet xml-xmllint yaml-jsyaml yaml-ruby python-flake8)))
@@ -81,7 +87,30 @@
  '(hippie-expand-try-functions-list
    (quote
     (try-complete-file-name-partially try-complete-file-name try-expand-all-abbrevs try-expand-list try-expand-line try-expand-dabbrev try-expand-dabbrev-all-buffers try-expand-dabbrev-from-kill try-complete-lisp-symbol-partially try-complete-lisp-symbol)))
- '(hl-sexp-background-color "#1c1f26")
+ '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
+ '(highlight-symbol-colors
+   (--map
+    (solarized-color-blend it "#002b36" 0.25)
+    (quote
+     ("#b58900" "#2aa198" "#dc322f" "#6c71c4" "#859900" "#cb4b16" "#268bd2"))))
+ '(highlight-symbol-foreground-color "#93a1a1")
+ '(highlight-tail-colors
+   (quote
+    (("#073642" . 0)
+     ("#546E00" . 20)
+     ("#00736F" . 30)
+     ("#00629D" . 50)
+     ("#7B6000" . 60)
+     ("#8B2C02" . 70)
+     ("#93115C" . 85)
+     ("#073642" . 100))))
+ '(hl-bg-colors
+   (quote
+    ("#7B6000" "#8B2C02" "#990A1B" "#93115C" "#3F4D91" "#00629D" "#00736F" "#546E00")))
+ '(hl-fg-colors
+   (quote
+    ("#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36")))
+ '(hl-sexp-background-color "#121212")
  '(ivy-action-wrap t)
  '(ivy-display-function nil)
  '(ivy-wrap t)
@@ -92,13 +121,19 @@
  '(json-reformat:indent-width 2)
  '(linum-delay t)
  '(linum-eager nil)
- '(magit-git-debug t t)
+ '(magit-diff-use-overlays nil)
+ '(magit-git-debug t)
  '(markdown-asymmetric-header t)
  '(markdown-css-paths
    (quote
     ("https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/3.0.1/github-markdown.css")))
  '(markdown-enable-html nil)
  '(mouse-wheel-scroll-amount (quote (0.07)))
+ '(neo-show-hidden-files nil)
+ '(neo-theme (quote arrow))
+ '(nrepl-message-colors
+   (quote
+    ("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4")))
  '(nlinum-highlight-current-line t)
  '(nlinum-use-right-margin nil)
  '(notmuch-search-oldest-first nil)
@@ -112,13 +147,16 @@
  '(org-hide-block-startup t)
  '(org-list-indent-offset 2)
  '(org-pretty-entities t)
+
  '(package-selected-packages
-   (quote
-    (cov coverlay pytest pytest-pdb-break docker-mode docker-compose-mode docker docker-cli treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil treemacs doom-modeline doom-themes all-the-icons dockerfile-mode dockerfile flycheck-flake8 blacken blacken-mode pipenv inf-clojure clojure clojure-mode htmlize org-edna org-reveal ox-reveal haml-mode ov nginx-mode nginx company-racer company-rust flycheck-rust rust flycheck-mypy material-light material ein go-errcheck errcheck go-mode multiple-cursors package-lint org-mobile org-mode holiday org-capture org-bullets material-theme gitattributes-mode gitignore-mode gitconfig-mode magit ibuffer-projectile ace-link ivy-pages counsel-projectile pip-requirements company-anaconda graphviz-dot-mode markdown-mode flycheck-title flycheck-pos-tip flycheck auto-dictionary company-emoji company-statistics company-quickhelp rainbow-mode highlight-numbers highlight-symbol hl-todo expand-region undo-tree nlinum launch hardhat ignoramus neotree golden-ratio ibuffer-vc focus-autosave-mode page-break-lines ag anzu paradox counsel ivy-hydra exec-path-from-shell validate solarized-theme)))
+   (quote ace-link ace-window adaptive-wrap ag all-the-icons anaconda-mode anzu auto-dictionary avy beacon blacken blacken-mode clojure clojure-mode company company-anaconda company-emoji company-math company-quickhelp company-racer company-rust company-statistics counsel counsel-projectile cov coverlay docker docker-cli docker-compose-mode docker-mode dockerfile dockerfile-mode doom-modeline doom-themes easy-kill ein errcheck exec-path-from-shell expand-region flycheck flycheck-flake8 flycheck-mypy flycheck-pos-tip flycheck-rust flycheck-title focus-autosave-mode gitattributes-mode gitconfig-mode gitignore-mode go-errcheck go-mode golden-ratio graphviz-dot-mode haml-mode hardhat highlight-numbers highlight-symbol hl-todo holiday htmlize hydra ibuffer-projectile ibuffer-vc ignoramus inf-clojure ivy ivy-hydra ivy-pages js2-mode json-mode launch magit markdown-mode material material-light material-theme multiple-cursors neotree nginx nginx-mode nlinum org-bullets org-capture org-edna org-mobile org-mode org-reveal ov ox-reveal package-lint page-break-lines paradox php-mode pip-requirements pipenv projectile pytest pytest-pdb-break rainbow-delimiters rainbow-mode reveal-in-osx-finder rust smartparens solarized-theme spaceline stripe-buffer sudo-edit swiper treemacs treemacs-evil treemacs-icons-dired treemacs-magit treemacs-projectile undo-tree use-package validate virtualenvwrapper visual-fill-column visual-regexp web-mode wgrep-ag which-key whitespace-cleanup-mode yaml-mode yasnippet)))
  '(paradox-execute-asynchronously t)
  '(paradox-github-token t)
  '(paradox-hide-wiki-packages nil)
  '(paradox-use-homepage-buttons t)
+ '(pos-tip-background-color "#073642")
+ '(pos-tip-foreground-color "#93a1a1")
+
  '(pipenv-executable "/usr/local/bin/pipenv")
  '(pos-tip-background-color nil)
  '(pos-tip-foreground-color "gray")
@@ -133,7 +171,8 @@
  '(py-autopep8-options nil)
  '(py-isort-options (quote ("-sp $(pwd)/setup.cfg")))
  '(pytest-cmd-flags "--ff -vv")
- '(python-shell-interpreter "ipython")
+ '(python-indent-trigger-commands (quote (indent-for-tab-command yas/expand)))
+ '(python-shell-interpreter "python3.7")
  '(racer-rust-src-path nil)
  '(ring-bell-function (lambda nil))
  '(rust-format-on-save t)
@@ -152,9 +191,12 @@
      (pythonic-activate . \.venv)
      (flycheck-checker . python-flake8))))
  '(sentence-end-double-space nil)
+ '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#073642" 0.2))
  '(show-smartparens-global-mode t)
  '(standard-indent 4)
  '(tab-width 4)
+ '(term-default-bg-color "#002b36")
+ '(term-default-fg-color "#839496")
  '(term-input-ignoredups t)
  '(tool-bar-mode nil)
  '(treemacs-git-mode (quote deferred))
@@ -162,6 +204,7 @@
  '(treemacs-show-hidden-files nil)
  '(treemacs-width 42)
  '(vc-annotate-background nil)
+ '(vc-annotate-background-mode nil)
  '(vc-annotate-color-map
    (quote
     ((20 . "#f36c60")
@@ -239,9 +282,16 @@
  '(web-mode-code-indent-offset 4)
  '(web-mode-css-indent-offset 4)
  '(web-mode-enable-element-tag-fontification t)
+ '(weechat-color-list
+   (quote
+    (unspecified "#002b36" "#073642" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#839496" "#657b83")))
  '(when (eq system-type (quote windows-nt)) t)
  '(whitespace-line-column 88)
+ '(xterm-color-names
+   ["#073642" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#eee8d5"])
  '(x-gtk-use-system-tooltips nil))
+ '(xterm-color-names-bright
+   ["#002b36" "#cb4b16" "#586e75" "#657b83" "#839496" "#6c71c4" "#93a1a1" "#fdf6e3"]))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -249,11 +299,12 @@
  ;; If there is more than one, they won't work right.
  '(company-scrollbar-bg ((t (:background "#F0F0F0" :inverse-video nil))))
  '(company-tooltip-selection ((t (:background "DeepSkyBlue4" :foreground "#ffffff" :weight bold))))
+ '(default ((((class color) (min-colors 89)) (:foreground "#ffffff" :background "#263238"))))
  '(highlight-symbol-face ((t (:background "light steel blue"))))
- '(neo-banner-face ((t (:foreground "magenta"))))
- '(neo-dir-link-face ((t (:foreground "green"))))
- '(neo-expand-btn-face ((t (:foreground "cyan"))))
- '(neo-file-link-face ((t (:foreground "deep sky blue"))))
- '(neo-header-face ((t (:foreground "magenta"))))
- '(neo-root-dir-face ((t (:foreground "magenta"))))
+ '(neo-banner-face ((t (:foreground "Magenta"))))
+ '(neo-dir-link-face ((t (:foreground "Cyan"))))
+ '(neo-expand-btn-face ((t (:foreground "LightCyan" :weight semi-light))))
+ '(neo-file-link-face ((t (:foreground "Gold"))))
+ '(neo-header-face ((t (:foreground "HotPink"))))
+ '(neo-root-dir-face ((t (:foreground "Pink")))))
  '(nlinum-current-line ((t (:inherit linum :background "dim gray" :foreground "white" :weight bold)))))

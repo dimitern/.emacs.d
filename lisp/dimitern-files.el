@@ -334,6 +334,8 @@ Disable the highlighting of overlong lines."
 (use-package rainbow-delimiters
   :ensure t
   :defer t
+  :config
+  (rainbow-delimiters-mode-disable)
   :init
   (dolist (hook '(text-mode-hook prog-mode-hook))
     (add-hook hook #'rainbow-delimiters-mode)))

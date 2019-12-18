@@ -7,8 +7,9 @@
                                         ; signalling an error
  ;; These settings make trackpad scrolling on OS X much more predictable
  ;; and smooth
- mouse-wheel-progressive-speed nil
- mouse-wheel-scroll-amount '(1))
+ ;; mouse-wheel-progressive-speed nil
+ ;; mouse-wheel-scroll-amount '(1)
+ )
 
 ;; Turn on horizontal scrolling with mouse wheel
 (global-set-key (kbd "<mouse-6>") 'scroll-right)

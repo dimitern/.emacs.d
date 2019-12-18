@@ -556,7 +556,7 @@ _p_: copy"
 ;;    ;; use European date format.
 ;;    calendar-european-month-header t
 ;;    ;; local holidays in Bulgaria.
-;;    calendar-holidays bulgarian-holidays-translated
+;;    calendar-holidays holiday-bulgarian-holidays
 ;;    )
 ;;   )
 

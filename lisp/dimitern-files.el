@@ -116,7 +116,7 @@
 (use-package hardhat
   :ensure t
   :init (global-hardhat-mode)
-  :config (validate-setq hardhat-mode-lighter " Ⓗ"))
+  :config (validate-setq hardhat-mode-lighter "⚠"))
 
 ;; bookmarks: bookmarks for Emacs buffers.
 (use-package bookmark
@@ -435,15 +435,16 @@ Disable the highlighting of overlong lines."
 
   (global-flycheck-mode)
   (validate-setq
-   flycheck-standard-error-navigation nil
-   flycheck-display-errors-function #'flycheck-display-error-messages-unless-error-list
+   flycheck-display-errors-function (lambda (errors)
+                                      (progn
+                                        (flycheck-display-error-messages-unless-error-list errors)
+                                        (dimitern-flycheck-errors/body)))
    flycheck-scalastylerc "scalastyle_config.xml")
-  :diminish (flycheck-mode . "Ⓢ"))
+  :diminish (flycheck-mode . "🗹"))
 
 ;; flycheck-pos-tip: show Flycheck errors in tooltip.
 (use-package flycheck-pos-tip
   :ensure t
-  :disabled t
   :after flycheck
   :config (flycheck-pos-tip-mode))
 
@@ -455,5 +456,31 @@ Disable the highlighting of overlong lines."
 
 ;;; Internationalisation
 (prefer-coding-system 'utf-8)
+
+;; dockerfile - major mode for editing Dockerfiles.
+(use-package dockerfile-mode
+  :pin "melpa"
+  :ensure t
+  :mode ("\\Dockerfile\\'" . dockerfile-mode))
+
+(use-package docker-compose-mode
+  :pin "melpa"
+  :ensure t
+  :bind (("C-c d c" . docker-compose-mode))
+  :diminish (docker-compose-mode . "⛭")
+  :mode ("\\docker-compose\\.ya?ml\\'" . docker-compose-mode))
+
+;; docker - Emacs interface to Docker.
+(use-package docker
+  :pin "melpa"
+  :bind (("C-c d d" . docker))
+  :diminish (docker-mode . "🐋")
+  :ensure t)
+
+;; docker-cli - Emacs interface to Docker CLI.
+(use-package docker-cli
+  :pin "melpa"
+  :bind (("C-c d r" . docker-cli))
+  :ensure t)
 
 (provide 'dimitern-files)

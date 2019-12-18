@@ -240,6 +240,46 @@ Taken from http://stackoverflow.com/a/3072831/355252."
   (interactive)
   (progn (py-isort-buffer) (blacken-mode) (save-buffer)))
 
+(defun dimitern/toggle-py-isort-on-save ()
+  (interactive)
+  (if (memq 'py-isort-before-save before-save-hook)
+      (progn
+        (remove-hook 'before-save-hook #'py-isort-before-save t)
+        (message "Disabled py-isort-before-save for current buffer..."))
+    (add-hook 'before-save-hook #'py-isort-before-save  nil t)
+    (message "Enabled py-isort-before-save for current buffer...")))
+
+(define-minor-mode py-isort-mode
+  "Automatically run `py-isort-buffer' before saving."
+  :lighter "ｉ"
+  (if (memq 'py-isort-buffer before-save-hook)
+      (progn
+        (remove-hook 'before-save-hook 'py-isort-buffer t)
+        (message "Disabled py-isort-mode for current buffer..."))
+    (add-hook 'before-save-hook 'py-isort-buffer nil t)
+    (message "Enabled py-isort-mode for current buffer...")))
+
+
+(defun dimitern/python-hook ()
+  "Automatically executed code for Python files."
+  (interactive)
+  (progn
+    ;; Enable subword navigation, and line numbers.
+    (subword-mode)
+    (nlinum-mode)
+    ;; Auto-configure virtualenv for interactive shells, eshell, gud/pdb, flycheck, flake8, pipenv.
+    (venv-projectile-auto-workon)
+    (venv-initialize-interactive-shells)
+    (venv-initialize-eshell)
+    (dimitern-gud-set-pdb-cmdline)
+    (pipenv-mode)
+    (flycheck-mode-on-safe)
+    (flycheck-set-checker-executable 'python-flake8 "flake8")
+    (flycheck-select-checker 'python-flake8)
+    ;; Apply black and isort before saving
+    (blacken-mode t)
+    (py-isort-mode)))
+
 ;; python: Python editing.
 (use-package python
   :ensure t
@@ -256,10 +296,7 @@ Taken from http://stackoverflow.com/a/3072831/355252."
    python-indent-offset 4
    indent-tabs-mode nil)
 
-  ;; PEP 8 semi-compliant filling rules, 88 chars soft maximum (see: black)
-  (add-hook 'python-mode-hook (lambda () (validate-setq fill-column 88)))
-  (add-hook 'python-mode-hook 'subword-mode)
-  (add-hook 'python-mode-hook #'nlinum-mode)
+  (add-hook 'python-mode-hook 'dimitern/python-hook)
 
   (dolist (open-pair '("(" "[" "{"))
     (sp-local-pair 'python-mode open-pair nil
@@ -299,27 +336,6 @@ _l_: refresh
     ("l" gud-refresh)))
 
 
-(defun dimitern/toggle-py-isort-on-save ()
-  (interactive)
-  (if (memq 'py-isort-before-save before-save-hook)
-      (progn
-        (remove-hook 'before-save-hook #'py-isort-before-save t)
-        (message "Disabled py-isort-before-save for current buffer..."))
-    (add-hook 'before-save-hook #'py-isort-before-save  nil t)
-    (message "Enabled py-isort-before-save for current buffer...")))
-
-
-(define-minor-mode py-isort-mode
-  "Automatically run `py-isort-buffer' before saving."
-  :lighter "ｉ"
-  (if (memq 'py-isort-buffer before-save-hook)
-      (progn
-        (remove-hook 'before-save-hook 'py-isort-buffer t)
-        (message "Disabled py-isort-mode for current buffer..."))
-    (add-hook 'before-save-hook 'py-isort-buffer nil t)
-    (message "Enabled py-isort-mode for current buffer...")))
-
-
 ;; py-isort: sorts Python imports uniformly.
 (use-package py-isort
   :ensure t
@@ -331,12 +347,7 @@ _l_: refresh
   ;; The following settings make isort compatible with black.
   :config
   (validate-setq
-   py-isort-options '("--multi-line=3"
-                      "--trailing-comma"
-                      "--force-grid-wrap=0"
-                      "--use-parentheses"
-                      "--line-width=120"
-                      )))
+   py-isort-options '("-sp $(pwd)/setup.cfg")))
 
 ;; pipenv: Pipenv porcelain inside Emacs
 (use-package pipenv
@@ -344,17 +355,16 @@ _l_: refresh
   :ensure t
   :diminish (pipenv-mode . "󠁐🅿")
   :config
-  (add-hook 'python-mode-hook 'pipenv-mode)
   (validate-setq
    pipenv-projectile-after-switch-function
    #'pipenv-projectile-after-switch-default))
 
-;; flycheck-mypy: FlyCheck interface to MyPy static type checker.
-(use-package flycheck-mypy
-  :ensure t
-  :after python
-  :config
-  (flycheck-add-next-checker 'python-flake8 'python-mypy))
+;; ;; flycheck-mypy: FlyCheck interface to MyPy static type checker.
+;; (use-package flycheck-mypy
+;;   :ensure t
+;;   :after python
+;;   :config
+;;   (flycheck-add-next-checker 'python-flake8 'python-mypy))
 
 ;; projectile: project management for Emacs.
 (use-package projectile
@@ -432,22 +442,7 @@ _p_: copy"
     ("l" venv-lsvirtualenv)
     ("c" venv-cdvirtualenv)
     ("m" venv-mkvirtualenv)
-    ("p" venv-cpvirtualenv))
-
-  ;; Enable for interactive shells and eshell.
-  (venv-initialize-interactive-shells)
-  (venv-initialize-eshell)
-
-  ;; Active matching venvs when switching to projects.
-  (unless (dimitern-os/is-windows)
-    (setq
-     projectile-switch-project-action
-     #'(lambda ()
-         (progn
-           (venv-projectile-auto-workon)
-           ;; Fix pdb command line.
-           (dimitern-gud-set-pdb-cmdline)
-           (projectile-recentf))))))
+    ("p" venv-cpvirtualenv)))
 
 ;; anaconda-mode: powerful Python backend for Emacs.
 (use-package anaconda-mode
@@ -458,7 +453,7 @@ _p_: copy"
   (add-hook 'python-mode-hook #'anaconda-eldoc-mode)
   (add-hook 'venv-postactivate-hook
             #'(lambda () (pythonic-activate (format "%s/.venv" (projectile-project-root)))))
-  :diminish (anaconda-mode . "Ⓐ"))
+  :diminish (anaconda-mode . "🅐"))
 
 ;; company-anaconda: Python backend for Company.
 (use-package company-anaconda
@@ -474,8 +469,6 @@ _p_: copy"
   :bind (:map python-mode-map
               ("C-c t b" . blacken-mode)
               ("C-c f B" . #'blacken-buffer))
-  :config
-  (add-hook 'python-mode-hook #'blacken-mode)
   :diminish (blacken-mode . "🅱"))
 
 ;; pip-requirements: requirements.txt files editing.
@@ -487,13 +480,25 @@ _p_: copy"
 ;; py-isort: sorts Python imports uniformly.
 (use-package py-isort
   :ensure t
-  :after python
+  :after python)
+
+;; pytest + PDB integration.
+(use-package pytest-pdb-break
+  :diminish (pytest-pdb-break-mode . "🆃")
+  :ensure t)
+
+;; pytest + PDB integration.
+(use-package pytest
+  :ensure t
   :config
-  (add-hook 'before-save-hook 'py-isort-before-save)
   (validate-setq
-   py-isort-options '("--lines=100"
-                      "--force-single-line-imports"
-                      "--order-by-type")))
+   pytest-pdb-break-pytest-executable "pytest"
+   pytest-global-name "pytest")
+  :bind (:map python-mode-map
+              ("C-c C-SPC t" . pytest-one)
+              ("C-c C-SPC a" . pytest-all)
+              ("C-c C-SPC p" . pytest-pdb-one)
+              ("C-c C-SPC d" . pytest-pdb-all)))
 
 ;; web-mode: HTML editing.
 (use-package web-mode

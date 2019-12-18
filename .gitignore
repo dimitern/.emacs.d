@@ -8,6 +8,7 @@ image-dired/
 .DS_Store
 elpa/
 anaconda-mode/
+transient/
 
 # Transient files
 company-statistics-cache.el

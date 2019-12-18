@@ -149,7 +149,7 @@
  '(org-pretty-entities t)
 
  '(package-selected-packages
-   (quote ace-link ace-window adaptive-wrap ag all-the-icons anaconda-mode anzu auto-dictionary avy beacon blacken blacken-mode clojure clojure-mode company company-anaconda company-emoji company-math company-quickhelp company-racer company-rust company-statistics counsel counsel-projectile cov coverlay docker docker-cli docker-compose-mode docker-mode dockerfile dockerfile-mode doom-modeline doom-themes easy-kill ein errcheck exec-path-from-shell expand-region flycheck flycheck-flake8 flycheck-mypy flycheck-pos-tip flycheck-rust flycheck-title focus-autosave-mode gitattributes-mode gitconfig-mode gitignore-mode go-errcheck go-mode golden-ratio graphviz-dot-mode haml-mode hardhat highlight-numbers highlight-symbol hl-todo holiday htmlize hydra ibuffer-projectile ibuffer-vc ignoramus inf-clojure ivy ivy-hydra ivy-pages js2-mode json-mode launch magit markdown-mode material material-light material-theme multiple-cursors neotree nginx nginx-mode nlinum org-bullets org-capture org-edna org-mobile org-mode org-reveal ov ox-reveal package-lint page-break-lines paradox php-mode pip-requirements pipenv projectile pytest pytest-pdb-break rainbow-delimiters rainbow-mode reveal-in-osx-finder rust smartparens solarized-theme spaceline stripe-buffer sudo-edit swiper treemacs treemacs-evil treemacs-icons-dired treemacs-magit treemacs-projectile undo-tree use-package validate virtualenvwrapper visual-fill-column visual-regexp web-mode wgrep-ag which-key whitespace-cleanup-mode yaml-mode yasnippet)))
+   (quote ace-link ace-window adaptive-wrap ag all-the-icons anaconda-mode anzu auto-dictionary avy beacon blacken blacken-mode clojure clojure-mode company company-anaconda company-emoji company-math company-quickhelp company-racer company-rust company-statistics counsel counsel-projectile cov coverlay docker docker-cli docker-compose-mode docker-mode dockerfile dockerfile-mode doom-modeline doom-themes easy-kill ein errcheck exec-path-from-shell expand-region flycheck flycheck-flake8 flycheck-mypy flycheck-pos-tip flycheck-rust flycheck-title focus-autosave-mode gitattributes-mode gitconfig-mode gitignore-mode go-errcheck go-mode golden-ratio graphviz-dot-mode haml-mode hardhat highlight-numbers highlight-symbol hl-todo holiday htmlize hydra ibuffer-projectile ibuffer-vc ignoramus inf-clojure ivy ivy-hydra ivy-pages js2-mode json-mode launch magit markdown-mode material material-light material-theme multiple-cursors neotree nginx nginx-mode nlinum org-bullets org-capture org-edna org-mobile org-mode org-reveal ov ox-reveal package-lint page-break-lines paradox php-mode pip-requirements pipenv projectile pytest pytest-pdb-break rainbow-delimiters rainbow-mode reveal-in-osx-finder rust smartparens solarized-theme spaceline stripe-buffer sudo-edit swiper treemacs treemacs-evil treemacs-icons-dired treemacs-magit treemacs-projectile undo-tree use-package validate virtualenvwrapper visual-fill-column visual-regexp web-mode wgrep-ag which-key whitespace-cleanup-mode yaml-mode yasnippet))
  '(paradox-execute-asynchronously t)
  '(paradox-github-token t)
  '(paradox-hide-wiki-packages nil)
@@ -289,7 +289,7 @@
  '(whitespace-line-column 88)
  '(xterm-color-names
    ["#073642" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#eee8d5"])
- '(x-gtk-use-system-tooltips nil))
+ '(x-gtk-use-system-tooltips nil)
  '(xterm-color-names-bright
    ["#002b36" "#cb4b16" "#586e75" "#657b83" "#839496" "#6c71c4" "#93a1a1" "#fdf6e3"]))
 (custom-set-faces
@@ -306,5 +306,5 @@
  '(neo-expand-btn-face ((t (:foreground "LightCyan" :weight semi-light))))
  '(neo-file-link-face ((t (:foreground "Gold"))))
  '(neo-header-face ((t (:foreground "HotPink"))))
- '(neo-root-dir-face ((t (:foreground "Pink")))))
+ '(neo-root-dir-face ((t (:foreground "Pink"))))
  '(nlinum-current-line ((t (:inherit linum :background "dim gray" :foreground "white" :weight bold)))))

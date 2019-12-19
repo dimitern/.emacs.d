@@ -41,7 +41,7 @@
  '(cua-normal-cursor-color "#839496")
  '(cua-overwrite-cursor-color "#b58900")
  '(cua-read-only-cursor-color "#859900")
- '(custom-enabled-themes (quote (doom-city-lights manoj-dark)))
+ '(custom-enabled-themes (quote (doom-vibrant)))
  '(custom-safe-themes
    (quote
     ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "b63c0298290e6c6aa17d64fbce2c2a83c4b420d73c378f4f96dd8e1883ac6d51" "fd944f09d4d0c4d4a3c82bd7b3360f17e3ada8adf29f28199d09308ba01cc092" "a3fa4abaf08cc169b61dea8f6df1bbe4123ec1d2afeb01c17e11fdc31fc66379" "d2e9c7e31e574bf38f4b0fb927aaff20c1e5f92f72001102758005e53d77b8c9" "f0dc4ddca147f3c7b1c7397141b888562a48d9888f1595d69572db73be99a024" "43c808b039893c885bdeec885b4f7572141bd9392da7f0bd8d8346e02b2ec8da" "8aca557e9a17174d8f847fb02870cb2bb67f3b6e808e46c0e54a44e3e18e1020" "6b289bab28a7e511f9c54496be647dc60f5bd8f9917c9495978762b99d8c96a0" "93a0885d5f46d2aeac12bf6be1754faa7d5e28b27926b8aa812840fe7d0b7983" "75d3dde259ce79660bac8e9e237b55674b910b470f313cdf4b019230d01a982a" "10461a3c8ca61c52dfbbdedd974319b7f7fd720b091996481c8fb1dded6c6116" "151bde695af0b0e69c3846500f58d9a0ca8cb2d447da68d7fbf4154dcf818ebc" "d1b4990bd599f5e2186c3f75769a2c5334063e9e541e37514942c27975700370" "cd736a63aa586be066d5a1f0e51179239fe70e16a9f18991f6f5d99732cabb32" "6b2636879127bf6124ce541b1b2824800afc49c6ccd65439d6eb987dbf200c36" "49ec957b508c7d64708b40b0273697a84d3fee4f15dd9fc4a9588016adee3dad" "9954ed41d89d2dcf601c8e7499b6bb2778180bfcaeb7cdfc648078b8e05348c6" "6d589ac0e52375d311afaa745205abb6ccb3b21f6ba037104d71111e7e76a3fc" "fe666e5ac37c2dfcf80074e88b9252c71a22b6f5d2f566df9a7aa4f9bea55ef8" "a8c210aa94c4eae642a34aaf1c5c0552855dfca2153fa6dd23f3031ce19453d4" "a24c5b3c12d147da6cef80938dca1223b7c7f70f2f382b26308eba014dc4833a" "732b807b0543855541743429c9979ebfb363e27ec91e82f463c91e68c772f6e3" "7e559cd74b715c744ff8cf276a774e4a087ae7065062cb258bc3ef30faecb55b" "98cc377af705c0f2133bb6d340bf0becd08944a588804ee655809da5d8140de6" "c1ab17435aaac39206b0f34dddda6349d91004c27258ab55301b973b179ddd55" "b63c0298290e6c6aa17d64fbce2c2a83c4b420d73c378f4f96dd8e1883ac6d51" "5dc0ae2d193460de979a463b907b4b2c6d2c9c4657b2e9e66b8898d2592e3de5" default)))
@@ -88,11 +88,6 @@
    (quote
     (try-complete-file-name-partially try-complete-file-name try-expand-all-abbrevs try-expand-list try-expand-line try-expand-dabbrev try-expand-dabbrev-all-buffers try-expand-dabbrev-from-kill try-complete-lisp-symbol-partially try-complete-lisp-symbol)))
  '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
- '(highlight-symbol-colors
-   (--map
-    (solarized-color-blend it "#002b36" 0.25)
-    (quote
-     ("#b58900" "#2aa198" "#dc322f" "#6c71c4" "#859900" "#cb4b16" "#268bd2"))))
  '(highlight-symbol-foreground-color "#93a1a1")
  '(highlight-tail-colors
    (quote
@@ -147,7 +142,6 @@
  '(org-hide-block-startup t)
  '(org-list-indent-offset 2)
  '(org-pretty-entities t)
-
  '(package-selected-packages
    (quote ace-link ace-window adaptive-wrap ag all-the-icons anaconda-mode anzu auto-dictionary avy beacon blacken blacken-mode clojure clojure-mode company company-anaconda company-emoji company-math company-quickhelp company-racer company-rust company-statistics counsel counsel-projectile cov coverlay docker docker-cli docker-compose-mode docker-mode dockerfile dockerfile-mode doom-modeline doom-themes easy-kill ein errcheck exec-path-from-shell expand-region flycheck flycheck-flake8 flycheck-mypy flycheck-pos-tip flycheck-rust flycheck-title focus-autosave-mode gitattributes-mode gitconfig-mode gitignore-mode go-errcheck go-mode golden-ratio graphviz-dot-mode haml-mode hardhat highlight-numbers highlight-symbol hl-todo holiday htmlize hydra ibuffer-projectile ibuffer-vc ignoramus inf-clojure ivy ivy-hydra ivy-pages js2-mode json-mode launch magit markdown-mode material material-light material-theme multiple-cursors neotree nginx nginx-mode nlinum org-bullets org-capture org-edna org-mobile org-mode org-reveal ov ox-reveal package-lint page-break-lines paradox php-mode pip-requirements pipenv projectile pytest pytest-pdb-break rainbow-delimiters rainbow-mode reveal-in-osx-finder rust smartparens solarized-theme spaceline stripe-buffer sudo-edit swiper treemacs treemacs-evil treemacs-icons-dired treemacs-magit treemacs-projectile undo-tree use-package validate virtualenvwrapper visual-fill-column visual-regexp web-mode wgrep-ag which-key whitespace-cleanup-mode yaml-mode yasnippet))
  '(paradox-execute-asynchronously t)
@@ -156,7 +150,6 @@
  '(paradox-use-homepage-buttons t)
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
-
  '(pipenv-executable "/usr/local/bin/pipenv")
  '(pos-tip-background-color nil)
  '(pos-tip-foreground-color "gray")
@@ -299,8 +292,6 @@
  ;; If there is more than one, they won't work right.
  '(company-scrollbar-bg ((t (:background "#F0F0F0" :inverse-video nil))))
  '(company-tooltip-selection ((t (:background "DeepSkyBlue4" :foreground "#ffffff" :weight bold))))
- '(default ((((class color) (min-colors 89)) (:foreground "#ffffff" :background "#263238"))))
- '(highlight-symbol-face ((t (:background "light steel blue"))))
  '(neo-banner-face ((t (:foreground "Magenta"))))
  '(neo-dir-link-face ((t (:foreground "Cyan"))))
  '(neo-expand-btn-face ((t (:foreground "LightCyan" :weight semi-light))))

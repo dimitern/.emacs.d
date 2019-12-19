@@ -56,7 +56,6 @@
     (nil "/usr/local/bin/" "/home/dimitern/work/aws-codecommit/invoice-engine/.venv/bin" "/home/dimitern/.poetry/bin/" "/home/dimitern/.poetry/bin/" "/home/dimitern/anaconda3/bin/" "/home/dimitern/.local/bin/" "/home/dimitern/.pyenv/plugins/pyenv-virtualenv/shims/" "/home/dimitern/.pyenv/shims/" "/home/dimitern/.pyenv/bin/" "/home/dimitern/.nvm/versions/node/v10.9.0/bin/" "/usr/local/cuda-9.2/bin/" "/usr/local/go/bin/" "/home/dimitern/work/go/bin/" "/home/dimitern/.cargo/bin/" "/home/dimitern/.cargo/bin/" "/home/dimitern/work/bin/" "/home/dimitern/.local/bin/" "/bin/" "/home/dimitern/work/go/bin/" "/home/dimitern/.cask/bin/" "/home/dimitern/.poetry/bin/" "/home/dimitern/.cargo/bin/" "/home/dimitern/.cargo/bin/" "/home/dimitern/work/bin/" "/home/dimitern/.local/bin/" "/bin/" "/home/dimitern/work/go/bin/" "/home/dimitern/.cask/bin/" "/usr/local/sbin/" "/usr/local/bin/" "/usr/sbin/" "/usr/bin/" "/sbin/" "/bin/" "/usr/games/" "/usr/local/games/" "/snap/bin/" "/home/dimitern/.rvm/bin/" "/home/dimitern/.rvm/bin/" "/home/dimitern/.rvm/bin/" "/usr/local/libexec/emacs/26.2/x86_64-pc-linux-gnu/")))
  '(explicit-shell-file-name "c:/Windows/System32/cmd.exe")
  '(fci-rule-color "#3a3a3a")
- '(frame-background-mode (quote light))
  '(flycheck-checkers
    (quote
     (ada-gnat asciidoctor asciidoc c/c++-clang c/c++-gcc c/c++-cppcheck cfengine chef-foodcritic coffee coffee-coffeelint coq css-csslint css-stylelint cwl d-dmd dockerfile-hadolint elixir-dogma emacs-lisp emacs-lisp-checkdoc erlang-rebar3 erlang eruby-erubis fortran-gfortran go-gofmt go-golint go-vet go-build go-test go-errcheck go-unconvert go-megacheck groovy haml handlebars haskell-stack-ghc haskell-ghc haskell-hlint html-tidy javascript-eslint javascript-jshint javascript-standard json-jsonlint json-python-json jsonnet less less-stylelint llvm-llc lua-luacheck lua perl perl-perlcritic php php-phpmd php-phpcs processing proselint protobuf-protoc pug puppet-parser puppet-lint r-lintr racket rpm-rpmlint markdown-mdl nix rst-sphinx rst ruby-rubocop ruby-reek ruby-rubylint ruby ruby-jruby rust-cargo rust scala scala-scalastyle scheme-chicken scss-lint scss-stylelint sass/scss-sass-lint sass scss sh-bash sh-posix-dash sh-posix-bash sh-zsh sh-shellcheck slim slim-lint sql-sqlint systemd-analyze tcl-nagelfar tex-chktex tex-lacheck texinfo typescript-tslint verilog-verilator xml-xmlstarlet xml-xmllint yaml-jsyaml yaml-ruby python-flake8)))
@@ -83,10 +82,6 @@
  '(fringe-mode (quote (16 . 0)) nil (fringe))
  '(global-nlinum-mode t)
  '(go-command "$GOROOT/bin/go")
- '(hippie-expand-ignore-buffers (quote ("^ \\*.*\\*$" dired-mode)))
- '(hippie-expand-try-functions-list
-   (quote
-    (try-complete-file-name-partially try-complete-file-name try-expand-all-abbrevs try-expand-list try-expand-line try-expand-dabbrev try-expand-dabbrev-all-buffers try-expand-dabbrev-from-kill try-complete-lisp-symbol-partially try-complete-lisp-symbol)))
  '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
  '(highlight-symbol-foreground-color "#93a1a1")
  '(highlight-tail-colors
@@ -99,6 +94,10 @@
      ("#8B2C02" . 70)
      ("#93115C" . 85)
      ("#073642" . 100))))
+ '(hippie-expand-ignore-buffers (quote ("^ \\*.*\\*$" dired-mode)))
+ '(hippie-expand-try-functions-list
+   (quote
+    (try-complete-file-name-partially try-complete-file-name try-expand-all-abbrevs try-expand-list try-expand-line try-expand-dabbrev try-expand-dabbrev-all-buffers try-expand-dabbrev-from-kill try-complete-lisp-symbol-partially try-complete-lisp-symbol)))
  '(hl-bg-colors
    (quote
     ("#7B6000" "#8B2C02" "#990A1B" "#93115C" "#3F4D91" "#00629D" "#00736F" "#546E00")))
@@ -117,7 +116,7 @@
  '(linum-delay t)
  '(linum-eager nil)
  '(magit-diff-use-overlays nil)
- '(magit-git-debug t)
+ '(magit-git-debug t t)
  '(markdown-asymmetric-header t)
  '(markdown-css-paths
    (quote
@@ -126,13 +125,13 @@
  '(mouse-wheel-scroll-amount (quote (0.07)))
  '(neo-show-hidden-files nil)
  '(neo-theme (quote arrow))
- '(nrepl-message-colors
-   (quote
-    ("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4")))
  '(nlinum-highlight-current-line t)
  '(nlinum-use-right-margin nil)
  '(notmuch-search-oldest-first nil)
  '(notmuch-show-relative-dates nil)
+ '(nrepl-message-colors
+   (quote
+    ("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4")))
  '(objed-cursor-color "#e74c3c")
  '(org-agenda-files
    (quote
@@ -143,13 +142,12 @@
  '(org-list-indent-offset 2)
  '(org-pretty-entities t)
  '(package-selected-packages
-   (quote ace-link ace-window adaptive-wrap ag all-the-icons anaconda-mode anzu auto-dictionary avy beacon blacken blacken-mode clojure clojure-mode company company-anaconda company-emoji company-math company-quickhelp company-racer company-rust company-statistics counsel counsel-projectile cov coverlay docker docker-cli docker-compose-mode docker-mode dockerfile dockerfile-mode doom-modeline doom-themes easy-kill ein errcheck exec-path-from-shell expand-region flycheck flycheck-flake8 flycheck-mypy flycheck-pos-tip flycheck-rust flycheck-title focus-autosave-mode gitattributes-mode gitconfig-mode gitignore-mode go-errcheck go-mode golden-ratio graphviz-dot-mode haml-mode hardhat highlight-numbers highlight-symbol hl-todo holiday htmlize hydra ibuffer-projectile ibuffer-vc ignoramus inf-clojure ivy ivy-hydra ivy-pages js2-mode json-mode launch magit markdown-mode material material-light material-theme multiple-cursors neotree nginx nginx-mode nlinum org-bullets org-capture org-edna org-mobile org-mode org-reveal ov ox-reveal package-lint page-break-lines paradox php-mode pip-requirements pipenv projectile pytest pytest-pdb-break rainbow-delimiters rainbow-mode reveal-in-osx-finder rust smartparens solarized-theme spaceline stripe-buffer sudo-edit swiper treemacs treemacs-evil treemacs-icons-dired treemacs-magit treemacs-projectile undo-tree use-package validate virtualenvwrapper visual-fill-column visual-regexp web-mode wgrep-ag which-key whitespace-cleanup-mode yaml-mode yasnippet))
+   (quote
+    (counsel ivy-hydra wgrep-ag ag visual-regexp swiper anzu which-key exec-path-from-shell inf-clojure clojure-mode nginx-mode flycheck-rust racer rust-mode gitattributes-mode gitignore-mode gitconfig-mode org-bullets web-mode pytest pytest-pdb-break pip-requirements blacken company-anaconda anaconda-mode virtualenvwrapper pipenv py-isort haml-mode ein pydoc graphviz-dot-mode markdown-mode package-lint go-errcheck go-mode golden-ratio company-racer company-math company-statistics company-quickhelp company yasnippet treemacs-magit treemacs-icons-dired treemacs-projectile treemacs nlinum ace-link avy ivy-pages docker-cli docker docker-compose-mode dockerfile-mode flycheck-title flycheck-pos-tip flycheck auto-dictionary hl-todo highlight-symbol rainbow-delimiters rainbow-mode highlight-numbers smartparens undo-tree whitespace-cleanup-mode visual-fill-column validate use-package sudo-edit stripe-buffer spaceline reveal-in-osx-finder paradox page-break-lines multiple-cursors launch ibuffer-vc ibuffer-projectile hardhat focus-autosave-mode expand-region easy-kill doom-themes diminish beacon auto-compile adaptive-wrap)))
  '(paradox-execute-asynchronously t)
  '(paradox-github-token t)
  '(paradox-hide-wiki-packages nil)
  '(paradox-use-homepage-buttons t)
- '(pos-tip-background-color "#073642")
- '(pos-tip-foreground-color "#93a1a1")
  '(pipenv-executable "/usr/local/bin/pipenv")
  '(pos-tip-background-color nil)
  '(pos-tip-foreground-color "gray")
@@ -184,8 +182,8 @@
      (pythonic-activate . \.venv)
      (flycheck-checker . python-flake8))))
  '(sentence-end-double-space nil)
- '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#073642" 0.2))
  '(show-smartparens-global-mode t)
+ '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#073642" 0.2))
  '(standard-indent 4)
  '(tab-width 4)
  '(term-default-bg-color "#002b36")
@@ -280,9 +278,9 @@
     (unspecified "#002b36" "#073642" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#839496" "#657b83")))
  '(when (eq system-type (quote windows-nt)) t)
  '(whitespace-line-column 88)
+ '(x-gtk-use-system-tooltips nil)
  '(xterm-color-names
    ["#073642" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#eee8d5"])
- '(x-gtk-use-system-tooltips nil)
  '(xterm-color-names-bright
    ["#002b36" "#cb4b16" "#586e75" "#657b83" "#839496" "#6c71c4" "#93a1a1" "#fdf6e3"]))
 (custom-set-faces

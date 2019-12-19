@@ -191,6 +191,7 @@
 
 ;; undo-tree: branching undo.
 (use-package undo-tree
+  :pin "gnu"
   :ensure t
   :init (global-undo-tree-mode)
   :diminish undo-tree-mode)

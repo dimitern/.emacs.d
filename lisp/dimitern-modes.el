@@ -25,6 +25,7 @@
 ;; Golang configuration
 (use-package go-mode
   :ensure t
+  :defer t
   :config
   (defun dimitern/golang-onsave()
     "Run golang-onsave.sh, which does runs go build, install, test, and vet."
@@ -62,6 +63,7 @@
 ;; go-errcheck - helper to run errcheck.
 (use-package go-errcheck
   :pin "melpa"
+  :defer t
   :ensure t)
 
 ;; When saving files, set execute permission if #! is in first line.
@@ -71,6 +73,7 @@
 ;; package-lint: linter for Emacs lisp packages
 (use-package package-lint
   :pin "melpa"
+  :defer t
   :ensure t)
 
 ;; yaml-mode
@@ -98,6 +101,7 @@
 ;; markdown-mode
 (use-package markdown-mode
   :ensure t
+  :defer t
   ;; Just no, dear Markdown Mode.  Don't force that bastard Github dialect upon
   ;; me!
   :mode ("\\.md\\'" . markdown-mode)
@@ -138,10 +142,12 @@
 
 ;; prog-mode
 (use-package prog-mode
+  :defer t
   :bind (("C-c t p" . prettify-symbols-mode)))
 
 ;; compile: Compile from Emacs.
 (use-package compile
+  :defer t
   :bind (("C-c c C" . recompile))
   :config
   (validate-setq
@@ -170,6 +176,7 @@ Taken from http://stackoverflow.com/a/3072831/355252."
 
 ;; elide-head: elide lengthy GPL headers.
 (use-package elide-head
+  :defer t
   :bind (("C-c t e" . elide-head))
   :init (add-hook 'prog-mode-hook #'elide-head))
 
@@ -221,17 +228,20 @@ Taken from http://stackoverflow.com/a/3072831/355252."
 
 ;; pydoc: browse Python documentation.
 (use-package pydoc
+  :defer t
   :ensure t
   :after anaconda-mode
   :bind (("C-M-." . pydoc-at-point)))
 
 ;; ein: Emacs IPython Notebooks.
 (use-package ein
+  :defer t
   :pin "melpa"
   :ensure t)
 
 ;; haml-mode: HAML syntax support.
 (use-package haml-mode
+  :defer t
   :ensure t
   :mode ("\\.haml?\\'" . haml-mode))
 
@@ -283,6 +293,7 @@ Taken from http://stackoverflow.com/a/3072831/355252."
 ;; python: Python editing.
 (use-package python
   :ensure t
+  :defer 2
   :mode ("\\.pyw?\\'" . python-mode)
   :bind (("M-RET" . dimitern-pdb/body)
          ;;("M-/" . company-complete-common-or-cycle)
@@ -339,6 +350,7 @@ _l_: refresh
 ;; py-isort: sorts Python imports uniformly.
 (use-package py-isort
   :ensure t
+  :defer t
   :after python
   :bind (:map python-mode-map
               ("C-c t i" . dimitern/toggle-py-isort-on-save)
@@ -353,6 +365,8 @@ _l_: refresh
 (use-package pipenv
   :pin "melpa"
   :ensure t
+  :defer t
+  :after python
   :diminish (pipenv-mode . "󠁐🅿")
   :config
   (validate-setq
@@ -415,6 +429,7 @@ filename. Prefer `ipython', if available."
 ;; virtualenvwrapper: emulator for Doug Hellmann's virtualenvwrapper.sh.
 (use-package virtualenvwrapper
   :ensure t
+  :defer t
   :bind (("C-z" . dimitern-venv/body))
   :after projectile
   :config
@@ -447,6 +462,7 @@ _p_: copy"
 ;; anaconda-mode: powerful Python backend for Emacs.
 (use-package anaconda-mode
   :ensure t
+  :defer t
   :after python
   :config
   (add-hook 'python-mode-hook #'anaconda-mode)
@@ -458,6 +474,7 @@ _p_: copy"
 ;; company-anaconda: Python backend for Company.
 (use-package company-anaconda
   :ensure t
+  :defer t
   :after anaconda-mode
   :config (add-to-list 'company-backends 'company-anaconda))
 
@@ -465,6 +482,7 @@ _p_: copy"
 (use-package blacken
   :pin "melpa"
   :ensure t
+  :defer t
   :after python
   :bind (:map python-mode-map
               ("C-c t b" . blacken-mode)
@@ -474,22 +492,28 @@ _p_: copy"
 ;; pip-requirements: requirements.txt files editing.
 (use-package pip-requirements
   :ensure t
+  :defer t
   :after python)
 
 
 ;; py-isort: sorts Python imports uniformly.
 (use-package py-isort
   :ensure t
+  :defer t
   :after python)
 
 ;; pytest + PDB integration.
 (use-package pytest-pdb-break
   :diminish (pytest-pdb-break-mode . "🆃")
+  :after pytest
+  :defer t
   :ensure t)
 
 ;; pytest + PDB integration.
 (use-package pytest
   :ensure t
+  :defer t
+  :after python
   :config
   (validate-setq
    pytest-pdb-break-pytest-executable "pytest"
@@ -564,6 +588,7 @@ _p_: copy"
 (use-package org
   :pin "org"
   :ensure t
+  :defer t
   :mode ("\\.\\(org\\|org_archive\\)$" . org-mode)
   :bind (("C-c a" . org-agenda)
          ("C-c b" . org-iswitchb)
@@ -632,6 +657,7 @@ _p_: copy"
 ;; magit: the one and only Git frontend.
 (use-package magit
   :ensure t
+  :defer t
   :pin "melpa-stable"
   :bind (("C-c C-g" . magit-status)
          ("C-c g c" . magit-clone)
@@ -690,6 +716,7 @@ _p_: copy"
   :defer t)
 
 (use-package gnus
+  :defer t
   :init
   (setq
    user-email-address "dimiter@naydenov.net"
@@ -721,6 +748,7 @@ _p_: copy"
 (use-package racer
   :after rust-mode
   :ensure t
+  :defer t
   :diminish (racer-mode . "Ⓡ")
   :config
   (add-hook 'rust-mode-hook #'racer-mode)
@@ -736,6 +764,7 @@ _p_: copy"
 (use-package flycheck-rust
   :after rust-mode
   :ensure t
+  :defer t
   :config
   (add-hook 'rust-mode-hook #'flycheck-rust-setup)
   :pin "melpa")

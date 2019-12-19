@@ -66,7 +66,8 @@
 (use-package dimitern-windows)
 
 ;; dimitern-modes: global modes config.
-(use-package dimitern-modes)
+(use-package dimitern-modes
+  :defer 1)
 
 ;; exec-path-from-shell: set shell environment variables.
 (use-package dimitern-exec-path-from-shell)

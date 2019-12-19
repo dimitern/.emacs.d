@@ -3,6 +3,7 @@
 
 ;; files: core commands for files.
 (use-package files
+  :defer t
   :bind
   (("C-c f z" . revert-buffer)
    ("C-c f /" . revert-buffer)
@@ -96,6 +97,7 @@
 ;; ignoramus: ignore uninteresting files everywhere.
 (use-package ignoramus
   :ensure t
+  :defer t
   :config
   ;; Ignore some additional directories and file extensions
   (dolist (name '("company-statistics-cache.el"
@@ -114,18 +116,21 @@
 
 ;; hardhat: protect user-writable files.
 (use-package hardhat
+  :defer t
   :ensure t
   :init (global-hardhat-mode)
   :config (validate-setq hardhat-mode-lighter "⚠"))
 
 ;; bookmarks: bookmarks for Emacs buffers.
 (use-package bookmark
+  :defer t
   :bind (("C-c f b" . list-bookmarks))
   ;; Save bookmarks immediately after a bookmark was added
   :config (validate-setq bookmark-save-flag 1))
 
 ;; recentf: save recently visited files.
 (use-package recentf
+  :defer t
   :init (recentf-mode)
   :config
   (validate-setq
@@ -143,6 +148,7 @@
 
 ;; saveplace: save point position in files.
 (use-package saveplace
+  :defer t
   :init (save-place-mode 1))
 
 ;; view read-only files.
@@ -150,6 +156,7 @@
 
 ;; autorevert: auto-revert buffers of changed files.
 (use-package autorevert
+  :defer t
   :init (global-auto-revert-mode)
   :bind (("C-c t a" . auto-revert-mode))
   :config
@@ -164,6 +171,7 @@
 
 ;; image-file: visit images as images.
 (use-package image-file
+  :defer t
   :init (auto-image-file-mode))
 
 ;; launch: open files in external programs
@@ -187,6 +195,7 @@
 ;; expand-region:eExpand region by semantic units
 (use-package expand-region
   :ensure t
+  :defer t
   :bind (("C-c v" . er/expand-region)))
 
 ;; undo-tree: branching undo.
@@ -222,6 +231,7 @@
 ;; smartparens: parenthesis editing and balancing.
 (use-package smartparens
   :ensure t
+  :defer t
   :bind (("C-c k" . dimitern-smartparens/body)
          :map smartparens-strict-mode-map
          ;; A fill paragraph in strict mode
@@ -305,6 +315,7 @@ Disable the highlighting of overlong lines."
 
 ;; whitespace: highlight bad whitespace.
 (use-package whitespace
+  :defer t
   :bind (("C-c t w" . whitespace-mode))
   :init
   (dolist (hook '(prog-mode-hook text-mode-hook conf-mode-hook))
@@ -327,6 +338,7 @@ Disable the highlighting of overlong lines."
 ;; rainbow-mode: fontify color values in code
 (use-package rainbow-mode
   :ensure t
+  :defer t
   :pin "gnu"
   :bind (("C-c t r" . rainbow-mode))
   :config (add-hook 'css-mode-hook #'rainbow-mode))

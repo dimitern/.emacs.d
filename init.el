@@ -12,7 +12,7 @@
 
 ;; homebrew installs executables in /usr/local/bin
 (when (dimitern-os/is-darwin)
-  (add-to-list 'exec-path "/usr/local/bin"))
+  (add-to-list 'exec-path "/usr/local/bin" "/Users/dimitern/Library/Python/3.7/bin"))
 
 (validate-setq
  ;; User Info
@@ -32,8 +32,9 @@
   (add-hook 'emacs-startup-hook #'dimitern-spaceline/emacs-theme)
   (add-hook 'pyhon-mode-hook #'dimitern-spaceline/emacs-theme)
   ;; This is also necessary to fix powerline in terminal mode.
-  (unless (display-graphic-p)
-    (add-hook 'tty-setup-hook #'dimitern-spaceline/emacs-theme))
+  ;; (unless (display-graphic-p)
+  (add-hook 'tty-setup-hook #'dimitern-spaceline/emacs-theme)
+  ;; )
   )
 
 ;; dimitern-startup: startup config.

@@ -20,9 +20,16 @@ Menu bar is also disabled unless on darwin GUI."
 (use-package frame
   :bind (("C-c w F" . toggle-frame-fullscreen))
   :config
+  (defun dimitern/server-edit+suspend-frame ()
+    "Run `server-edit' to close emacsclient session, followed by `suspend-frame'"
+    (interactive)
+    (progn
+      (server-edit)
+      (suspend-frame)))
+
   ;; Kill C-z for `suspend-frame', keep C-x C-z only.
   (global-set-key (kbd "C-z") nil)
-  (global-set-key (kbd "C-x C-z") 'suspend-frame)
+  (global-set-key (kbd "C-x C-z") 'dimitern/server-edit+suspend-frame)
   ;; Allow toggling the menu bar with F1.
   (global-set-key [f1] 'menu-bar-mode)
   ;(add-to-list 'initial-frame-alist '(fullscreen . maximized))

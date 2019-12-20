@@ -115,6 +115,7 @@
  '(json-reformat:indent-width 2)
  '(linum-delay t)
  '(linum-eager nil)
+ '(mac-right-option-modifier (quote control))
  '(magit-diff-use-overlays nil)
  '(magit-git-debug t t)
  '(markdown-asymmetric-header t)

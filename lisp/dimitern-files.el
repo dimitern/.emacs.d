@@ -24,7 +24,6 @@
 ;; server: the server of `emacsclient'.
 (use-package server
   :if (not noninteractive)
-  :defer t
   :config
   (unless (server-running-p server-name)
     (server-mode))

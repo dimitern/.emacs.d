@@ -11,8 +11,8 @@
   "Font name for the theme.")
 (defvar dimitern-theme/font-size
   (if (dimitern-os/is-windows)
-      10
-    9)
+      11
+    10)
   "Font size for the theme.")
 (defvar dimitern-theme/font-dir "fonts/Input-Font/"
   "Fonts directory prefix.")
@@ -39,7 +39,7 @@
   (load-theme 'material t t)
   (if (dimitern-os/is-darwin)
       ;; bigger font size for darwin.
-      (set-face-attribute 'default nil :height (* 10 (frame-char-height)))
+      (set-face-attribute 'default nil :height (* 11 (frame-char-height)))
 
     (when (dimitern-os/is-darwin)
       (setq

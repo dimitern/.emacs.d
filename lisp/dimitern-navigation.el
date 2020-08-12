@@ -70,6 +70,45 @@
   (with-eval-after-load 'winum
     (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
   :config
+
+  (defvar treemacs-autoadjust-width-mode t)
+
+  ;; See: https://github.com/Alexander-Miller/treemacs/issues/552#issuecomment-546088714
+  (define-minor-mode treemacs-autoadjust-width-mode
+    "Autoadjust width of the treemacs window in order to match
+   the max width of its content"
+    (if treemacs-autoadjust-width-mode
+        (treemacs-adjust-width-start)
+      (treemacs-adjust-width-stop)))
+
+  (defun treemacs-buffer-max-width ()
+    (let ((max -1) (count 0))
+      (with-current-buffer (treemacs-get-local-buffer)
+        (save-excursion
+          (goto-char 0)
+          (while (= 0 (forward-line 1))
+            (setf max (max max (- (point-at-eol) (point-at-bol))))
+            (cl-incf count))
+          (treemacs-log "Max: %s Lines: %s" max count)))
+      max))
+
+  (defun treemacs-autoadjust-width-setter ()
+    "Set the treemacs width variable and update the window value."
+    (let ((width (treemacs-buffer-max-width)))
+      (setq treemacs-width width)
+      (treemacs--set-width width)))
+
+  (defun treemacs-adjust-width-start ()
+    "Start a timer triggering adjust width function."
+    (setq treemacs-autoadjust-width-timer
+          (run-with-timer 3 3 (lambda () (treemacs-autoadjust-width-setter)))))
+
+  (defun treemacs-adjust-width-stop ()
+    "Cancel the timer and set timer to nil."
+    (when treemacs-autoadjust-width-timer
+      (cancel-timer treemacs-autoadjust-width-timer)
+      (setq treemacs-autoadjust-width-timer nil)))
+
   (progn
 
     ;; The default width and height of the icons is 22 pixels. If you are
@@ -81,6 +120,7 @@
     (treemacs-follow-mode nil)
     (treemacs-filewatch-mode t)
     (treemacs-fringe-indicator-mode t)
+    (treemacs-autoadjust-width-mode t)
     (pcase (cons (not (null (executable-find "git")))
                  (not (null (treemacs--find-python3))))
       (`(t . t)

@@ -524,19 +524,68 @@ _p_: copy"
               ("C-c C-SPC p" . pytest-pdb-one)
               ("C-c C-SPC d" . pytest-pdb-all)))
 
-;; web-mode: HTML editing.
-(use-package web-mode
+;; js-mode: JavaScript major mode.
+(use-package js
   :ensure t
   :defer t
+  :hook (js-mode . prettier-js-mode)
+  :init
+  (require 'prettier-js)
+  :diminish (js-mode . "Ⓙ")
+  :mode ("\\.\\(js\\|jsx\\|htm\\|html\\|hbs\\)\\'" . js-mode))
+
+(defun dimitern/setup-tide-mode ()
+  "Setup function for tide."
+  (interactive)
+  (tide-setup)
+  (flycheck-mode +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (eldoc-mode +1)
+  (tide-hl-identifier-mode +1)
+  (company-mode +1)
+  (diminish 'prettier-js-mode "Ƥ")
+  (setq
+   prettier-js-args
+   '("--trailing-comma" "none"
+     "--bracket-spacing" "true"
+     "--single-quote" "true"
+     "--no-semi" "true"
+     "--jsx-single-quote" "true"
+     "--jsx-bracket-same-line" "true"
+     "--print-width" "100")))
+
+;; tide: development environment for JavaScript and TypeScript.
+(use-package tide
+  :ensure t
+  :after js
+  :defer t
+  :pin "melpa"
+  :hook (js-mode . dimitern/setup-tide-mode)
+  :diminish (tide-mode . "𝓽")
   :config
-  (validate-setq
-   web-mode-enable-current-column-highlight t
-   web-mode-enable-current-element-highlight t
-   web-mode-markup-indent-offset 2
-   web-mode-code-indent-offset 2
-   web-mode-css-indent-offset 2
-   tab-width 2)
-  :mode ("\\.\\(jsx?\\|html?\\|hbs\\)\\'" . web-mode))
+  ;; prettier-js-mode: JavaScript formatter.
+  (setq company-tooltip-align-annotations t))
+
+;; web-mode: HTML editing.
+;; (use-package web-mode
+;;   :ensure t
+;;   :defer t
+;;   :config
+;;   (validate-setq
+;;    web-mode-enable-current-column-highlight t
+;;    web-mode-enable-current-element-highlight t
+;;    web-mode-markup-indent-offset 2
+;;    web-mode-code-indent-offset 2
+;;    web-mode-css-indent-offset 2
+;;    tab-width 2)
+;;   :mode ("\\.\\(jsx?\\|html?\\|hbs\\)\\'" . web-mode))
+
+
+;; add-node-modules-path: Use tools from node_module, rather than global.
+(use-package add-node-modules-path
+  :ensure t
+  :defer t
+  :after web-mode)
 
 ;; css-mode: CSS editing.
 (use-package css-mode

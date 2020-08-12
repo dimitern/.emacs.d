@@ -5,6 +5,8 @@
 ;(package-initialize)
 
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/prettier-emacs"))
+
 (load "dimitern-packaging")
 
 ;; dimitern-os: OS-specific helper functions.

@@ -30,16 +30,15 @@
 
 ;; company: graphical (auto-)completion.
 (use-package company
+  :pin "melpa"
   :ensure t
-  :defer 1
+  :defer t
   :config
-  (global-company-mode)
   (validate-setq
    company-tooltip-align-annotations t
    company-tooltip-flip-when-above t
-   ;; Easy navigation to candidates with M-<n>
    company-show-numbers t)
-  :diminish company-mode)
+  (global-company-mode))
 
 ;; company-quickhelp: show help in tooltip.
 (use-package company-quickhelp

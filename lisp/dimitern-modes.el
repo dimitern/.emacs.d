@@ -839,4 +839,11 @@ _p_: copy"
   :after clojure-mode
   :defer t)
 
+;; esqlite: Manipulate sqlite databases from Emacs.
+(use-package esqlite
+  :pin "melpa"
+  :ensure t
+  :mode ("\\.db\\'" . esqlite-mode)
+  :defer t)
+
 (provide 'dimitern-modes)

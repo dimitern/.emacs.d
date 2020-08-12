@@ -8,6 +8,9 @@
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
  '(blacken-allow-py36 t)
+ '(ansi-color-names-vector
+   ["#2e3436" "#a40000" "#4e9a06" "#c4a000" "#204a87" "#5c3566" "#729fcf" "#eeeeec"])
+ '(blacken-executable "/Users/dimitern/.local/bin/black")
  '(blacken-line-length nil)
  '(calendar-christian-all-holidays-flag t)
  '(calendar-mark-holidays-flag t)
@@ -125,7 +128,7 @@
  '(org-list-indent-offset 2)
  '(org-pretty-entities t)
  '(package-selected-packages
-   '(js-mode tide-mode tide add-node-modules-path prettier-js prettier-js-mode counsel ivy-hydra wgrep-ag ag visual-regexp swiper anzu which-key exec-path-from-shell inf-clojure clojure-mode nginx-mode flycheck-rust racer rust-mode gitattributes-mode gitignore-mode gitconfig-mode org-bullets web-mode pytest pytest-pdb-break pip-requirements blacken company-anaconda anaconda-mode virtualenvwrapper pipenv py-isort haml-mode ein pydoc graphviz-dot-mode markdown-mode package-lint go-errcheck go-mode golden-ratio company-racer company-math company-statistics company-quickhelp company yasnippet treemacs-magit treemacs-icons-dired treemacs-projectile treemacs nlinum ace-link avy ivy-pages docker-cli docker docker-compose-mode dockerfile-mode flycheck-title flycheck-pos-tip flycheck auto-dictionary hl-todo highlight-symbol rainbow-delimiters rainbow-mode highlight-numbers smartparens undo-tree whitespace-cleanup-mode visual-fill-column validate use-package sudo-edit stripe-buffer spaceline reveal-in-osx-finder paradox page-break-lines multiple-cursors launch ibuffer-vc ibuffer-projectile hardhat focus-autosave-mode expand-region easy-kill doom-themes diminish beacon auto-compile adaptive-wrap))
+   '(esqlite js-mode tide-mode tide add-node-modules-path prettier-js prettier-js-mode counsel ivy-hydra wgrep-ag ag visual-regexp swiper anzu which-key exec-path-from-shell inf-clojure clojure-mode nginx-mode flycheck-rust racer rust-mode gitattributes-mode gitignore-mode gitconfig-mode org-bullets web-mode pytest pytest-pdb-break pip-requirements blacken company-anaconda anaconda-mode virtualenvwrapper pipenv py-isort haml-mode ein pydoc graphviz-dot-mode markdown-mode package-lint go-errcheck go-mode golden-ratio company-racer company-math company-statistics company-quickhelp company yasnippet treemacs-magit treemacs-icons-dired treemacs-projectile treemacs nlinum ace-link avy ivy-pages docker-cli docker docker-compose-mode dockerfile-mode flycheck-title flycheck-pos-tip flycheck auto-dictionary hl-todo highlight-symbol rainbow-delimiters rainbow-mode highlight-numbers smartparens undo-tree whitespace-cleanup-mode visual-fill-column validate use-package sudo-edit stripe-buffer spaceline reveal-in-osx-finder paradox page-break-lines multiple-cursors launch ibuffer-vc ibuffer-projectile hardhat focus-autosave-mode expand-region easy-kill doom-themes diminish beacon auto-compile adaptive-wrap))
  '(paradox-execute-asynchronously t)
  '(paradox-github-token t)
  '(paradox-hide-wiki-packages nil)
